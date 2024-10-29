@@ -13,8 +13,8 @@ import HeaderAndFooterExample from './WhyChooseUs';
 function App() {
   return (
     <div>
-      <OffcanvasExample/>
-      <CarouselHomePage/>
+<OffcanvasExample/>
+<CarouselHomePage/>
 <CategoryButtons/>
 <HomeCards/>
 <HeaderAndFooterExample/>
