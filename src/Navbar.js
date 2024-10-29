@@ -1,12 +1,11 @@
+// src/Navbar.js
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { Link } from 'react-router-dom';
-
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 function OffcanvasExample() {
   return (
@@ -28,8 +27,8 @@ function OffcanvasExample() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <Nav.Link href="#action1">Home</Nav.Link>
+                  <Nav.Link as={Link} to="/register">Register</Nav.Link> {/* Registration link */}
                   <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
@@ -44,10 +43,7 @@ function OffcanvasExample() {
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
-                {/* SIGN IN BUTTON */}
-                
-                  <Button variant="primary"><Link  to="/Login" style={{ color: 'white', textDecoration: 'none' }}>Login</Link></Button>
-
+                <Button variant="primary">Sign In</Button>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>
