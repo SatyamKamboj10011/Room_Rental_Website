@@ -19,27 +19,6 @@ function App() {
      <Routes>
       
           <Route path="/Login" element={<Login />} />
-          <Route path="/" element={
-            <>
-              <CarouselHomePage />
-              <CategoryButtons />
-              <HomeCards />
-              <HeaderAndFooterExample />
-            </>
-          } />
-        </Routes>
-
-
-
-
-
-</div>
-</BrowserRouter>
-
-    <Router>
-      <div>
-        <OffcanvasExample />
-        <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/" element={
             <>
@@ -51,7 +30,7 @@ function App() {
           } />
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
