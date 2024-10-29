@@ -1,28 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import NavScrollExample from './Navbar';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import OffcanvasExample from './Navbar';
 import CarouselHomePage from './CarouselHomePage';
-import { ButtonGroup } from 'react-bootstrap';
 import CategoryButtons from './ButtonGroup';
 import HomeCards from './HomeCards';
 import HeaderAndFooterExample from './WhyChooseUs';
-
+import Register from './Register';
 
 function App() {
   return (
-    <div>
-      <OffcanvasExample/>
-      <CarouselHomePage/>
-<CategoryButtons/>
-<HomeCards/>
-<HeaderAndFooterExample/>
-
-
-
-</div>
-
+    <Router>
+      <div>
+        <OffcanvasExample />
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={
+            <>
+              <CarouselHomePage />
+              <CategoryButtons />
+              <HomeCards />
+              <HeaderAndFooterExample />
+            </>
+          } />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
