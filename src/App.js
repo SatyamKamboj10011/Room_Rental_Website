@@ -15,7 +15,7 @@ function App() {
     <div>
       <OffcanvasExample/>
       <CarouselHomePage/>
-<ButtonGroup/>
+<CategoryButtons/>
 <HomeCards/>
 <HeaderAndFooterExample/>
 
