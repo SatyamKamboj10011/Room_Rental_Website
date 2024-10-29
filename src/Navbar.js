@@ -43,7 +43,7 @@ function OffcanvasExample() {
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
-                <Button variant="primary">Sign In</Button>
+                <Button variant="primary"><Link to="/Login" style={{color:'white', textDecoration:'none',}}>Login</Link></Button>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>
