@@ -39,7 +39,11 @@ function CarouselHomePage() {
           <h3>Third slide label</h3>
           <p>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+
           </p>
+          <h1>MADE CHANGES ON THE HOMEPAGE</h1>
+          <h2>Room Rental Webdite</h2>
+          <h1>Navigation</h1>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
