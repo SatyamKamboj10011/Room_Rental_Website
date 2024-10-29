@@ -27,8 +27,8 @@ function CarouselHomePage() {
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">🗺️</InputGroup.Text>
               <Form.Control
-                placeholder="Recipient's username"
-                aria-label="Recipient's username"
+                placeholder="Location"
+                aria-label="Location"
                 aria-describedby="basic-addon2"
               />
 
@@ -39,6 +39,7 @@ function CarouselHomePage() {
                   <option value="1">$200-$400</option>
                   <option value="2">$400-$600</option>
                   <option value="3">$600-$1000</option>
+                  <option value ="4">$1000-Above</option>
                 </Form.Select>
               </FloatingLabel>
 

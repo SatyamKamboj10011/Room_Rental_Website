@@ -13,7 +13,7 @@ function OffcanvasExample() {
       {['md'].map((expand) => (
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>
-            <Navbar.Brand href="#" className='text-primary fw-bold'>Room Rental</Navbar.Brand>
+            <Navbar.Brand href="#" className='text-primary fw-bold'>Otago Room Rental</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -43,7 +43,7 @@ function OffcanvasExample() {
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
-                <Button variant="primary">Sign In</Button>
+                <Button variant="primary"><Link to="/Login" style={{color:'white', textDecoration:'none',}}>Login</Link></Button>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>
