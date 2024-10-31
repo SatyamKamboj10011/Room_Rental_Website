@@ -22,7 +22,7 @@ function CarouselHomePage() {
           Your Next Room is Waiting – Start Searching Today.
           </p>
 
-          {/* Search Form */}
+     
           <Card body className="" style={{ width: '100%' }}>
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">🗺️</InputGroup.Text>
@@ -32,7 +32,7 @@ function CarouselHomePage() {
                 aria-describedby="basic-addon2"
               />
 
-              {/* Fields for Input */}
+        
               <FloatingLabel controlId="floatingSelectGrid" label="💵">
                 <Form.Select aria-label="Floating label select example">
                   <option>Price Range</option>
@@ -50,7 +50,7 @@ function CarouselHomePage() {
           </Card>
         </div>
 
-        {/* Right Column for Carousel */}
+   
         <div className="col-md-6">
           <Carousel fade className="" style={{ marginLeft: 'auto' }}>
             <Carousel.Item>
@@ -77,8 +77,8 @@ function CarouselHomePage() {
                 style={{ height: '512px', objectFit: 'cover', borderRadius: '10px' }}
               />
               <Carousel.Caption>
-                <h3>Third slide label</h3>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                {/* <h3>Third slide label</h3>
+                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> */}
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
