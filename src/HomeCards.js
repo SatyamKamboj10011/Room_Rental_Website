@@ -21,7 +21,7 @@ function HomeCards() {
       </div>
       <div className='col-lg-4 col-md-6 col-sm-12'>
       <Card>
-        <Card.Img variant="top" src="https://erasmusplay.com/uploads/2558000/2558391/large/0.webp" />
+        <Card.Img variant="top" src="https://th.bing.com/th/id/OIP.CrjVmMFLy0zcqFAR-5L6pgHaFj?rs=1&pid=ImgDetMain" />
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>
@@ -34,7 +34,7 @@ function HomeCards() {
       </div>
       <div className='col-lg-4 col-md-6 col-sm-12'>
       <Card>
-        <Card.Img variant="top" src="https://erasmusplay.com/uploads/2558000/2558391/large/0.webp" />
+        <Card.Img variant="top" src="https://d1bvpoagx8hqbg.cloudfront.net/originals/hanoi-cheap-single-rooms-rent-6454453e9fda255b32a75ca976341ef7.jpg" />
         <Card.Body>
           <Card.Title>Card title</Card.Title>
           <Card.Text>
