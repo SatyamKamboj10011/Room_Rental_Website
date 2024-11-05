@@ -33,10 +33,8 @@ function OffcanvasExample() {
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Another action
-                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to='/listings'>Listings</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to ='/DescriptionPage'> Description </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action5">
                       Something else here
