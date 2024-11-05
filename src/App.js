@@ -8,6 +8,7 @@ import HeaderAndFooterExample from './WhyChooseUs';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
 import Register from './Register';
 import Login from './components/Login';
 import { UserAuthContextProvider } from './context/UserAuthContext';
@@ -16,6 +17,7 @@ import DescriptionPage from './DescriptionPage';
 
 function App() {
   return (
+    <UserAuthContextProvider>
     <UserAuthContextProvider>
     <BrowserRouter>
     <div>
@@ -34,10 +36,13 @@ function App() {
               <HomeCards />
               <HeaderAndFooterExample />
             </>
+           
           } />
+           <Route path='/Feedback' element={<Create/>}/>
         </Routes>
       </div>
     </BrowserRouter>
+    </UserAuthContextProvider>
     </UserAuthContextProvider>
   );
 }
