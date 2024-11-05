@@ -8,6 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
   const { logIn, googleSignIn } = useUserAuth();
   const navigate = useNavigate();
 
@@ -34,65 +35,101 @@ const Login = () => {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center min-vh-100 bg-light"
-      style={{ background: 'linear-gradient(to right, #e3f2fd, #bbdefb)' }}
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        background: 'linear-gradient(135deg, #e3f2fd, #77C0ED)',
+        padding: "15px",
+      }}
     >
       <div
-        className="bg-white shadow rounded p-4"
-        style={{ width: "400px", transition: "transform 0.3s ease" }}
+        style={{
+          width: "400px",
+          backgroundColor: isHovered ? "#f1f9ff" : "white",
+          borderRadius: "30px",
+          boxShadow: isHovered ? "0 4px 20px rgba(0,0,0,0.9)": "0 4px 20px rgba(0,0,0,0.5)",
+          padding: "25px",          
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <h2 className="text-center mb-4 text-primary">Otago Room Rental</h2>
+        <h2 style={{ color: "#007bff", fontWeight: "650", textAlign: 'center' }}>
+          Otago Room Rental
+        </h2>
         {error && <Alert variant="danger">{error}</Alert>}
 
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label style={{ color: "#555" }}>Email Address</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
               required
               style={{
-                borderRadius: "0.5rem",
+                borderRadius: "10px",
                 borderColor: "#007bff",
-                boxShadow: "0 0 5px rgba(0, 123, 255, 0.2)"
+                padding: "8px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
               }}
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
+          <Form.Group className="mb-4">
+            <Form.Label style={{ color: "#555" }}>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="Enter your password"
               onChange={(e) => setPassword(e.target.value)}
               required
               style={{
-                borderRadius: "0.5rem",
+                borderRadius: "10px",
                 borderColor: "#007bff",
-                boxShadow: "0 0 5px rgba(0, 123, 255, 0.2)"
+                padding: "8px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
               }}
             />
           </Form.Group>
 
-          <div className="d-grid gap-2 mb-3">
-            <Button variant="primary" type="submit" className="btn-lg">
+          <div className="mb-3">
+            <Button
+              variant="primary"
+              type="submit"
+              className="w-100"
+              style={{
+                borderRadius: "10px",
+                fontWeight: "600",
+                padding: "8px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
+              }}
+            >
               Log In
             </Button>
           </div>
         </Form>
 
-        <div className="text-center my-3">
-          <span className="text-muted">or</span>
+        <div className="my-3" style={{ textAlign: 'center', fontWeight: 'lighter' }}>or continue with</div>
+
+        <div className="mb-3">
+          <GoogleButton
+            type="dark"
+            onClick={handleGoogleSignIn}
+            style={{
+              backgroundColor: '#fffff',
+              color: 'black',
+              width: '100%',
+              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+              borderRadius: '10px',
+            }}
+          />
         </div>
 
-        <div className="d-grid gap-2 mb-3">
-          <GoogleButton className="g-btn" type="dark" onClick={handleGoogleSignIn} />
-        </div>
-
-        <div className="text-center">
-          <p className="text-muted">
-            Don't have an account? <Link to="/signup">Sign up</Link>
+        <div style={{ textAlign: 'center', fontWeight: 'lighter' }}>
+          <p>
+            Don't have an account? <Link to="/Register" style={{ color: "#007bff", fontWeight: "600" }}>Sign up</Link>
           </p>
         </div>
       </div>
