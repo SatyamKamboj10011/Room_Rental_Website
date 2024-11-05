@@ -1,92 +1,140 @@
-import React from 'react';
-import { Button, Form, Container, InputGroup } from 'react-bootstrap';
-import { FaUser, FaLock } from 'react-icons/fa';
- 
-function Login() {
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Form, Alert, Button } from "react-bootstrap";
+import GoogleButton from "react-google-button";
+import { useUserAuth } from "./context/UserAuthContext";
+
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
+  const { logIn, googleSignIn } = useUserAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await logIn(email, password);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      await googleSignIn();
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <div
-      className="signup-background"
       style={{
-        background: 'linear-gradient(135deg, #72c2ff, #f7e6ff)',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        background: 'linear-gradient(135deg, #e3f2fd, #77C0ED)',
+        padding: "15px",
       }}
     >
-      <Container
-        className="signup-container"
+      <div
         style={{
-          padding: '40px',
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          borderRadius: '22px',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
-          width: '100%',  
-          maxWidth: '450px',
+          width: "400px",
+          backgroundColor: isHovered ? "#f1f9ff" : "white",
+          borderRadius: "30px",
+          boxShadow: isHovered ? "0 4px 20px rgba(0,0,0,0.9)": "0 4px 20px rgba(0,0,0,0.5)",
+          padding: "25px",          
         }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <h2 className="mb-4" style={{ fontWeight: 'bold', textAlign: 'center', color: '#333', fontSize: '28px' }}>LOGIN</h2>
-       
-        <Form>
-          <Form.Group className="mb-4" controlId="Username">
-            <Form.Label style={{ color: '#555', fontSize: '16px' }}>Username/Email</Form.Label>
-            <InputGroup>
-              <InputGroup.Text style={{ borderRadius: '5px 0 0 5px', backgroundColor: '#007bff', color: '#fff' }}>
-                <FaUser />
-              </InputGroup.Text>
-              <Form.Control
-                type="text"
-                placeholder="Enter Your Username/Email"
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '0 5px 5px 0',
-                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
-                }}
-              />
-            </InputGroup>
+        <h2 style={{ color: "#007bff", fontWeight: "650", textAlign: 'center' }}>
+          Otago Room Rental
+        </h2>
+        {error && <Alert variant="danger">{error}</Alert>}
+
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label style={{ color: "#555" }}>Email Address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter your email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{
+                borderRadius: "10px",
+                borderColor: "#007bff",
+                padding: "8px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
+              }}
+            />
           </Form.Group>
- 
-          <Form.Group controlId="Password" className="mb-4">
-            <Form.Label style={{ color: '#555', fontSize: '16px' }}>Password</Form.Label>
-            <InputGroup>
-              <InputGroup.Text style={{ borderRadius: '5px 0 0 5px', backgroundColor: '#007bff', color: '#fff' }}>
-                <FaLock />
-              </InputGroup.Text>
-              <Form.Control
-                type="password"
-                placeholder='Password'
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '0 5px 5px 0',
-                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
-                }}
-              />
-            </InputGroup>
+
+          <Form.Group className="mb-4">
+            <Form.Label style={{ color: "#555" }}>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter your password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{
+                borderRadius: "10px",
+                borderColor: "#007bff",
+                padding: "8px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
+              }}
+            />
           </Form.Group>
- 
-          <Button
-            variant="primary"
-            type="submit"
-            className="w-100"
-            style={{
-              borderRadius: '5px',
-              boxShadow: '0 5px 15px rgba(0, 123, 255, 0.6)',
-              fontWeight:'bold',
-            }}
-          >
-            Login
-          </Button>
-         
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <a href="/" style={{ color: '#007bff',fontWeight:'bold' }}>Forgot Password?</a>
-            <br /> <br />
-            <a href="/register" style={{ color: '#007bff', fontWeight:'bold' }}>Create Account</a>
+
+          <div className="mb-3">
+            <Button
+              variant="primary"
+              type="submit"
+              className="w-100"
+              style={{
+                borderRadius: "10px",
+                fontWeight: "600",
+                padding: "8px",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
+              }}
+            >
+              Log In
+            </Button>
           </div>
         </Form>
-      </Container>
+
+        <div className="my-3" style={{ textAlign: 'center', fontWeight: 'lighter' }}>or continue with</div>
+
+        <div className="mb-3">
+          <GoogleButton
+            type="dark"
+            onClick={handleGoogleSignIn}
+            style={{
+              backgroundColor: '#fffff',
+              color: 'black',
+              width: '100%',
+              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+              borderRadius: '10px',
+            }}
+          />
+        </div>
+
+        <div style={{ textAlign: 'center', fontWeight: 'lighter' }}>
+          <p>
+            Don't have an account? <Link to="/Register" style={{ color: "#007bff", fontWeight: "600" }}>Sign up</Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
-}
- 
+};
+
 export default Login;
- 

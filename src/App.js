@@ -6,12 +6,16 @@ import CategoryButtons from './ButtonGroup';
 import HomeCards from './HomeCards';
 import HeaderAndFooterExample from './WhyChooseUs';
 import Login from './Login';
+import Create from './Review/Create';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
 import Register from './Register';
+import { UserAuthContextProvider } from './context/UserAuthContext';
 
 function App() {
   return (
+    <UserAuthContextProvider>
     <BrowserRouter>
     <div>
       <OffcanvasExample/>
@@ -26,10 +30,13 @@ function App() {
               <HomeCards />
               <HeaderAndFooterExample />
             </>
+           
           } />
+           <Route path='/Feedback' element={<Create/>}/>
         </Routes>
       </div>
     </BrowserRouter>
+    </UserAuthContextProvider>
   );
 }
 
