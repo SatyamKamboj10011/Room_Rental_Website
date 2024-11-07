@@ -35,7 +35,7 @@ function  Show () {
   };
   const deleteBoard = async (id) => {
    
-    alert("Deleting book ")
+    alert("Deleting feedback ")
     await FBDataService.deleteData(params.id);
     //getBoard();
     navigate("/");

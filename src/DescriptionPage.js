@@ -130,6 +130,14 @@ function DescriptionPage() {
             <p>No reviews available.</p>
           )}
         </Col>
+         <Button style={{
+             width:'120px',
+             height:'45px',
+             borderRadius: '10px',
+             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+           }}> 
+           <Link to={`/feedback`} style={{color: 'white',textDecoration: 'none',}}>Add Reviews</Link>
+         </Button>
       </Row>
 
       {/* Action Buttons */}
