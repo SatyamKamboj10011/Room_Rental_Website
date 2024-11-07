@@ -36,8 +36,8 @@ function OffcanvasExample() {
                     <NavDropdown.Item as={Link} to='/listings'>Listings</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to ='/DescriptionPage'> Description </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
+                    <NavDropdown.Item as={Link} to ='/AddListings'>
+                      Add Listings
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>

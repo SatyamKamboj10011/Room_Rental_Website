@@ -3,6 +3,7 @@ import { Col, Container, Image, Row, Button, Card, ListGroup, Badge } from 'reac
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import ListingsDataService from './services/ListingsDataService';
 import { FaStar } from 'react-icons/fa';
+import Spinner from 'react-bootstrap/Spinner';
 
 function DescriptionPage() {
   const [listing, setListing] = useState(null);
@@ -30,7 +31,14 @@ function DescriptionPage() {
   };
 
   if (!listing) {
-    return <div>Loading...</div>;
+    return <div> <Spinner animation="grow" variant="primary" />
+    <Spinner animation="grow" variant="secondary" />
+    <Spinner animation="grow" variant="success" />
+    <Spinner animation="grow" variant="danger" />
+    <Spinner animation="grow" variant="warning" />
+    <Spinner animation="grow" variant="info" />
+    <Spinner animation="grow" variant="light" />
+    <Spinner animation="grow" variant="dark" /></div>;
   }
 
   return (
