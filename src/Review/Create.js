@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import {Row,Col} from "react-bootstrap"
 import FBDataService from "../services/fbServices";
 
 function Create(){
@@ -34,14 +35,21 @@ function Create(){
 
     return (
         <div class="container">
-          <div class="panel panel-default">
+          <div class="panel panel-default"
+           style={{
+            width: "100%",
+            backgroundColor: "#f1f9ff",
+            borderRadius: "30px",
+            boxShadow:  "0 4px 20px rgba(0,0,0,0.2)",
+            padding: "25px",          
+          }}>
             <div class="panel-heading">
+      
               <h3 class="panel-title">
                 Feedback
               </h3>
             </div>
             <div class="panel-body">
-              <h4><Link to="/" class="btn btn-primary">Home</Link></h4>
               <form onSubmit={handleSubmit}>
                 <div class="form-group">
                   <label for="feedback">Feedback:</label>
@@ -60,11 +68,34 @@ function Create(){
                   <input type="text" class="form-control" name="Name" placeholder={name}  onChange={(e) =>
                     setname(e.target.value)}/>
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <br/>
+             <Row className="mt-4">
+              <Col className="d-flex justify-content-center gap-3">
+                <button style={{
+                  backgroundColor: '#737373',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  cursor: 'pointer',
+                  boxShadow: '0px 4px 6px rgba(0, 123, 255, 0.3)',
+                  }}><Link to="/DescriptionPage/:id" style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
+                </button>
+
+                <button type="submit" style={{
+                  backgroundColor: '#007bff',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  boxShadow: '0px 4px 6px rgba(0, 123, 255, 0.3)',
+                  }}>Submit</button>
+                 </Col>
+              </Row>
               </form>
             </div>
           </div>
         </div>
+        
       );
 }
 
