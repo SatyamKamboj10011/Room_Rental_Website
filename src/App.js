@@ -15,6 +15,7 @@ import { UserAuthContextProvider } from './context/UserAuthContext';
 import Listings from './Listings';
 import DescriptionPage from './DescriptionPage';
 import Create from  './Review/Create';
+import AddListings from './AddListings';
 
 function App() {
   return (
@@ -28,12 +29,14 @@ function App() {
           <Route path = '/Login' element={<Login/>}/>
          
           <Route path="/register" element={<Register />} />
+        
           <Route path = '/listings' element={<Listings/>}/>
           <Route path="/DescriptionPage/:id" element={<DescriptionPage />} />
+          <Route path="/AddListings" element={<AddListings />} />
           <Route path="/" element={
             <>
               <CarouselHomePage />
-              <CategoryButtons />
+              
               <HomeCards />
               <HeaderAndFooterExample />
             </>
