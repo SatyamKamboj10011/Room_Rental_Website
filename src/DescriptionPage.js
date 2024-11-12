@@ -7,6 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 function DescriptionPage() {
   const [listing, setListing] = useState(null);
+  const [loading, setLoading] = useState(true); // Track loading state
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -27,18 +28,33 @@ function DescriptionPage() {
     } catch (error) {
       console.error('Error fetching listing:', error);
       setListing(null);
+    } finally {
+      setLoading(false); // Set loading to false once data is fetched
     }
   };
 
+  const handleBookNow = () => {
+    console.log(listing.id);
+    navigate(`/booking/${listing.id}`); // Passing the listing ID
+  };
+
+  if (loading) {
+    // Show loading spinner while fetching data
+    return (
+      <div className="text-center">
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
+
   if (!listing) {
-    return <div> <Spinner animation="grow" variant="primary" />
-    <Spinner animation="grow" variant="secondary" />
-    <Spinner animation="grow" variant="success" />
-    <Spinner animation="grow" variant="danger" />
-    <Spinner animation="grow" variant="warning" />
-    <Spinner animation="grow" variant="info" />
-    <Spinner animation="grow" variant="light" />
-    <Spinner animation="grow" variant="dark" /></div>;
+    // Show an error message if no listing is found
+    return (
+      <div className="text-center">
+        <p>Listing not found.</p>
+        <Link to="/listings">Go back to listings</Link>
+      </div>
+    );
   }
 
   return (
@@ -130,21 +146,20 @@ function DescriptionPage() {
             <p>No reviews available.</p>
           )}
         </Col>
-         <Button style={{
-             width:'120px',
-             height:'45px',
-             borderRadius: '10px',
-             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-           }}> 
-           <Link to={`/feedback`} style={{color: 'white',textDecoration: 'none',}}>Add Reviews</Link>
-         </Button>
+        <Button
+          style={{ width: '120px', height: '45px', borderRadius: '10px' }}
+        >
+          <Link to={`/feedback`} style={{ color: 'white', textDecoration: 'none' }}>
+            Add Reviews
+          </Link>
+        </Button>
       </Row>
 
       {/* Action Buttons */}
       <Row>
         <Col className="d-flex justify-content-between">
           <Link to={`/listings`} className="btn btn-secondary">Back to Listings</Link>
-          <Button variant="primary" size="lg">Book Now</Button>
+          <Button variant="primary" size="lg" onClick={handleBookNow}>Book Now</Button>
         </Col>
       </Row>
     </Container>
