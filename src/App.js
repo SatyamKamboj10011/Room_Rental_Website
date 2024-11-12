@@ -14,7 +14,7 @@ import Login from './components/Login';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import Listings from './Listings';
 import DescriptionPage from './DescriptionPage';
-import Create from  './Review/Create';
+import Create from  './Review/CreateReviewPage';
 import AddListings from './AddListings';
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
             </>
            
           } />
-           <Route path='/Feedback' element={<Create/>}/>
+           <Route path='/feedback' element={<Create/>}/>
         </Routes>
       </div>
     </BrowserRouter>

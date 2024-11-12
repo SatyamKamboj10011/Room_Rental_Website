@@ -1,40 +1,56 @@
-import { db } from "../firebase";  // Adjust path as needed
-import {
-  collection,
-  getDocs,
-  getDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
- 
-const collectionName = "feedback";
+import { collection, getDocs, doc, getDoc, addDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase'; // Adjust the path as necessary to your Firebase config
+
+const collectionName = 'feedback';
 const collectionRef = collection(db, collectionName);
- 
+
 class FBDataService {
-  addData = (newData) => {
+  // Add a new listing to Firestore
+  adddata = (newData) => {
     return addDoc(collectionRef, newData);
+  
   };
- 
-  updateData = (id, newData) => {
-    const oldData = doc(db, collectionName, id);
-    return updateDoc(oldData, newData);
+
+  // Update an existing listing by its ID
+  updateData = (id, updatedData) => {
+    const dataRef = doc(db, collectionName, id); // Reference to the specific listing document
+    return updateDoc(dataRef, updatedData); // Update the document in Firestore
   };
- 
-  deleteData = (id) => {
-    const data = doc(db, collectionName, id);
-    return deleteDoc(data);
-  };
- 
-  getData = (id) => {
-    const data = doc(db, collectionName, id);
-    return getDoc(data);
-  };
- 
-  getAllData = () => {
-    return getDocs(collectionRef);
-  };
+
+  // Fetch all listings with error handling
+  async getAllData() {
+    try {
+      const data = await getDocs(collectionRef);
+
+      if (data.empty) {
+        console.log('No feedback found');
+        return [];
+      }
+
+      return data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw new Error("Failed to fetch data.");
+    }
+  }
+
+  // Fetch a single listing by ID
+  async getDataById(id) {
+    try {
+      const docRef = doc(db, collectionName, id); // Create a reference to the document
+      const dataSnapshot = await getDoc(docRef); // Fetch the document
+
+      if (dataSnapshot.exists()) {
+        return { id: dataSnapshot.id, ...dataSnapshot.data() };
+      } else {
+        console.log('Data not found');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw new Error("Failed to fetch data.");
+    }
+  }
 }
- 
-export default FBDataService;
+
+export default new FBDataService();

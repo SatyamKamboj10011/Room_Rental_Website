@@ -4,16 +4,32 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import ListingsDataService from './services/ListingsDataService';
 import { FaStar } from 'react-icons/fa';
 import Spinner from 'react-bootstrap/Spinner';
+import FBDataService from './services/fbServices';
 
 function DescriptionPage() {
   const [listing, setListing] = useState(null);
+  const [feedback, setFeedback] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     getListingById(id);
+    getFeedbackData(id);
   }, [id]);
-
+  const getFeedbackData = async () => {
+    try {
+      const feedbackData = await FBDataService.getAllData();  // Fetch all reviews from Firestore
+      if (!feedbackData || feedbackData.length === 0) {
+        console.log("No feedback found");
+        setFeedback([]); // No feedback found
+        return;
+      }
+      const feedbackList = feedbackData.map(doc => ({ ...doc, id: doc.id })); // Ensure the data has the ID
+      setFeedback(feedbackList);  // Update the state with the fetched feedback
+    } catch (error) {
+      console.error("Error fetching feedback data:", error); // Catch any errors during data fetching
+    }
+  };
   const getListingById = async (listingId) => {
     try {
       const data = await ListingsDataService.getListingById(listingId);
@@ -111,25 +127,42 @@ function DescriptionPage() {
         </Col>
       </Row>
 
-      {/* Reviews Section */}
-      <Row className="mb-4">
-        <Col>
-          <h3 style={sectionTitleStyle}>Reviews</h3>
-          {listing.reviews && listing.reviews.length > 0 ? (
-            listing.reviews.map((review, index) => (
-              <Card key={index} style={reviewCardStyle}>
-                <Card.Body>
-                  <Card.Title style={reviewAuthorStyle}>{review.name}</Card.Title>
-                  <Card.Text style={reviewTextStyle}>
-                    "{review.comment}"
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            ))
-          ) : (
-            <p>No reviews available.</p>
-          )}
-        </Col>
+ 
+        {/* Reviews Section */}
+        <Row className="mb-4">
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">Feedback</h3>
+            </div>
+            <div className="panel-body">
+              <table className="table table-striped">
+                <thead>              
+                  <tr>
+                    <th>Date</th>
+                    <th>Feedback</th>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {feedback.length > 0 ? (
+                    feedback.map((fb) => (
+                      <tr key={fb.id}>
+                        <td><Link to={`/show/${feedback.id}`}>{feedback.date}</Link></td>
+                        <td>{feedback.feedback}</td>
+                        <td>{feedback.name}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3">No feedback available yet.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
          <Button style={{
              width:'120px',
              height:'45px',
