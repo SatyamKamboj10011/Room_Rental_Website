@@ -16,10 +16,14 @@ import Listings from './Listings';
 import DescriptionPage from './DescriptionPage';
 import Create from  './Review/CreateReviewPage';
 import AddListings from './AddListings';
+import AdminDashboard from './AdminDashboard';
+import UserProfileDashboard from './ProfilePage';
+import ProfilePage from './ProfilePage';
+import BookingPage from './BookingPage';
+import { AdminRoute, HostRoute,GuestRoute } from './components/ProtectedRoute';
 
 function App() {
   return (
-    <UserAuthContextProvider>
     <UserAuthContextProvider>
     <BrowserRouter>
     <div>
@@ -33,20 +37,51 @@ function App() {
           <Route path = '/listings' element={<Listings/>}/>
           <Route path="/DescriptionPage/:id" element={<DescriptionPage />} />
           <Route path="/AddListings" element={<AddListings />} />
-          <Route path="/" element={
-            <>
-              <CarouselHomePage />
-              
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+          <Route path="/ProfilePage" element={<ProfilePage/>}/>
+          <Route path='/booking/:id' element={<BookingPage/>}/>
+          <Route
+                path="/admindashboard"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/ProfilePage"
+                element={
+                  <HostRoute>
+                    <ProfilePage />
+                  </HostRoute>
+                }
+              />
+               <Route
+                path="/home"
+                element={
+                  <>
+             <CarouselHomePage />
               <HomeCards />
               <HeaderAndFooterExample />
-            </>
-           
-          } />
-           <Route path='/feedback' element={<Create/>}/>
+                </>
+                }
+              />
+              <Route
+                path="/home"
+                element={
+                  <GuestRoute>
+             <CarouselHomePage />
+              <HomeCards />
+              <HeaderAndFooterExample />
+                  </GuestRoute>
+                }
+              />
+        
+         
+           <Route path='/Feedback' element={<Create/>}/>
         </Routes>
       </div>
     </BrowserRouter>
-    </UserAuthContextProvider>
     </UserAuthContextProvider>
   );
 }
