@@ -58,6 +58,7 @@ function Listings() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
+    
     <Container
       style={{
         maxWidth: '1400px',
@@ -66,6 +67,7 @@ function Listings() {
         backgroundColor: '#e9ecef',
         borderRadius: '10px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+        
       }}
     >
       <h2 style={{ textAlign: 'center', color: '#343a40', marginBottom: '40px', fontSize: '2.5rem' }}>

@@ -36,7 +36,7 @@ function CarouselHomePage() {
             Your Next Room is Waiting – Start Searching Today
           </p>
           <Card style={{ width: '100%', borderRadius: '10px', backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
-            <InputGroup className="mb-3">
+            <InputGroup className="mb-3" style={{boxShadow:'5px 5px 15px black',borderRadius:'10px' }}>
               <InputGroup.Text id="basic-addon1" style={{ backgroundColor: '#007bff', color: '#fff' }}>🗺️</InputGroup.Text>
               <Form.Control
                 placeholder="Location"
