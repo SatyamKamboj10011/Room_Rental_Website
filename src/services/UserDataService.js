@@ -39,7 +39,7 @@ class UserDataService {
   };
 
   // Method to get all users
-  getAllUser = () => {
+  getAllUsers = () => {
     return getDocs(userCollectionRef);
   };
 

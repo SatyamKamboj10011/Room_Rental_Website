@@ -60,92 +60,111 @@ const Register = () => {
 
   return (
     <Container className="mt-5">
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <div className="p-4 bg-light border rounded">
-            <h2 className="text-center mb-4">Create an Account</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-              <Row>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicFirstName">
-                    <Form.Control
-                      type="text"
-                      placeholder="First Name"
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicLastName">
-                    <Form.Control
-                      type="text"
-                      placeholder="Last Name"
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
+      <Row className="justify-content-center align-items-center">
+        {/* Left Column for Form */}
+        <Col md={6} className="bg-light p-5 rounded">
+          <h2 className="text-center mb-4">Create an Account</h2>
+          {error && <Alert variant="danger">{error}</Alert>}
 
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control
-                  type="email"
-                  placeholder="Email address"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formBasicFirstName" className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="First Name"
+                value={firstname}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicLastName" className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="Last Name"
+                value={lastname}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPhone">
-                <Form.Control
-                  type="text"
-                  placeholder="Phone Number"
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicEmail" className="mb-3">
+              <Form.Control
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicAge">
-                <Form.Control
-                  type="number"
-                  placeholder="Age"
-                  onChange={(e) => setAge(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicPassword" className="mb-3">
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicAddress">
-                <Form.Control
-                  type="text"
-                  placeholder="Address"
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicPhone" className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="Phone Number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicRole">
-                <Form.Control
-                  type="text"
-                  placeholder="User Role"
-                  onChange={(e) => setRole(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicAge" className="mb-3">
+              <Form.Control
+                type="number"
+                placeholder="Age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <div className="d-grid gap-2">
-                <Button variant="primary" type="submit" className="btn-block">
-                  Sign Up
-                </Button>
-              </div>
-            </Form>
+            <Form.Group controlId="formBasicAddress" className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-            <div className="mt-3 text-center">
-              Already have an account? <Link to="/login">Log In</Link>
-            </div>
+            <Form.Group controlId="formBasicRole" className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="Role (e.g. User, Admin)"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="w-100 py-2">
+              Sign Up
+            </Button>
+          </Form>
+
+          <div className="mt-3 text-center">
+            Already have an account? <Link to="/login">Log In</Link>
           </div>
+        </Col>
+
+        {/* Right Column for Image */}
+        <Col md={6} className="d-none d-md-flex justify-content-center align-items-center">
+          <img
+            src="https://cdn.vectorstock.com/i/preview-1x/55/57/set-people-fill-in-form-registration-page-vector-38895557.jpg.jpg" // Replace with your image path or URL
+            alt="Registration"
+            className="img-fluid rounded"
+            style={{ maxWidth: "90%" }}
+          />
         </Col>
       </Row>
     </Container>

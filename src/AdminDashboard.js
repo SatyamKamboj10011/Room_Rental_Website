@@ -1,267 +1,155 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Navbar, Nav, Table, Button, Modal, Form, Card, Alert } from 'react-bootstrap';
-import { FaUsers, FaChartLine, FaHome, FaDollarSign, FaEdit, FaTrashAlt, FaCog } from 'react-icons/fa';
-import { getDocs, collection, updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { db } from './firebase'; // Adjust path based on your project structure
+import React, { useEffect, useState } from "react";
+import { Table, Spinner, Card, Row, Col, Container, Alert } from 'react-bootstrap';
+import UserDataService from './services/UserDataService';
+import ListingsDataService from './services/ListingsDataService';
 
-function AdminDashboard() {
-  // State to manage users and selected user for editing
+const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [listings, setListings] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingListings, setLoadingListings] = useState(true);
 
-  // Fetch users from Firestore
-  const fetchUsers = async () => {
-    try {
-      const userSnapshot = await getDocs(collection(db, "usersdetails"));
-      const userList = userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setUsers(userList);
-    } catch (error) {
-      setMessage({ type: 'danger', text: "Error fetching users: " + error.message });
-    }
-  };
-
-  // Edit user handler
-  const handleEdit = (user) => {
-    setSelectedUser(user);
-    setShowEditModal(true);
-  };
-
-  // Close the modal
-  const handleCloseModal = () => {
-    setShowEditModal(false);
-    setSelectedUser(null);
-  };
-
-  // Update user details in Firestore
-  const handleSaveChanges = async () => {
-    if (!selectedUser) return;
-    try {
-      const userRef = doc(db, "usersdetails", selectedUser.id);
-      await updateDoc(userRef, {
-        name: selectedUser.name,
-        email: selectedUser.email,
-        role: selectedUser.role,
-        status: selectedUser.status,
-      });
-      fetchUsers();  // Refresh the users list after updating
-      setMessage({ type: 'success', text: "User updated successfully!" });
-      setShowEditModal(false);
-    } catch (error) {
-      setMessage({ type: 'danger', text: "Error updating user: " + error.message });
-    }
-  };
-
-  // Delete user from Firestore
-  const handleDelete = async (userId) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        const userRef = doc(db, "usersdetails", userId);
-        await deleteDoc(userRef);
-        fetchUsers();  // Refresh the list after deleting
-        setMessage({ type: 'success', text: "User deleted successfully!" });
-      } catch (error) {
-        setMessage({ type: 'danger', text: "Error deleting user: " + error.message });
-      }
-    }
-  };
-
-  // Fetch users when component mounts
+  // Fetch users and listings when the component mounts
   useEffect(() => {
     fetchUsers();
+    fetchListings();
   }, []);
 
+  // Fetch all users from Firestore
+  const fetchUsers = async () => {
+    try {
+      const data = await UserDataService.getAllUsers(); // Assuming this returns a Firestore QuerySnapshot
+  
+      // If data exists and contains documents, map the documents into an array
+      if (data && data.docs && data.docs.length > 0) {
+        const usersList = data.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+        setUsers(usersList); // Set the users state with the mapped data
+      } else {
+        setUsers([]); // If no users are found, set an empty array
+        console.log('No Users found');
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoadingUsers(false); // Always set loading to false when data is loaded or error occurred
+    }
+  };
+
+  // Fetch all listings from Firestore
+
+  const fetchListings = async () => {
+    try {
+      const data = await ListingsDataService.getAllListings();
+      if (!data || data.length === 0) {
+        console.log('No listings found');
+        setListings([]);
+        return;
+      }
+      setListings(data);
+    } catch (error) {
+      console.error("Error fetching listings: ", error);
+    } finally {
+      setLoadingListings(false);
+    }
+  };
+
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar */}
-      <div className="bg-dark text-white p-3" style={{ width: "250px", minHeight: "100vh" }}>
-        <h4 className="text-center">Admin Panel</h4>
-        <Nav defaultActiveKey="/admin" className="flex-column mt-4">
-          <Nav.Link href="#dashboard" className="text-white">
-            <FaHome className="mr-2" /> Dashboard
-          </Nav.Link>
-          <Nav.Link href="#users" className="text-white">
-            <FaUsers className="mr-2" /> User Management
-          </Nav.Link>
-          <Nav.Link href="#analytics" className="text-white">
-            <FaChartLine className="mr-2" /> Analytics
-          </Nav.Link>
-          <Nav.Link href="#settings" className="text-white">
-            <FaCog className="mr-2" /> Settings
-          </Nav.Link>
-        </Nav>
-      </div>
+    <Container className="my-4">
+      <h1 className="text-center mb-4 text-primary">Admin Dashboard</h1>
 
-      {/* Main Dashboard Area */}
-      <div style={{ flex: 1 }}>
-        {/* Top Navbar */}
-        <Navbar bg="light" expand="lg" className="shadow-sm">
-          <Container>
-            <Navbar.Brand href="#home">Admin Dashboard</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="#dashboard">Dashboard</Nav.Link>
-                <Nav.Link href="#users">Users</Nav.Link>
-                <Nav.Link href="#analytics">Analytics</Nav.Link>
-              </Nav>
-              <Button variant="outline-danger" href="#logout">Logout</Button>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
-        <Container fluid className="mt-4">
-          <Row>
-            {/* Dashboard Widgets */}
-            <Col md={12}>
-              <Row className="mb-4">
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaUsers size={40} className="mb-3" />
-                      <Card.Title>Total Users</Card.Title>
-                      <Card.Text>{users.length}</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaHome size={40} className="mb-3" />
-                      <Card.Title>Active Listings</Card.Title>
-                      <Card.Text>320</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaChartLine size={40} className="mb-3" />
-                      <Card.Title>Site Analytics</Card.Title>
-                      <Card.Text>5.2K Visitors</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaDollarSign size={40} className="mb-3" />
-                      <Card.Title>Revenue</Card.Title>
-                      <Card.Text>$45,000</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-
-            {/* User Management Table */}
-            <Col md={12} className="mt-5">
-              <h4>User Management</h4>
-              {message && (
-                <Alert variant={message.type} dismissible onClose={() => setMessage(null)}>
-                  {message.text}
-                </Alert>
-              )}
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user, index) => (
-                    <tr key={user.id}>
-                      <td>{index + 1}</td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.role}</td>
-                      <td>{user.status}</td>
-                      <td>
-                        <Button variant="info" size="sm" onClick={() => handleEdit(user)}>
-                          <FaEdit /> Edit
-                        </Button>{' '}
-                        <Button variant="danger" size="sm" onClick={() => handleDelete(user.id)}>
-                          <FaTrashAlt /> Delete
-                        </Button>
-                      </td>
+      {/* Users Section */}
+      <Row className="mb-4">
+        <Col md={12}>
+          <Card className="shadow-sm">
+            <Card.Header className="bg-info text-white">
+              <h5>Users</h5>
+            </Card.Header>
+            <Card.Body>
+              {loadingUsers ? (
+                <div className="text-center">
+                  <Spinner animation="border" variant="primary" />
+                  <p>Loading Users...</p>
+                </div>
+              ) : users.length === 0 ? (
+                <Alert variant="warning" className="text-center">No users found</Alert>
+              ) : (
+                <Table striped bordered hover responsive variant="light">
+                  <thead>
+                    <tr className="table-info">
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        </Container>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.firstname || "N/A"}</td>
+                        <td>{user.email}</td>
+                        <td>{user.role || "N/A"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
 
-        {/* Edit User Modal */}
-        <Modal show={showEditModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit User</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {selectedUser && (
-              <Form>
-                <Form.Group controlId="formName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={selectedUser.name}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
-                  />
-                </Form.Group>
+      {/* Listings Section */}
+      <Row>
+        <Col md={12}>
+          <Card className="shadow-sm">
+            <Card.Header className="bg-success text-white">
+              <h5>Listings</h5>
+            </Card.Header>
+            <Card.Body>
+              {loadingListings ? (
+                <div className="text-center">
+                  <Spinner animation="border" variant="secondary" />
+                  <p>Loading Listings...</p>
+                </div>
+              ) : listings.length === 0 ? (
+                <Alert variant="warning" className="text-center">No listings found</Alert>
+              ) : (
+                <Table striped bordered hover responsive variant="light">
+                  <thead>
+                    <tr className="table-success">
+                      <th>ID</th>
+                      <th>Title</th>
+                      <th>Price</th>
+                      <th>Location</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {listings.map((listing) => (
+                      <tr key={listing.id}>
+                        <td>{listing.id}</td>
+                        <td>{listing.title}</td>
+                        <td>{listing.price}</td>
+                        <td>{listing.location || "N/A"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
 
-                <Form.Group controlId="formEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    value={selectedUser.email}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formRole">
-                  <Form.Label>Role</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={selectedUser.role}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value })}
-                  >
-                    <option>Admin</option>
-                    <option>User</option>
-                  </Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="formStatus">
-                  <Form.Label>Status</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={selectedUser.status}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, status: e.target.value })}
-                  >
-                    <option>Active</option>
-                    <option>Inactive</option>
-                  </Form.Control>
-                </Form.Group>
-              </Form>
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleSaveChanges}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    </div>
+      {/* Optional Action Buttons */}
+      <Row className="mt-4">
+        <Col className="text-center">
+          <button className="btn btn-primary mx-2">Add New User</button>
+          <button className="btn btn-success mx-2">Add New Listing</button>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
 export default AdminDashboard;

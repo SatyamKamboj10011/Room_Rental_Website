@@ -79,6 +79,7 @@ function App() {
         
          
            <Route path='/Feedback' element={<Create/>}/>
+           <Route path='/Booking' element={<BookingPage/>}/>
         </Routes>
       </div>
     </BrowserRouter>

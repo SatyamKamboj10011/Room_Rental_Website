@@ -4,17 +4,33 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import ListingsDataService from './services/ListingsDataService';
 import { FaStar } from 'react-icons/fa';
 import Spinner from 'react-bootstrap/Spinner';
-
+import FBDataService from './services/fbServices';
+ 
 function DescriptionPage() {
   const [listing, setListing] = useState(null);
-  const [loading, setLoading] = useState(true); // Track loading state
+  const [loading, setLoading] = useState(true);
+  const [feedback, setFeedback] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     getListingById(id);
+    getFeedbackData(id);
   }, [id]);
-
+  const getFeedbackData = async () => {
+    try {
+      const feedbackData = await FBDataService.getAllData();  // Fetch all reviews from Firestore
+      if (!feedbackData || feedbackData.length === 0) {
+        console.log("No feedback found");
+        setFeedback([]); // No feedback found
+        return;
+      }
+      const feedbackList = feedbackData.map(doc => ({ ...doc, id: doc.id })); // Ensure the data has the ID
+      setFeedback(feedbackList);  // Update the state with the fetched feedback
+    } catch (error) {
+      console.error("Error fetching feedback data:", error); // Catch any errors during data fetching
+    }
+  };
   const getListingById = async (listingId) => {
     try {
       const data = await ListingsDataService.getListingById(listingId);
@@ -32,12 +48,12 @@ function DescriptionPage() {
       setLoading(false); // Set loading to false once data is fetched
     }
   };
-
+ 
   const handleBookNow = () => {
     console.log(listing.id);
     navigate(`/booking/${listing.id}`); // Passing the listing ID
   };
-
+ 
   if (loading) {
     // Show loading spinner while fetching data
     return (
@@ -46,7 +62,7 @@ function DescriptionPage() {
       </div>
     );
   }
-
+ 
   if (!listing) {
     // Show an error message if no listing is found
     return (
@@ -56,7 +72,7 @@ function DescriptionPage() {
       </div>
     );
   }
-
+ 
   return (
     <Container style={containerStyle}>
       {/* Title and Price */}
@@ -72,7 +88,7 @@ function DescriptionPage() {
           </div>
         </Col>
       </Row>
-
+ 
       {/* Main Image */}
       <Row className="mb-5">
         <Col md={8} className="d-flex justify-content-center">
@@ -104,7 +120,7 @@ function DescriptionPage() {
           </Card>
         </Col>
       </Row>
-
+ 
       {/* Room Description and Nearby Attractions */}
       <Row className="mb-4">
         <Col md={8}>
@@ -126,35 +142,60 @@ function DescriptionPage() {
           </Card>
         </Col>
       </Row>
-
-      {/* Reviews Section */}
-      <Row className="mb-4">
-        <Col>
-          <h3 style={sectionTitleStyle}>Reviews</h3>
-          {listing.reviews && listing.reviews.length > 0 ? (
-            listing.reviews.map((review, index) => (
-              <Card key={index} style={reviewCardStyle}>
-                <Card.Body>
-                  <Card.Title style={reviewAuthorStyle}>{review.name}</Card.Title>
-                  <Card.Text style={reviewTextStyle}>
-                    "{review.comment}"
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            ))
-          ) : (
-            <p>No reviews available.</p>
-          )}
-        </Col>
-        <Button
-          style={{ width: '120px', height: '45px', borderRadius: '10px' }}
-        >
-          <Link to={`/feedback`} style={{ color: 'white', textDecoration: 'none' }}>
-            Add Reviews
-          </Link>
-        </Button>
-      </Row>
-
+ 
+        {/* Reviews Section */}
+        // Reviews Section (Feedback)
+<Row className="mb-4">
+  <div className="container">
+    <div className="panel panel-default">
+      <div className="panel-heading">
+        <h3 className="panel-title">Feedback</h3>
+      </div>
+      <div className="panel-body">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Feedback</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {feedback.length > 0 ? (
+              feedback.map((fb) => (
+                <tr key={fb.id}> {/* Use fb.id to ensure each row has a unique key */}
+                  <td>{fb.date}</td> {/* Assuming fb.date is a string or formatted date */}
+                  <td>{fb.feedback}</td> {/* Feedback message */}
+                  <td>{fb.name}</td> {/* Reviewer's name */}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3">No feedback available yet.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  {/* Add Review Button */}
+  <Button
+    style={{
+      width: '120px',
+      height: '45px',
+      borderRadius: '10px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      marginTop: '20px', // Add some margin on top
+    }}
+  >
+    <Link to={`/feedback`} style={{ color: 'white', textDecoration: 'none' }}>
+      Add Review
+    </Link>
+  </Button>
+</Row>
+ 
       {/* Action Buttons */}
       <Row>
         <Col className="d-flex justify-content-between">
@@ -165,7 +206,7 @@ function DescriptionPage() {
     </Container>
   );
 }
-
+ 
 // Inline styles for the page
 const containerStyle = {
   background: '#fff',
@@ -173,58 +214,58 @@ const containerStyle = {
   borderRadius: '10px',
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', // Soft shadow for container
 };
-
+ 
 const titleStyle = {
   fontSize: '2.5rem',
   fontWeight: 'bold',
   color: '#333',
 };
-
+ 
 const priceStyle = {
   fontSize: '1.5rem',
   color: '#888',
 };
-
+ 
 const ratingContainerStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   margin: '10px 0',
 };
-
+ 
 const badgeStyle = {
   marginRight: '10px',
 };
-
+ 
 const mainImageStyle = {
   maxWidth: '100%',
   height: 'auto',
   borderRadius: '10px',
   transition: 'transform 0.3s ease', // Adding transition for hover effect
 };
-
+ 
 const thumbnailImageStyle = {
   width: '100%',
   borderRadius: '10px',
 };
-
+ 
 const cardHeaderStyle = {
   backgroundColor: '#f7f7f7',
   fontWeight: 'bold',
 };
-
+ 
 const sectionTitleStyle = {
   fontSize: '1.8rem',
   color: '#444',
   marginBottom: '1rem',
 };
-
+ 
 const descriptionTextStyle = {
   fontSize: '1.1rem',
   color: '#555',
   lineHeight: '1.6',
 };
-
+ 
 const attractionItemStyle = {
   backgroundColor: '#f1f5f9',
   color: '#333',
@@ -232,20 +273,20 @@ const attractionItemStyle = {
   borderRadius: '4px',
   marginBottom: '0.5rem',
 };
-
+ 
 const reviewCardStyle = {
   backgroundColor: '#fafafa',
   border: '1px solid #e1e1e1',
   borderRadius: '10px',
   marginBottom: '1rem',
 };
-
+ 
 const reviewAuthorStyle = {
   fontWeight: 'bold',
 };
-
+ 
 const reviewTextStyle = {
   color: '#666',
 };
-
+ 
 export default DescriptionPage;
