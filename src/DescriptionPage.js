@@ -31,6 +31,10 @@ function DescriptionPage() {
       console.error("Error fetching feedback data:", error); // Catch any errors during data fetching
     }
   };
+  const handlefeedback = () => {
+    console.log(listing.id);
+    navigate(`/feedback/${listing.id}`); // Passing the listing ID
+  };
   const getListingById = async (listingId) => {
     try {
       const data = await ListingsDataService.getListingById(listingId);
@@ -163,9 +167,9 @@ function DescriptionPage() {
                   {feedback.length > 0 ? (
                     feedback.map((fb) => (
                       <tr key={fb.id}>
-                        <td><Link to={`/show/${feedback.id}`}>{feedback.date}</Link></td>
-                        <td>{feedback.feedback}</td>
-                        <td>{feedback.name}</td>
+                        <td> <Link to={`/show/${listing.id}/${fb.id}`}>{fb.date}</Link></td>
+                        <td>{fb.feedback}</td>
+                        <td>{fb.name}</td>
                       </tr>
                     ))
                   ) : (
@@ -183,8 +187,8 @@ function DescriptionPage() {
              height:'45px',
              borderRadius: '10px',
              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-           }}> 
-           <Link to={`/feedback`} style={{color: 'white',textDecoration: 'none',}}>Add Reviews</Link>
+           }} onClick={handlefeedback}> 
+           Add Reviews
          </Button>
       </Row>
 

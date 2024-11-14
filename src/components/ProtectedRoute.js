@@ -23,7 +23,7 @@ export const AdminRoute = ({ children }) => {
   } else if (role === "admin") {
     return children;  // Allow access if the user is an admin
   } else {
-    return <Navigate to="/unauthorized" />;  // Redirect or show unauthorized page
+    return <Navigate to="/home" />;  // Redirect or show unauthorized page
   }
 };
 
@@ -37,7 +37,7 @@ export const HostRoute = ({ children }) => {
   } else if (role === "host" || role === "admin") {
     return children;  // Allow access if the user is a host or admin
   } else {
-    return <Navigate to="/unauthorized" />;  // Redirect or show unauthorized page
+    return <Navigate to="/home" />;  // Redirect or show unauthorized page
   }
 };
 
@@ -51,7 +51,7 @@ export const GuestRoute = ({ children }) => {
   } else if (role === "guest" || role === "host" || role === "admin") {
     return children;  // Allow access if the user is a guest, host, or admin
   } else {
-    return <Navigate to="/unauthorized" />;  // Redirect or show unauthorized page
+    return <Navigate to="/home" />;  // Redirect or show unauthorized page
   }
 };
 

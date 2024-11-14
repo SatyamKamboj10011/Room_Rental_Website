@@ -1,74 +1,52 @@
 import React, { useEffect, useState } from "react";
-
-
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import FBDataService from '../services/fbServices';
 
-function  Show () {
-  
-  const [feedback, setFeedback] = useState();
-  const [date, setdate] = useState();
-  const [name, setname] = useState();
-  const params = useParams();
+function Show() {
+  const [feedback, setFeedback] = useState({});
+  const { listingId, feedbackId } = useParams();
   const navigate = useNavigate();
 
-   //const value = useContext(UserContext);
+  useEffect(() => {
+    getFeedback();
+  }, [listingId, feedbackId]);
 
-
-  useEffect(() => {  
-    setKey(params.id)
-    //console.log("Message from Context"+value);
-    console.log("Use effect exectuted show.js key"+params.id);
-    getBook();
-  }, []);
-  const getBook = async () => {
-    
-    console.log("Get board executed"+key);
+  const getFeedback = async () => {
     try {
-      const docSnap = await FBDataService.getData(params.id);
-      console.log("the record is :", docSnap.data());
-      setFeedback(docSnap.data().feedback);
-      setdate(docSnap.data().date);
-      setname(docSnap.data().name);
+      const docSnap = await FBDataService.getFeedbackById(listingId, feedbackId);
+      if (docSnap.exists()) {
+        setFeedback(docSnap.data());
+      } else {
+        console.log("No such feedback!");
+      }
     } catch (err) {
-      
-    }   
+      console.error("Error fetching feedback:", err);
+    }
   };
-  const deleteBoard = async (id) => {
-   
-    alert("Deleting feedback ")
-    await FBDataService.deleteData(params.id);
-    //getBoard();
-    navigate("/");
-  }  
-    return (
-      <div class="container">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-    show feedback</h3>
-        </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-        <h4><Link to="/" class="btn btn-primary">Home</Link></h4>
-        
-          <h3 class="panel-title">
-            {feedback}
-          </h3>
-        </div>
-        <div class="panel-body">
-          <dl>
-            <dt>Feedback</dt>
-            <dd>{feedback}</dd>
-            <dt>date</dt>
-            <dd>{date}</dd>
-            <dt>name:</dt>
-            <dd>{name}</dd>
-          </dl>
-          <button  onClick={deleteBoard} class="btn btn-danger">Delete</button>
-        </div>
-      </div>
+
+  const deleteFeedback = async () => {
+    await FBDataService.deleteFeedback(listingId, feedbackId);
+    navigate(`/listings/${listingId}`);
+  };
+
+  return (
+    <div>
+      <h3>Feedback Details</h3>
+      {feedback ? (
+        <dl>
+          <dt>date</dt>
+          <dd>{feedback.date}</dd>
+          <dt>feedback</dt>
+          <dd>{feedback.feedback}</dd>
+          <dt>Name</dt>
+          <dd>{feedback.name}</dd>
+        </dl>
+      ) : (
+        <p>No feedback found.</p>
+      )}
+      <button onClick={deleteFeedback}>Delete Feedback</button>
     </div>
-    );
-  
+  );
 }
 
 export default Show;

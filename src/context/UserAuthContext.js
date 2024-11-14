@@ -14,8 +14,8 @@ import UserDataService from "../services/UserDataService";
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
-  const [user, setUser] = useState({}); // Default to null, safer than {}
-  const [role, setRole] = useState(""); // Default to null for better handling of undefined roles
+  const [user, setUser] = useState(null); // Default to null for clarity
+  const [role, setRole] = useState("guest"); // Default to 'guest' to ensure role is set
 
   // Log in function
   function logIn(email, password) {
@@ -45,35 +45,34 @@ export function UserAuthContextProvider({ children }) {
         // If user is logged in, set user and fetch role from Firestore
         console.log("Auth user:", currentUser);
 
-        // Ensure currentUser is valid before proceeding
         if (currentUser && currentUser.uid) {
-          setUser(currentUser);
+          setUser(currentUser); // Set user in context
 
           try {
             const userDoc = await UserDataService.getUser(currentUser.uid); // Fetch user data from Firestore
             if (userDoc.exists()) {
-              const userRole = userDoc.data().role;
+              const userRole = userDoc.data().role || "guest"; // Set 'guest' as fallback role
               console.log("User role (UserAuthContext):", userRole);
               setRole(userRole); // Set role to context
             } else {
-              // If user document does not exist in Firestore, reset user and role
+              // If user document doesn't exist, reset user and role
               console.log("User document not found in Firestore.");
-              setRole(null);
+              setRole("guest");
               setUser(null);
             }
           } catch (error) {
             console.error("Error fetching user data from Firestore:", error);
-            setRole(null);
+            setRole("guest"); // Default role if fetching fails
             setUser(null);
           }
         } else {
           console.log("Current user is undefined or does not have a valid UID");
-          setRole(null);
+          setRole("guest");
           setUser(null);
         }
       } else {
         // If no user is logged in, reset the context
-        setRole(null);
+        setRole("guest"); // Default to guest when logged out
         setUser(null);
       }
     });
@@ -82,7 +81,7 @@ export function UserAuthContextProvider({ children }) {
       // Clean up the listener when component unmounts
       unsubscribe();
     };
-  }, []); // Empty dependency array means it runs once on mount
+  }, []); // Empty dependency array ensures it runs once on mount
 
   return (
     <userAuthContext.Provider

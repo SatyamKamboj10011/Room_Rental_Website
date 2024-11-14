@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import FBDataService from '../services/fbServices';
 
-function CreateReviewPage() {
+function Create() {
   const [feedback, setFeedback] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
@@ -73,4 +73,4 @@ const containerStyle = {
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
 };
 
-export default CreateReviewPage;
+export default Create;
