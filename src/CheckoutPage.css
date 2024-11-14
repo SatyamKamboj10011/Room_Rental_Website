@@ -1,0 +1,36 @@
+.checkout-container {
+    padding: 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  .checkout-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .room-details {
+    margin-bottom: 2rem;
+  }
+  
+  .room-details img {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .payment-form h4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: #343a40;
+  }
+  
+  .checkout-button {
+    width: 100%;
+    margin-top: 1rem;
+    background-color: #28a745;
+    border: none;
+  }
+  
+  .checkout-button:hover {
+    background-color: #218838;
+  }
