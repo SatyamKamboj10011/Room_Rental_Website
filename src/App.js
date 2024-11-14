@@ -21,6 +21,8 @@ import UserProfileDashboard from './ProfilePage';
 import ProfilePage from './ProfilePage';
 import BookingPage from './BookingPage';
 import { AdminRoute, HostRoute,GuestRoute } from './components/ProtectedRoute';
+import { Check } from 'lucide-react';
+import CheckoutPage from './CheckoutPage';
 
 function App() {
   return (
@@ -40,6 +42,7 @@ function App() {
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
           <Route path="/ProfilePage" element={<ProfilePage/>}/>
           <Route path='/booking/:id' element={<BookingPage/>}/>
+          <Route path="/CheckoutPage" element={<CheckoutPage/>}/>
           <Route
                 path="/admindashboard"
                 element={
