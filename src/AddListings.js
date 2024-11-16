@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ListingsDataService from "./services/ListingsDataService"; // Your Firebase service
-import { ButtonGroup, Form, Alert, Button, Container, Row, Col, Card } from "react-bootstrap";
+import { ButtonGroup, Form, Alert, Button, Container, Row, Col, Card, Image } from "react-bootstrap";
 import { storage } from './firebase'; // Import Firebase storage
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Functions for image upload
 
@@ -101,24 +101,32 @@ function AddListings({ id }) {
   }, [id]);
 
   return (
-    <Container className="my-4">
+    <Container className="py-4">
       <Row className="justify-content-md-center">
-        <Col md={8}>
-          <Card>
-            <Card.Header>{id ? "Update Listing" : "Add Listing"}</Card.Header>
+        {/* Column for Image */}
+        <Col md={6} className="d-none d-md-block">
+          <Image
+            src="https://i.pinimg.com/originals/d3/a1/3a/d3a13ae8cb66b48d9f3bf714fccf11b2.jpg"
+            fluid
+            style={{ borderRadius: '10px', height: '100%', objectFit: 'cover' }}
+            alt="Decorative Image"
+          />
+        </Col>
+
+        {/* Column for Form */}
+        <Col md={6}>
+          <Card style={{ borderRadius: '10px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', backgroundColor: 'rgba(255, 255, 255, 0.85)' }}>
+            <Card.Header style={{ backgroundColor: '#007bff', color: '#fff', fontSize: '1.25rem', fontWeight: 'bold' }}>
+              {id ? "Update Listing" : "Add Listing"}
+            </Card.Header>
             <Card.Body>
-              <Alert
-                variant={message?.error ? "danger" : "success"}
-                show={!!message.msg}
-                dismissible
-                onClose={() => setMessage("")}
-              >
+              <Alert variant={message?.error ? "danger" : "success"} show={!!message.msg} dismissible onClose={() => setMessage("")}>
                 {message?.msg}
               </Alert>
 
               <Form onSubmit={handleSubmit}>
                 <Row className="mb-3">
-                  <Col>
+                  <Col md={12}>
                     <Form.Group controlId="formTitle">
                       <Form.Label>Title</Form.Label>
                       <Form.Control
@@ -126,10 +134,14 @@ function AddListings({ id }) {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Enter the title"
+                        style={formControlStyle}
                       />
                     </Form.Group>
                   </Col>
-                  <Col>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col md={12}>
                     <Form.Group controlId="formPrice">
                       <Form.Label>Price</Form.Label>
                       <Form.Control
@@ -137,6 +149,7 @@ function AddListings({ id }) {
                         value={price}
                         onChange={(e) => setPrice(e.target.valueAsNumber)}
                         placeholder="Enter the price per week"
+                        style={formControlStyle}
                       />
                     </Form.Group>
                   </Col>
@@ -150,6 +163,7 @@ function AddListings({ id }) {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Describe the listing"
+                    style={formControlStyle}
                   />
                 </Form.Group>
 
@@ -160,6 +174,7 @@ function AddListings({ id }) {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="Enter the location"
+                    style={formControlStyle}
                   />
                 </Form.Group>
 
@@ -171,6 +186,7 @@ function AddListings({ id }) {
                       <Form.Control
                         type="file"
                         onChange={(e) => setImage(e.target.files[0])}
+                        style={formControlStyle}
                       />
                     </Form.Group>
                   </Col>
@@ -180,6 +196,7 @@ function AddListings({ id }) {
                       <Form.Control
                         type="file"
                         onChange={(e) => setImage2(e.target.files[0])}
+                        style={formControlStyle}
                       />
                     </Form.Group>
                   </Col>
@@ -189,16 +206,17 @@ function AddListings({ id }) {
                       <Form.Control
                         type="file"
                         onChange={(e) => setImage3(e.target.files[0])}
+                        style={formControlStyle}
                       />
                     </Form.Group>
                   </Col>
                 </Row>
 
                 <ButtonGroup className="d-flex justify-content-between">
-                  <Button variant="primary" type="submit">
+                  <Button variant="primary" type="submit" style={{ backgroundColor: '#28a745', border: 'none' }}>
                     {id ? "Update Listing" : "Add Listing"}
                   </Button>
-                  <Button variant="secondary" onClick={() => window.location.reload()}>
+                  <Button variant="secondary" onClick={() => window.location.reload()} style={{ backgroundColor: '#6c757d', border: 'none' }}>
                     Reset Form
                   </Button>
                 </ButtonGroup>
@@ -210,5 +228,12 @@ function AddListings({ id }) {
     </Container>
   );
 }
+
+const formControlStyle = {
+  backgroundColor: '#f8f9fa',
+  borderRadius: '5px',
+  border: '1px solid #ced4da',
+  padding: '10px'
+};
 
 export default AddListings;
