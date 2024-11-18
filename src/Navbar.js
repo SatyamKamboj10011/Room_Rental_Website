@@ -39,7 +39,7 @@ function OffcanvasExample() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   {/* Always visible links */}
-                  <Nav.Link as={Link} to="/home">Home</Nav.Link>
+                  <Nav.Link as={Link} to="/">Home</Nav.Link>
                   {!user && (
                     <Nav.Link as={Link} to="/Register">Register</Nav.Link>
                   )}
@@ -54,6 +54,7 @@ function OffcanvasExample() {
                       {role === "admin" && (
                         <>
                           <NavDropdown.Item as={Link} to="/admindashboard">Admin Dashboard</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/listings">Manage Listings</NavDropdown.Item>
                           <NavDropdown.Item as={Link} yo ='/bookingpage'>BookNow</NavDropdown.Item>
@@ -63,9 +64,10 @@ function OffcanvasExample() {
                       )}
 
                       {/* Host-only links (including admins) */}
-                      {(role === "admin" || role === "host") && (
+                      {(role === "host") && (
                         <>
                         <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to="/Hostdashboard">Host Dashboard</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>

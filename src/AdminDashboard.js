@@ -18,23 +18,23 @@ const AdminDashboard = () => {
   // Fetch all users from Firestore
   const fetchUsers = async () => {
     try {
-      const data = await UserDataService.getAllUsers(); // Assuming this returns a Firestore QuerySnapshot
+      const data = await UserDataService.getAllUsers(); // Fetch users
+      console.log("Fetched Data:", data);  // Log the raw response
   
-      // If data exists and contains documents, map the documents into an array
       if (data && data.docs && data.docs.length > 0) {
         const usersList = data.docs.map(doc => ({ ...doc.data(), id: doc.id }));
         setUsers(usersList); // Set the users state with the mapped data
       } else {
-        setUsers([]); // If no users are found, set an empty array
+        setUsers([]);
         console.log('No Users found');
       }
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
-      setLoadingUsers(false); // Always set loading to false when data is loaded or error occurred
+      setLoadingUsers(false);
     }
   };
-
+  
   // Fetch all listings from Firestore
 
   const fetchListings = async () => {

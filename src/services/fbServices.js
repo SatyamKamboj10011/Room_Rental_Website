@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, getDoc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, addDoc, updateDoc,deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase'; // Adjust the path as necessary to your Firebase config
  
 const collectionName = 'feedback';
@@ -16,7 +16,11 @@ class FBDataService {
     const dataRef = doc(db, collectionName, id); // Reference to the specific listing document
     return updateDoc(dataRef, updatedData); // Update the document in Firestore
   };
- 
+
+  deleteFeedback = (id) => {
+    const dataRef = doc(db, collectionName, id); // Reference to the specific feedback document
+    return deleteDoc(dataRef); // Delete the document from Firestore
+  };
   // Fetch all listings with error handling
   async getAllData() {
     try {
@@ -37,10 +41,10 @@ class FBDataService {
   // Fetch a single listing by ID
   async getDataById(id) {
     try {
-      const docRef = doc(db, collectionName, id); // Create a reference to the document
-      const dataSnapshot = await getDoc(docRef); // Fetch the document
- 
+      const docRef = doc(db, collectionName, id);
+      const dataSnapshot = await getDoc(docRef);
       if (dataSnapshot.exists()) {
+        console.log("Fetched data:", dataSnapshot.data());  // Add this log to verify data
         return { id: dataSnapshot.id, ...dataSnapshot.data() };
       } else {
         console.log('Data not found');

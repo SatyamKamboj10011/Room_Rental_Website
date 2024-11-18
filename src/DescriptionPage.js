@@ -164,7 +164,8 @@ function DescriptionPage() {
             {feedback.length > 0 ? (
               feedback.map((fb) => (
                 <tr key={fb.id}> {/* Use fb.id to ensure each row has a unique key */}
-                  <td>{fb.date}</td> {/* Assuming fb.date is a string or formatted date */}
+                  <td><Link to={`/show/${fb.id}`}>{fb.date}</Link>
+                  </td> {/* Assuming fb.date is a string or formatted date */}
                   <td>{fb.feedback}</td> {/* Feedback message */}
                   <td>{fb.name}</td> {/* Reviewer's name */}
                 </tr>

@@ -1,104 +1,113 @@
 import { useEffect, useState } from "react";
-import ListingsDataService from "./services/ListingsDataService"; // Your Firebase service
+import { useParams } from "react-router-dom"; // For getting the listing ID from the URL
+import ListingsDataService from "./services/ListingsDataService"; // Firebase service
 import { ButtonGroup, Form, Alert, Button, Container, Row, Col, Card } from "react-bootstrap";
-import { storage } from './firebase'; // Import Firebase storage
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Functions for image upload
+import { storage } from './firebase'; // Firebase storage
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Firebase storage functions
+import { useUserAuth } from "./context/UserAuthContext"; // Auth context
 
-function AddListings({ id }) {
+function AddListings() {
+  const { id } = useParams(); // Get the listing ID from the URL
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [location, setLocation] = useState("");
+  const [existingImages, setExistingImages] = useState([]);
   const [image, setImage] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
-  const [location, setLocation] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
+
+  const { user } = useUserAuth(); // Get the logged-in user
+
+  useEffect(() => {
+    if (id) {
+      fetchListingData();
+    }
+  }, [id]);
+
+  const fetchListingData = async () => {
+    try {
+      const listing = await ListingsDataService.getListingById(id); // Fetch listing data by ID
+      if (listing) {
+        console.log("Fetched Listing: ", listing); // Debug log
+        setTitle(listing.title || "");
+        setDescription(listing.description || "");
+        setPrice(listing.price || "");
+        setLocation(listing.location || "");
+        setExistingImages(listing.images || []); // Populate existing images
+      } else {
+        console.error("No listing found with the given ID.");
+        setMessage({ error: true, msg: "Listing not found." });
+      }
+    } catch (error) {
+      console.error("Error fetching listing data: ", error);
+      setMessage({ error: true, msg: "Error fetching listing data." });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
-    if (title === "" || description === "" || price === "" || !image || !image2 || !image3 || location === "") {
+    if (!title || !description || !price || !location) {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
 
-    const newListing = { title, description, price, location };
+    const newListing = {
+      title,
+      description,
+      price,
+      location,
+      hostId: user?.uid, // Include the logged-in user's ID
+    };
 
     try {
       let listingId;
 
       if (id) {
-        await ListingsDataService.updateListing(id, newListing);
+        await ListingsDataService.updateListing(id, newListing); // Update existing listing
         listingId = id;
         setMessage({ error: false, msg: "Listing updated successfully!" });
       } else {
-        const docRef = await ListingsDataService.addListing(newListing);
+        const docRef = await ListingsDataService.addListing(newListing); // Add new listing
         listingId = docRef.id;
         setMessage({ error: false, msg: "Listing added successfully!" });
       }
 
-      await handleImageUpload(listingId); // Upload images
+      await handleImageUpload(listingId); // Handle image upload
     } catch (error) {
+      console.error("Error saving listing: ", error);
       setMessage({ error: true, msg: error.message });
     }
-
-    setTitle("");
-    setDescription("");
-    setPrice("");
-    setImage(null);
-    setImage2(null);
-    setImage3(null);
-    setLocation("");
   };
 
   const handleImageUpload = async (listingId) => {
-    const imageUrls = [];
+    const imageUrls = [...existingImages]; // Retain existing images
 
     if (image) {
-      const imageUrl = await uploadToFirebase(listingId, image, 'image1');
+      const imageUrl = await uploadToFirebase(listingId, image, "image1");
       imageUrls.push(imageUrl);
     }
     if (image2) {
-      const imageUrl2 = await uploadToFirebase(listingId, image2, 'image2');
+      const imageUrl2 = await uploadToFirebase(listingId, image2, "image2");
       imageUrls.push(imageUrl2);
     }
     if (image3) {
-      const imageUrl3 = await uploadToFirebase(listingId, image3, 'image3');
+      const imageUrl3 = await uploadToFirebase(listingId, image3, "image3");
       imageUrls.push(imageUrl3);
     }
 
-    await ListingsDataService.updateListingImages(listingId, imageUrls); // Update Firestore with URLs
+    await ListingsDataService.updateListingImages(listingId, imageUrls); // Update Firestore with new image URLs
   };
 
   const uploadToFirebase = async (listingId, file, imageName) => {
-    const imageRef = ref(storage, `listings/${listingId}/${imageName}`); // Define Firebase storage path
-    await uploadBytes(imageRef, file); // Upload file
-    const downloadUrl = await getDownloadURL(imageRef); // Get the download URL
+    const imageRef = ref(storage, `listings/${listingId}/${imageName}`);
+    await uploadBytes(imageRef, file);
+    const downloadUrl = await getDownloadURL(imageRef);
     return downloadUrl;
   };
-
-  const editHandler = async () => {
-    setMessage("");
-    try {
-      const docSnap = await ListingsDataService.getListingById(id);
-      if (docSnap) {
-        const listingData = docSnap;
-        setTitle(listingData.title);
-        setDescription(listingData.description);
-        setPrice(listingData.price);
-        setLocation(listingData.location);
-      }
-    } catch (error) {
-      setMessage({ error: true, msg: error.message });
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      editHandler();
-    }
-  }, [id]);
 
   return (
     <Container className="my-4">
@@ -163,7 +172,20 @@ function AddListings({ id }) {
                   />
                 </Form.Group>
 
-                {/* Image Upload Fields */}
+                {/* Existing Images */}
+                <Row>
+                  {existingImages.map((url, index) => (
+                    <Col key={index} md={4}>
+                      <img
+                        src={url}
+                        alt={`Listing Image ${index + 1}`}
+                        className="img-fluid mb-3"
+                      />
+                    </Col>
+                  ))}
+                </Row>
+
+                {/* New Image Upload Fields */}
                 <Row>
                   <Col md={4}>
                     <Form.Group controlId="formImage1" className="mb-3">

@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, getDoc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, addDoc, updateDoc,deleteDoc, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';  // For handling file uploads
 import { db } from '../firebase';  // Adjust the path as necessary to your Firebase config
 
@@ -36,6 +36,16 @@ class ListingsDataService {
     }
   }
 
+  deleteListing = async (id) => {
+    try {
+      const listingRef = doc(db, collectionName, id); // Reference to the specific listing
+      await deleteDoc(listingRef);
+      console.log(`Listing ${id} deleted successfully from Firestore.`);
+    } catch (error) {
+      console.error("Error deleting listing from Firestore: ", error);
+      throw error;
+    }
+  };
   // Fetch a single listing by ID
   async getListingById(id) {
     try {
@@ -53,6 +63,23 @@ class ListingsDataService {
       throw new Error("Failed to fetch listing.");
     }
   }
+// Fetch all listings for the logged-in host user
+async getHostListings(hostId) {
+  try {
+    const q = query(listingsCollectionRef, where("hostId", "==", hostId)); // Query to fetch only listings where hostId matches the logged-in user
+    const data = await getDocs(q);
+
+    if (data.empty) {
+      console.log('No listings found for this host');
+      return [];
+    }
+
+    return data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  } catch (error) {
+    console.error("Error fetching listings: ", error);
+    throw new Error("Failed to fetch host listings.");
+  }
+}
 
   // Upload image to Firebase Storage and return its download URL
   async uploadImage(listingId, file) {
