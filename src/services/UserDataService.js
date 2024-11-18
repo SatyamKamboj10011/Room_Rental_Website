@@ -1,5 +1,4 @@
-import { db } from "../firebase"; // Assuming your firebase.js file initializes the Firestore db
-
+import { db } from "../firebase";
 import {
   collection,
   getDocs,
@@ -11,42 +10,82 @@ import {
   doc,
 } from "firebase/firestore";
 
-const collectionName = "usersdetails"; // Collection name in Firestore
-const userCollectionRef = collection(db, collectionName); // Reference to the users collection in Firestore
+const collectionName = "usersdetails"; // Firestore collection
+const userCollectionRef = collection(db, collectionName);
 
 class UserDataService {
-  // Method to add a new user with a generated ID (for example, using addDoc)
-  addUser = (newUser) => {
-    return addDoc(userCollectionRef, newUser);
+  // Add a new user (auto-generated ID)
+  addUser = async (newUser) => {
+    try {
+      return await addDoc(userCollectionRef, newUser);
+    } catch (error) {
+      console.error("Error adding user:", error);
+      throw error;
+    }
   };
 
-  // Method to set a user with a specific UID as the document ID
-  setUser = (newUser) => {
-    // Ensure you're using the UID from Firebase authentication (newUser.uid)
-    return setDoc(doc(db, collectionName, newUser.uid), newUser);
+  // Set a user document by specific UID
+  setUser = async (newUser) => {
+    try {
+      return await setDoc(doc(db, collectionName, newUser.uid), newUser);
+    } catch (error) {
+      console.error("Error setting user:", error);
+      throw error;
+    }
   };
 
-  // Method to update an existing user's data
-  updateUser = (id, updateUser) => {
-    const userDoc = doc(db, collectionName, id);
-    return updateDoc(userDoc, updateUser);
+  // Update user document by ID
+  updateUser = async (id, updateUser) => {
+    try {
+      const userDoc = doc(db, collectionName, id);
+      return await updateDoc(userDoc, updateUser);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw error;
+    }
   };
 
-  // Method to delete a user by their UID
-  deleteUser = (id) => {
-    const userDoc = doc(db, collectionName, id);
-    return deleteDoc(userDoc);
+  // Update user role specifically
+  updateUserRole = async (id, updatedRole) => {
+    try {
+      const userDoc = doc(db, collectionName, id);
+      return await updateDoc(userDoc, { role: updatedRole });
+    } catch (error) {
+      console.error("Error updating user role:", error);
+      throw error;
+    }
   };
 
-  // Method to get all users
-  getAllUsers = () => {
-    return getDocs(userCollectionRef);
+  // Delete user by ID
+  deleteUser = async (id) => {
+    try {
+      const userDoc = doc(db, collectionName, id);
+      return await deleteDoc(userDoc);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw error;
+    }
   };
 
-  // Method to get a single user by their UID
-  getUser = (id) => {
-    const userDoc = doc(db, collectionName, id);
-    return getDoc(userDoc);
+  // Get all users
+  getAllUsers = async () => {
+    try {
+      return await getDocs(userCollectionRef);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      throw error;
+    }
+  };
+
+  // Get a single user by ID
+  getUser = async (id) => {
+    try {
+      const userDoc = doc(db, collectionName, id);
+      return await getDoc(userDoc);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+    }
   };
 }
 
