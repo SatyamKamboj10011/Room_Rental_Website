@@ -2,57 +2,76 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
 
-// Protected Route for general users
-const ProtectedRoute = ({ children }) => {
-  const { user } = useUserAuth();
-
-  console.log("Check user in ProtectedRoute: ", user);
+// Common function to check if user is authenticated and has the correct role
+const checkAccess = (user, role, requiredRole) => {
   if (!user) {
-    return <Navigate to="/home" />;  // Redirect to home if user is not logged in
+    return "login"; // Redirect to login if user is not authenticated
   }
-  return children;  // Allow access to children components if user exists
+
+  if (requiredRole && role !== requiredRole) {
+    return "unauthorized"; // Redirect to unauthorized if the role doesn't match
+  }
+
+  return null; // No redirect, access is allowed
+};
+
+// Protected Route for general users
+export const ProtectedRoute = ({ children }) => {
+  const { user, role } = useUserAuth();
+
+  const redirectPath = checkAccess(user, role);
+  if (redirectPath) {
+    return <Navigate to={`/${redirectPath}`} />;
+  }
+
+  return children; // Allow access to children components if user exists
 };
 
 // Admin Route
 export const AdminRoute = ({ children }) => {
   const { user, role } = useUserAuth();
 
-  console.log("Check user in AdminRoute: ", user);
-  if (!user) {
-    return <Navigate to="/home" />;  // Redirect if no user is logged in
-  } else if (role === "admin") {
-    return children;  // Allow access if the user is an admin
-  } else {
-    return <Navigate to="/unauthorized" />;  // Redirect or show unauthorized page
+  const redirectPath = checkAccess(user, role, "admin");
+  if (redirectPath) {
+    return <Navigate to={`/${redirectPath}`} />;
   }
+
+  return children; // Allow access if the user is an admin
+};
+
+export const UserRoute = ({ children }) => {
+  const { user, role } = useUserAuth();
+
+  const redirectPath = checkAccess(user, role, "user");
+  if (redirectPath) {
+    return <Navigate to={`/${redirectPath}`} />;
+  }
+
+  return children; // Allow access if the user is a host or admin
 };
 
 // Host Route
 export const HostRoute = ({ children }) => {
   const { user, role } = useUserAuth();
 
-  console.log("Check user in HostRoute: ", user);
-  if (!user) {
-    return <Navigate to="/home" />;  // Redirect if no user is logged in
-  } else if (role === "host" || role === "admin") {
-    return children;  // Allow access if the user is a host or admin
-  } else {
-    return <Navigate to="/unauthorized" />;  // Redirect or show unauthorized page
+  const redirectPath = checkAccess(user, role, "host");
+  if (redirectPath) {
+    return <Navigate to={`/${redirectPath}`} />;
   }
+
+  return children; // Allow access if the user is a host or admin
 };
 
 // Guest Route
 export const GuestRoute = ({ children }) => {
   const { user, role } = useUserAuth();
 
-  console.log("Check user in GuestRoute: ", user);
-  if (!user) {
-    return <Navigate to="/home" />;  // Redirect if no user is logged in
-  } else if (role === "guest" || role === "host" || role === "admin") {
-    return children;  // Allow access if the user is a guest, host, or admin
-  } else {
-    return <Navigate to="/unauthorized" />;  // Redirect or show unauthorized page
+  const redirectPath = checkAccess(user, role);
+  if (redirectPath) {
+    return <Navigate to={`/${redirectPath}`} />;
   }
+
+  return children; // Allow access if the user is a guest, host, or admin
 };
 
 export default ProtectedRoute;

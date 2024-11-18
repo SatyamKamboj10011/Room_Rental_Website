@@ -20,9 +20,11 @@ import AdminDashboard from './AdminDashboard';
 import UserProfileDashboard from './ProfilePage';
 import ProfilePage from './ProfilePage';
 import BookingPage from './BookingPage';
-import { AdminRoute, HostRoute,GuestRoute } from './components/ProtectedRoute';
+import { AdminRoute, HostRoute,GuestRoute,UserRoute } from './components/ProtectedRoute';
 import { Check } from 'lucide-react';
 import CheckoutPage from './CheckoutPage';
+import HomePage from './CarouselHomePage';
+import AboutContactPage from './Aboutus';
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
         
           <Route path = '/listings' element={<Listings/>}/>
           <Route path="/DescriptionPage/:id" element={<DescriptionPage />} />
+          <Route path="/Aboutus" element={<AboutContactPage />} />
           <Route path="/AddListings" element={<AddListings />} />
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
           <Route path="/ProfilePage" element={<ProfilePage/>}/>
@@ -59,23 +62,30 @@ function App() {
                   </HostRoute>
                 }
               />
+              <Route
+                path="/ProfilePage"
+                element={
+                  <UserRoute>
+                    <ProfilePage />
+                  </UserRoute>
+                }
+              />
                <Route
-                path="/home"
+                path="/"
                 element={
                   <>
-             <CarouselHomePage />
-              <HomeCards />
-              <HeaderAndFooterExample />
+             <HomePage />
                 </>
                 }
               />
               <Route
-                path="/home"
+                path="/"
                 element={
                   <GuestRoute>
              <CarouselHomePage />
               <HomeCards />
               <HeaderAndFooterExample />
+              <AboutContactPage/>
                   </GuestRoute>
                 }
               />

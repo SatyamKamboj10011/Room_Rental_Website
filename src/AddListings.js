@@ -12,18 +12,19 @@ function AddListings({ id }) {
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [location, setLocation] = useState("");
+  const [roomType, setRoomType] = useState(""); // New state for room type
   const [message, setMessage] = useState({ error: false, msg: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
-    if (title === "" || description === "" || price === "" || !image || !image2 || !image3 || location === "") {
+    if (title === "" || description === "" || price === "" || !image || !image2 || !image3 || location === "" || roomType === "") {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
 
-    const newListing = { title, description, price, location };
+    const newListing = { title, description, price, location, roomType };
 
     try {
       let listingId;
@@ -43,6 +44,7 @@ function AddListings({ id }) {
       setMessage({ error: true, msg: error.message });
     }
 
+    // Reset form
     setTitle("");
     setDescription("");
     setPrice("");
@@ -50,6 +52,7 @@ function AddListings({ id }) {
     setImage2(null);
     setImage3(null);
     setLocation("");
+    setRoomType("");
   };
 
   const handleImageUpload = async (listingId) => {
@@ -88,6 +91,7 @@ function AddListings({ id }) {
         setDescription(listingData.description);
         setPrice(listingData.price);
         setLocation(listingData.location);
+        setRoomType(listingData.roomType); // Populate room type
       }
     } catch (error) {
       setMessage({ error: true, msg: error.message });
@@ -176,6 +180,22 @@ function AddListings({ id }) {
                     placeholder="Enter the location"
                     style={formControlStyle}
                   />
+                </Form.Group>
+
+                {/* Room Type Dropdown */}
+                <Form.Group controlId="formRoomType" className="mb-3">
+                  <Form.Label>Room Type</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={roomType}
+                    onChange={(e) => setRoomType(e.target.value)}
+                    style={formControlStyle}
+                  >
+                    <option value="">Select Room Type</option>
+                    <option value="Room">Room</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="Studio">Studio</option>
+                  </Form.Control>
                 </Form.Group>
 
                 {/* Image Upload Fields */}
