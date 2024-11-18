@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Button, Form, Image } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Image, Spinner, Badge } from 'react-bootstrap';
 import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
-import Spinner from 'react-bootstrap/Spinner';
+import { FaCalendarAlt, FaUser, FaEnvelope } from 'react-icons/fa';
 
 function BookingPage() {
   const { id } = useParams();
@@ -59,15 +59,15 @@ function BookingPage() {
   if (!bookingDetails) {
     return (
       <div className="text-center">
-        <Spinner animation="border" />
+        <Spinner animation="border" variant="info" />
       </div>
     );
   }
 
   return (
     <Container className="mt-5">
-      {/* Message Display */}
-      <Row className="mb-4">
+       {/* Message Display */}
+       <Row className="mb-4">
         <Col>
           {message && (
             <div className={`alert ${messageType === 'success' ? 'alert-success' : 'alert-danger'}`} role="alert">
@@ -79,15 +79,16 @@ function BookingPage() {
 
       <Row className="mb-4">
         <Col md={6}>
+          {/* Display room image */}
           <Image src={bookingDetails.image} alt="Room" fluid rounded />
         </Col>
         <Col md={6}>
-          <Card>
+          <Card style={cardStyle}>
             <Card.Body>
-              <Card.Title>Booking Information</Card.Title>
-              <p><strong>Room:</strong> {bookingDetails.title}</p>
-              <p><strong>Price per week:</strong> ${bookingDetails.price}</p>
-              <p><strong>Description:</strong> {bookingDetails.description}</p>
+              <Card.Title style={cardTitleStyle}>{bookingDetails.title}</Card.Title>
+              <p style={roomInfoStyle}><strong>Price:</strong> ${bookingDetails.price} per night</p>
+              <p style={roomInfoStyle}><strong>Description:</strong> {bookingDetails.description}</p>
+              <Badge pill bg="success" className="my-2">Available</Badge>
             </Card.Body>
           </Card>
         </Col>
@@ -96,50 +97,54 @@ function BookingPage() {
       {/* Booking Form */}
       <Row>
         <Col>
-          <Card>
-            <Card.Header>Complete Your Booking</Card.Header>
+          <Card style={formCardStyle}>
+            <Card.Header style={formCardHeaderStyle}>Complete Your Booking</Card.Header>
             <Card.Body>
               <Form>
                 <Form.Group controlId="formCheckInDate" className="mb-3">
-                  <Form.Label>Check-in Date</Form.Label>
+                  <Form.Label><FaCalendarAlt /> Check-in Date</Form.Label>
                   <Form.Control
                     type="date"
                     value={checkInDate}
                     onChange={(e) => setCheckInDate(e.target.value)}
+                    style={formControlStyle}
                   />
                 </Form.Group>
 
                 <Form.Group controlId="formCheckOutDate" className="mb-3">
-                  <Form.Label>Check-out Date</Form.Label>
+                  <Form.Label><FaCalendarAlt /> Check-out Date</Form.Label>
                   <Form.Control
                     type="date"
                     value={checkOutDate}
                     onChange={(e) => setCheckOutDate(e.target.value)}
+                    style={formControlStyle}
                   />
                 </Form.Group>
 
                 <Form.Group controlId="formGuestName" className="mb-3">
-                  <Form.Label>Guest Name</Form.Label>
+                  <Form.Label><FaUser /> Guest Name</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter your name"
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
+                    style={formControlStyle}
                   />
                 </Form.Group>
 
                 <Form.Group controlId="formGuestEmail" className="mb-3">
-                  <Form.Label>Guest Email</Form.Label>
+                  <Form.Label><FaEnvelope /> Guest Email</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Enter your email"
                     value={guestEmail}
                     onChange={(e) => setGuestEmail(e.target.value)}
+                    style={formControlStyle}
                   />
                 </Form.Group>
 
                 <Button variant="primary" onClick={handleBookingSubmit} disabled={isLoading}>
-                  {isLoading ? "Booking..." : "Confirm Booking"}
+                {isLoading ? "Booking..." : "Confirm Booking"}
                 </Button>
               </Form>
             </Card.Body>
@@ -147,9 +152,10 @@ function BookingPage() {
         </Col>
       </Row>
 
+      {/* Back Button */}
       <Row className="mt-4">
         <Col className="text-center">
-          <Button variant="secondary" onClick={() => navigate(-1)}>
+          <Button variant="outline-danger" onClick={() => navigate(-1)} style={backButtonStyle}>
             Back to Listings
           </Button>
         </Col>
@@ -157,5 +163,60 @@ function BookingPage() {
     </Container>
   );
 }
+
+// Inline styles for the page
+const imageStyle = {
+  borderRadius: '10px',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+};
+
+const cardStyle = {
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  borderRadius: '10px',
+};
+
+const cardTitleStyle = {
+  fontSize: '1.8rem',
+  color: '#2c3e50',
+  fontWeight: 'bold',
+};
+
+const roomInfoStyle = {
+  color: '#7f8c8d',
+  fontSize: '1rem',
+};
+
+const formCardStyle = {
+  borderRadius: '10px',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+};
+
+const formCardHeaderStyle = {
+  backgroundColor: '#f39c12',
+  color: 'white',
+  fontWeight: 'bold',
+};
+
+const formControlStyle = {
+  borderRadius: '8px',
+  border: '1px solid #ccc',
+  padding: '12px',
+};
+
+const submitButtonStyle = {
+  width: '100%',
+  backgroundColor: '#27ae60',
+  border: 'none',
+  borderRadius: '8px',
+  padding: '12px',
+};
+
+const backButtonStyle = {
+  width: '100%',
+  backgroundColor: '#e74c3c',
+  border: 'none',
+  borderRadius: '8px',
+  padding: '12px',
+};
 
 export default BookingPage;

@@ -18,85 +18,79 @@ import AdminDashboard from './AdminDashboard';
 import UserProfileDashboard from './ProfilePage';
 import ProfilePage from './ProfilePage';
 import BookingPage from './BookingPage';
-import { AdminRoute, HostRoute, GuestRoute } from './components/ProtectedRoute';
+import { AdminRoute, HostRoute,GuestRoute,UserRoute } from './components/ProtectedRoute';
+import { Check } from 'lucide-react';
+import CheckoutPage from './CheckoutPage';
 import HostDashboard from './Hostdashboard';
 import ViewBookingPage from "./ViewBookingPage";
 
 function App() {
   return (
     <UserAuthContextProvider>
-      <BrowserRouter>
-        <div>
-          <OffcanvasExample />
-          <Routes>
-            {/* Public routes */}
-            <Route path="/Login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/listings" element={<Listings />} />
-            <Route path="/DescriptionPage/:id" element={<DescriptionPage />} />
-            <Route path='/booking/:id' element={<BookingPage />} />
-            <Route path="/Feedback" element={<Create />} />
-            <Route path="/show/:listingId" element={<Show />} />
-            <Route path="/add-listing/:id" element={<AddListings />} /> 
-            <Route path="/view-booking/:listingId" element={<ViewBookingPage />} />
-            
-            
-     
-            {/* Host Routes */}
-            <Route
-              path="/AddListings"
-              element={
-                <HostRoute>
-                  <AddListings />
-                </HostRoute>
-              }
-            />
+    <BrowserRouter>
+    <div>
+      <OffcanvasExample/>
+     <Routes>
+      
+          <Route path = '/Login' element={<Login/>}/>
+         
+          <Route path="/register" element={<Register />} />
+        
+          <Route path = '/listings' element={<Listings/>}/>
+          <Route path="/DescriptionPage/:id" element={<DescriptionPage />} />
+          <Route path="/AddListings" element={<AddListings />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+          <Route path="/ProfilePage" element={<ProfilePage/>}/>
+          <Route path='/booking/:id' element={<BookingPage/>}/>
+          <Route path="/CheckoutPage" element={<CheckoutPage/>}/>
+          <Route path="/show/:listingId" element={<Show />} />
+           <Route path="/add-listing/:id" element={<AddListings />} /> 
+           <Route path="/Aboutus" element={<AboutContactPage />} />
+          <Route path="/view-booking/:listingId" element={<ViewBookingPage />} />
+          <Route
+                path="/admindashboard"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
               <Route
-              path="/hostdashboard"
-              element={
-                <HostRoute>
-                  <HostDashboard/>
-                </HostRoute>
-              }
-            />
-            <Route
-              path="/ProfilePage"
-              element={
-                <HostRoute>
-                  <ProfilePage />
-                </HostRoute>
-              }
-            />
-
-            {/* Admin Routes */}
-            <Route
-              path="/AdminDashboard"
-              element={
-                <AdminRoute>
-                  <AdminDashboard />
-                </AdminRoute>
-              }
-            />
-
-            {/* Guest Routes */}
-            <Route
-              path="/home"
-              element={
-                <GuestRoute>
-                  <CarouselHomePage />
-                  <HomeCards />
-                  <HeaderAndFooterExample />
-                </GuestRoute>
-              }
-            />
-
-            {/* Routes without restrictions */}
-            <Route path="/" element={<><CarouselHomePage />
-                  <HomeCards />
-                  <HeaderAndFooterExample /></>} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+                path="/ProfilePage"
+                element={
+                  <HostRoute>
+                    <ProfilePage />
+                  </HostRoute>
+                }
+              />
+               <Route
+                path="/home"
+                element={
+                  <>
+             <CarouselHomePage />
+              <HomeCards />
+              <HeaderAndFooterExample />
+                </>
+                }
+              />
+              <Route
+                path="/"
+                element={
+                  <GuestRoute>
+             <CarouselHomePage />
+              <HomeCards />
+              <HeaderAndFooterExample />
+              <AboutContactPage/>
+                  </GuestRoute>
+                }
+              />
+        
+         
+           <Route path='/Feedback' element={<Create/>}/>
+           <Route path='/Booking' element={<BookingPage/>}/>
+        </Routes>
+      </div>
+    </BrowserRouter>
     </UserAuthContextProvider>
   );
 }

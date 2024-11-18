@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useUserAuth } from "./context/UserAuthContext"; // Import the UserAuth context
 
 function OffcanvasExample() {
   const { user, role, logOut } = useUserAuth(); // Destructure user and role from context
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleLogout = async () => {
     try {
-      await logOut();
+      await logOut(); // Log the user out
+      navigate('/'); // Redirect to homepage after logout
     } catch (err) {
       console.log(err.message);
     }
@@ -56,10 +58,10 @@ function OffcanvasExample() {
                           <NavDropdown.Item as={Link} to="/admindashboard">Admin Dashboard</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/listings">Manage Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} yo ='/bookingpage'>BookNow</NavDropdown.Item>
-                          
-
+                          <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to='/feedback'>FeedBack</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to='/checkout'>CheckOut</NavDropdown.Item>
                         </>
                       )}
 
@@ -74,13 +76,21 @@ function OffcanvasExample() {
                         </>
                       )}
 
+                       {/* User links (including admins) */}
+                       {(role === "admin" || role === "host") && (
+                        <>
+                          <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to='/feedback'>FeedBack</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to='/checkout'>CheckOut</NavDropdown.Item>
+                        </>
+                      )}
+
                       {/* Guest links */}
                       {role === "guest" && (
                         <>
-
-                        <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/home">Home</NavDropdown.Item>
-                        
+                          <NavDropdown.Item as={Link} to="/">Home</NavDropdown.Item>
                         </>
                       )}
                     </NavDropdown>

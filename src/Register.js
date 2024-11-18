@@ -13,7 +13,6 @@ const Register = () => {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [role, setRole] = useState("");
 
   const { signUp } = useUserAuth();
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ const Register = () => {
       phone,
       address,
       email,
-      role,
+      role: "User",  // Default role assignment here
     };
 
     try {
@@ -133,16 +132,6 @@ const Register = () => {
                 placeholder="Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicRole" className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Role (e.g. User, Admin)"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
                 required
               />
             </Form.Group>
