@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ListingsDataService from "./services/ListingsDataService"; // Your Firebase service
-import { ButtonGroup, Form, Alert, Button, Container, Row, Col, Card, Image } from "react-bootstrap";
+import { ButtonGroup, Form, Alert, Button, Container, Row, Col, Card, Image, Spinner } from "react-bootstrap";
 import { storage } from './firebase'; // Import Firebase storage
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Functions for image upload
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"; // Functions for image upload and deletion
+import { useUserAuth } from "./context/UserAuthContext";
 
-function AddListings({ id }) {
+
+function AddListings() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -14,17 +18,48 @@ function AddListings({ id }) {
   const [location, setLocation] = useState("");
   const [roomType, setRoomType] = useState(""); // New state for room type
   const [message, setMessage] = useState({ error: false, msg: "" });
+  const [isUploading, setIsUploading] = useState(false);
+  const [existingImages, setExistingImages] = useState([]);
+  
+  const { user } = useUserAuth();
+
+  useEffect(() => {
+    if (id) {
+      fetchListingData();
+    }
+  }, [id]);
+
+  const fetchListingData = async () => {
+    try {
+      const listing = await ListingsDataService.getListingById(id); // Fetch listing data by ID
+      if (listing) {
+        console.log("Fetched Listing: ", listing); // Debug log
+        setTitle(listing.title || "");
+        setDescription(listing.description || "");
+        setPrice(listing.price || "");
+        setLocation(listing.location || "");
+        setExistingImages(listing.images || []); // Populate existing images
+        setRoomType(listing.roomType || ""); // Populate room type
+      } else {
+        console.error("No listing found with the given ID.");
+        setMessage({ error: true, msg: "Listing not found." });
+      }
+    } catch (error) {
+      console.error("Error fetching listing data: ", error);
+      setMessage({ error: true, msg: "Error fetching listing data." });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
-    if (title === "" || description === "" || price === "" || !image || !image2 || !image3 || location === "" || roomType === "") {
+    if (title === "" || description === "" || price === "" || location === "" || roomType === "") {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
 
-    const newListing = { title, description, price, location, roomType };
+    const newListing = { title, description, price, location, roomType, hostId: user?.uid };
 
     try {
       let listingId;
@@ -44,7 +79,57 @@ function AddListings({ id }) {
       setMessage({ error: true, msg: error.message });
     }
 
-    // Reset form
+    resetForm(); // Reset the form after submitting
+  };
+
+  const handleImageUpload = async (listingId) => {
+    setIsUploading(true);
+    const imageUrls = [...existingImages];
+    try {
+      if (image) {
+        const imageUrl = await uploadToFirebase(listingId, image, "image1");
+        imageUrls.push(imageUrl);
+      }
+      if (image2) {
+        const imageUrl2 = await uploadToFirebase(listingId, image2, "image2");
+        imageUrls.push(imageUrl2);
+      }
+      if (image3) {
+        const imageUrl3 = await uploadToFirebase(listingId, image3, "image3");
+        imageUrls.push(imageUrl3);
+      }
+      await ListingsDataService.updateListingImages(listingId, imageUrls);
+    } catch (error) {
+      setMessage({ error: true, msg: "Error uploading images." });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const uploadToFirebase = async (listingId, file, imageName) => {
+    const imageRef = ref(storage, `listings/${listingId}/${imageName}`);
+    await uploadBytes(imageRef, file);
+    const downloadUrl = await getDownloadURL(imageRef);
+    return downloadUrl;
+  };
+
+  const handleDeleteImage = async (index) => {
+    const imageUrl = existingImages[index];
+    try {
+      await deleteImageFromFirebase(id, imageUrl); // Delete from Firebase storage
+      const updatedImages = existingImages.filter((_, i) => i !== index);
+      setExistingImages(updatedImages); // Update state to remove image from UI
+    } catch (error) {
+      setMessage({ error: true, msg: "Error deleting image from storage." });
+    }
+  };
+
+  const deleteImageFromFirebase = async (listingId, imageUrl) => {
+    const imageRef = ref(storage, `listings/${listingId}/${imageUrl}`);
+    await deleteObject(imageRef);
+  };
+
+  const resetForm = () => {
     setTitle("");
     setDescription("");
     setPrice("");
@@ -53,56 +138,8 @@ function AddListings({ id }) {
     setImage3(null);
     setLocation("");
     setRoomType("");
+    setExistingImages([]);
   };
-
-  const handleImageUpload = async (listingId) => {
-    const imageUrls = [];
-
-    if (image) {
-      const imageUrl = await uploadToFirebase(listingId, image, 'image1');
-      imageUrls.push(imageUrl);
-    }
-    if (image2) {
-      const imageUrl2 = await uploadToFirebase(listingId, image2, 'image2');
-      imageUrls.push(imageUrl2);
-    }
-    if (image3) {
-      const imageUrl3 = await uploadToFirebase(listingId, image3, 'image3');
-      imageUrls.push(imageUrl3);
-    }
-
-    await ListingsDataService.updateListingImages(listingId, imageUrls); // Update Firestore with URLs
-  };
-
-  const uploadToFirebase = async (listingId, file, imageName) => {
-    const imageRef = ref(storage, `listings/${listingId}/${imageName}`); // Define Firebase storage path
-    await uploadBytes(imageRef, file); // Upload file
-    const downloadUrl = await getDownloadURL(imageRef); // Get the download URL
-    return downloadUrl;
-  };
-
-  const editHandler = async () => {
-    setMessage("");
-    try {
-      const docSnap = await ListingsDataService.getListingById(id);
-      if (docSnap) {
-        const listingData = docSnap;
-        setTitle(listingData.title);
-        setDescription(listingData.description);
-        setPrice(listingData.price);
-        setLocation(listingData.location);
-        setRoomType(listingData.roomType); // Populate room type
-      }
-    } catch (error) {
-      setMessage({ error: true, msg: error.message });
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      editHandler();
-    }
-  }, [id]);
 
   return (
     <Container className="py-4">
@@ -182,6 +219,22 @@ function AddListings({ id }) {
                   />
                 </Form.Group>
 
+                <Row>
+                  {existingImages.map((url, index) => (
+                    <Col key={index} md={4} className="position-relative">
+                      <img src={url} alt={`Listing Image ${index + 1}`} className="img-fluid mb-3" />
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleDeleteImage(index)}
+                        className="position-absolute top-0 end-0"
+                      >
+                        &times;
+                      </Button>
+                    </Col>
+                  ))}
+                </Row>
+
                 {/* Room Type Dropdown */}
                 <Form.Group controlId="formRoomType" className="mb-3">
                   <Form.Label>Room Type</Form.Label>
@@ -191,53 +244,50 @@ function AddListings({ id }) {
                     onChange={(e) => setRoomType(e.target.value)}
                     style={formControlStyle}
                   >
-                    <option value="">Select Room Type</option>
-                    <option value="Room">Room</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="Studio">Studio</option>
+                    <option value="">Select room type</option>
+                    <option value="single">Single Room</option>
+                    <option value="double">Double Room</option>
+                    <option value="suite">Suite</option>
                   </Form.Control>
                 </Form.Group>
 
-                {/* Image Upload Fields */}
-                <Row>
-                  <Col md={4}>
-                    <Form.Group controlId="formImage1" className="mb-3">
-                      <Form.Label>Image 1</Form.Label>
+                {/* Image Upload */}
+                <Row className="mb-3">
+                  <Col md={12}>
+                    <Form.Group controlId="formImage" className="mb-3">
+                      <Form.Label>Images</Form.Label>
                       <Form.Control
                         type="file"
                         onChange={(e) => setImage(e.target.files[0])}
-                        style={formControlStyle}
+                        accept="image/*"
+                        className="mb-2"
                       />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group controlId="formImage2" className="mb-3">
-                      <Form.Label>Image 2</Form.Label>
                       <Form.Control
                         type="file"
                         onChange={(e) => setImage2(e.target.files[0])}
-                        style={formControlStyle}
+                        accept="image/*"
+                        className="mb-2"
                       />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group controlId="formImage3" className="mb-3">
-                      <Form.Label>Image 3</Form.Label>
                       <Form.Control
                         type="file"
                         onChange={(e) => setImage3(e.target.files[0])}
-                        style={formControlStyle}
+                        accept="image/*"
                       />
                     </Form.Group>
                   </Col>
                 </Row>
 
-                <ButtonGroup className="d-flex justify-content-between">
-                  <Button variant="primary" type="submit" style={{ backgroundColor: '#28a745', border: 'none' }}>
-                    {id ? "Update Listing" : "Add Listing"}
-                  </Button>
-                  <Button variant="secondary" onClick={() => window.location.reload()} style={{ backgroundColor: '#6c757d', border: 'none' }}>
-                    Reset Form
+                <ButtonGroup className="mb-3">
+                  <Button variant="primary" type="submit" disabled={isUploading}>
+                    {isUploading ? (
+                      <>
+                        <Spinner animation="border" size="sm" /> Uploading...
+                      </>
+                    ) : id ? (
+                      "Update Listing"
+                    ) : (
+                      "Add Listing"
+                    )}
                   </Button>
                 </ButtonGroup>
               </Form>
@@ -250,10 +300,9 @@ function AddListings({ id }) {
 }
 
 const formControlStyle = {
-  backgroundColor: '#f8f9fa',
-  borderRadius: '5px',
-  border: '1px solid #ced4da',
-  padding: '10px'
+  borderRadius: "5px",
+  borderColor: "#007bff",
+  boxShadow: "0 0 5px rgba(0, 123, 255, 0.3)"
 };
 
 export default AddListings;
