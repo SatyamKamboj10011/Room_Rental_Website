@@ -62,22 +62,24 @@ function OffcanvasExample() {
                           <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to='/feedback'>FeedBack</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to='/checkout'>CheckOut</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to='/Hostdashboard'>Host Dashboard</NavDropdown.Item>
+                       
                         </>
                       )}
 
                       {/* Host-only links (including admins) */}
                       {(role === "host") && (
                         <>
-                        <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/Hostdashboard">Host Dashboard</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to='/Hostdashboard'>Host Dashboard</NavDropdown.Item>
                         </>
                       )}
 
                        {/* User links (including admins) */}
-                       {(role === "admin" || role === "host") && (
+                       {(role === "admin" || role === "user") && (
                         <>
                           <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>

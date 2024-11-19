@@ -6,6 +6,7 @@ import HomeCards from './HomeCards';
 import HeaderAndFooterExample from './WhyChooseUs';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import Show from './Review/Show';
 import Register from './Register';
 import Login from './components/Login';
@@ -21,8 +22,10 @@ import BookingPage from './BookingPage';
 import { AdminRoute, HostRoute,GuestRoute,UserRoute } from './components/ProtectedRoute';
 import { Check } from 'lucide-react';
 import CheckoutPage from './CheckoutPage';
-import HostDashboard from './Hostdashboard';
-import ViewBookingPage from "./ViewBookingPage";
+import HostDashboard from './HostDashboard';
+import HomePage from './CarouselHomePage';
+import AboutContactPage from './Aboutus';
+import ViewBookingPage from './ViewBookingPage';
 
 function App() {
   return (
@@ -43,23 +46,26 @@ function App() {
           <Route path="/ProfilePage" element={<ProfilePage/>}/>
           <Route path='/booking/:id' element={<BookingPage/>}/>
           <Route path="/CheckoutPage" element={<CheckoutPage/>}/>
-          <Route path="/show/:listingId" element={<Show />} />
-           <Route path="/add-listing/:id" element={<AddListings />} /> 
-           <Route path="/Aboutus" element={<AboutContactPage />} />
-          <Route path="/view-booking/:listingId" element={<ViewBookingPage />} />
+          <Route path="/HostDashboard" element={<HostDashboard/>}/>
+          <Route path="/view-booking/:listingId" element={<ViewBookingPage/>}/>
+          <Route path ='/show/:listingId' element={<Show/>}/>
+          <Route path = '/add-listing/:id' element={<AddListings/>}/>
+
           <Route
                 path="/admindashboard"
                 element={
                   <AdminRoute>
                     <AdminDashboard />
+                    <HostDashboard/>
                   </AdminRoute>
                 }
               />
               <Route
-                path="/ProfilePage"
+                path="/hostdashboard"
                 element={
                   <HostRoute>
                     <ProfilePage />
+                    <HostDashboard/>
                   </HostRoute>
                 }
               />
