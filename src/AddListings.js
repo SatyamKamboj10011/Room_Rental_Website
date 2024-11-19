@@ -3,6 +3,8 @@ import ListingsDataService from "./services/ListingsDataService"; // Your Fireba
 import { ButtonGroup, Form, Alert, Button, Container, Row, Col, Card, Image } from "react-bootstrap";
 import { storage } from './firebase'; // Import Firebase storage
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Functions for image upload
+import { useParams } from "react-router-dom";
+import { useUserAuth } from "./context/UserAuthContext";
 
 function AddListings() {
   const { id } = useParams(); // Get the listing ID from the URL
