@@ -26,7 +26,7 @@ const Register = () => {
       phone,
       address,
       email,
-      role: "User",  // Default role assignment here
+      role: "user",  // Default role assignment here
     };
 
     try {
@@ -59,6 +59,17 @@ const Register = () => {
 
   return (
     <Container className="mt-5">
+            <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2019/03/22/19/32/table-4074014_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        `}
+        </style>
       <Row className="justify-content-center align-items-center">
         {/* Left Column for Form */}
         <Col md={6} className="bg-light p-5 rounded">

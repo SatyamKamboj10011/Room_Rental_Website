@@ -1,33 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Button, Form, Image, Spinner, Badge } from 'react-bootstrap';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { Container, Row, Col, Card, Button, Form, Image, Spinner, Badge, Alert } from 'react-bootstrap';
 import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
 import { FaCalendarAlt, FaUser, FaEnvelope } from 'react-icons/fa';
 
 function BookingPage() {
-  const { id } = useParams(); // Get the listing ID from the route
+  const { listingId: paramListingId } = useParams();
+  const { state } = useLocation(); // In case we passed the listingId in the state from the previous page
   const [bookingDetails, setBookingDetails] = useState(null);
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
+  const [error, setError] = useState(''); // State for error message
+  const [loading, setLoading] = useState(true); // Loading state for data fetching
   const navigate = useNavigate();
+  const listingId = paramListingId || state?.listingId; // Prioritize URL parameter, fallback to state
 
-  // Fetch booking details from Firestore (you can use your BookingDataService)
+  // Fetch booking details from Firestore
   useEffect(() => {
+    const currentListingId = listingId || state?.listingId; // Ensure listingId is fetched from the correct source
+    if (!currentListingId) {
+      setError('Listing ID is missing');
+      setLoading(false);
+      return;
+    }
+
     const fetchData = async () => {
-      const data = await BookingDataService.getBookingDetailsById(id);
-      setBookingDetails(data);
+      try {
+        const data = await BookingDataService.getListingById(currentListingId);
+        setBookingDetails(data);
+      } catch (error) {
+        setError('Error fetching listing details');
+        console.error("Error fetching booking details:", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchData();
-  }, [id]);
+  }, [listingId, state?.listingId]);
 
-  const handleBookingSubmit = () => {
-    // Submit booking logic here (e.g., save to database, send confirmation)
-    console.log('Booking submitted:', { checkInDate, checkOutDate, guestName, guestEmail });
+  // Handle booking form submission
+  const handleBookingSubmit = async () => {
+    if (!checkInDate || !checkOutDate || !guestName || !guestEmail) {
+      alert('Please fill in all fields!');
+      return;
+    }
+    if (new Date(checkInDate) >= new Date(checkOutDate)) {
+      alert('Check-out date must be after check-in date.');
+      return;
+    }
+  
+    // Prepare booking data
+    const bookingData = {
+      guestName,
+      guestEmail,
+      checkInDate,
+      checkOutDate,
+      price: bookingDetails.price,
+      listingId, // Store listingId for checkout
+    };
+  console.log(bookingData);
+  console.log('Listing ID:', listingId); 
+  if (!listingId) {
+    alert('Listing ID is missing!');
+    return;
+  }
+  // Debugging line
+    // Navigate to Checkout page with booking data
+    navigate(`/CheckoutPage/${listingId}`, { state: { bookingData, listingId } });
   };
-
-  if (!bookingDetails) {
+  
+  if (loading) {
     return (
       <div className="text-center">
         <Spinner animation="border" variant="info" />
@@ -35,30 +80,51 @@ function BookingPage() {
     );
   }
 
+  if (error) {
+    return <Alert variant="danger" className="mt-3">{error}</Alert>;
+  }
+
+  if (!bookingDetails) {
+    return (
+      <div className="text-center">
+        <p>Listing details not found!</p>
+      </div>
+    );
+  }
+
   return (
     <Container className="mt-5">
-      {/* Title and Room Info */}
+       <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2017/01/07/17/48/interior-1961070_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        `}
+        </style>
       <Row className="mb-4">
         <Col md={6}>
-          <Image src={bookingDetails.image} alt="Room" fluid rounded style={imageStyle} />
+          <Image src={bookingDetails.image} alt="Room" fluid rounded />
         </Col>
         <Col md={6}>
-          <Card style={cardStyle}>
+          <Card>
             <Card.Body>
-              <Card.Title style={cardTitleStyle}>{bookingDetails.title}</Card.Title>
-              <p style={roomInfoStyle}><strong>Price:</strong> ${bookingDetails.price} per night</p>
-              <p style={roomInfoStyle}><strong>Description:</strong> {bookingDetails.description}</p>
-              <Badge pill bg="success" className="my-2">Available</Badge>
+              <Card.Title>{bookingDetails.title}</Card.Title>
+              <p><strong>Price:</strong> ${bookingDetails.price} per night</p>
+              <p><strong>Description:</strong> {bookingDetails.description}</p>
+              <Badge pill bg="success">Available</Badge>
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
-      {/* Booking Form */}
       <Row>
         <Col>
-          <Card style={formCardStyle}>
-            <Card.Header style={formCardHeaderStyle}>Complete Your Booking</Card.Header>
+          <Card>
+            <Card.Header>Complete Your Booking</Card.Header>
             <Card.Body>
               <Form>
                 <Form.Group controlId="formCheckInDate" className="mb-3">
@@ -67,7 +133,6 @@ function BookingPage() {
                     type="date"
                     value={checkInDate}
                     onChange={(e) => setCheckInDate(e.target.value)}
-                    style={formControlStyle}
                   />
                 </Form.Group>
 
@@ -77,7 +142,6 @@ function BookingPage() {
                     type="date"
                     value={checkOutDate}
                     onChange={(e) => setCheckOutDate(e.target.value)}
-                    style={formControlStyle}
                   />
                 </Form.Group>
 
@@ -88,7 +152,6 @@ function BookingPage() {
                     placeholder="Enter your name"
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
-                    style={formControlStyle}
                   />
                 </Form.Group>
 
@@ -99,11 +162,12 @@ function BookingPage() {
                     placeholder="Enter your email"
                     value={guestEmail}
                     onChange={(e) => setGuestEmail(e.target.value)}
-                    style={formControlStyle}
                   />
                 </Form.Group>
 
-                <Button variant="success" size="lg" onClick={handleBookingSubmit} style={submitButtonStyle}>
+                {error && <Alert variant="danger">{error}</Alert>}
+
+                <Button variant="success" size="lg" onClick={handleBookingSubmit}>
                   Confirm Booking
                 </Button>
               </Form>
@@ -111,72 +175,8 @@ function BookingPage() {
           </Card>
         </Col>
       </Row>
-
-      {/* Back Button */}
-      <Row className="mt-4">
-        <Col className="text-center">
-          <Button variant="outline-danger" onClick={() => navigate(-1)} style={backButtonStyle}>
-            Back to Listings
-          </Button>
-        </Col>
-      </Row>
     </Container>
   );
 }
-
-// Inline styles for the page
-const imageStyle = {
-  borderRadius: '10px',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-};
-
-const cardStyle = {
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  borderRadius: '10px',
-};
-
-const cardTitleStyle = {
-  fontSize: '1.8rem',
-  color: '#2c3e50',
-  fontWeight: 'bold',
-};
-
-const roomInfoStyle = {
-  color: '#7f8c8d',
-  fontSize: '1rem',
-};
-
-const formCardStyle = {
-  borderRadius: '10px',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-};
-
-const formCardHeaderStyle = {
-  backgroundColor: '#f39c12',
-  color: 'white',
-  fontWeight: 'bold',
-};
-
-const formControlStyle = {
-  borderRadius: '8px',
-  border: '1px solid #ccc',
-  padding: '12px',
-};
-
-const submitButtonStyle = {
-  width: '100%',
-  backgroundColor: '#27ae60',
-  border: 'none',
-  borderRadius: '8px',
-  padding: '12px',
-};
-
-const backButtonStyle = {
-  width: '100%',
-  backgroundColor: '#e74c3c',
-  border: 'none',
-  borderRadius: '8px',
-  padding: '12px',
-};
 
 export default BookingPage;

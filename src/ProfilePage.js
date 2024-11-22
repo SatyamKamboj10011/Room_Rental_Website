@@ -66,6 +66,17 @@ const ProfilePage = () => {
 
   return (
     <Container className={`mt-5 ${theme === 'dark' ? 'bg-dark text-white' : ''}`} style={{ borderRadius: '10px', padding: '20px' }}>
+      <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        `}
+        </style>
       <Row className="justify-content-center">
         <Col md={10}>
           <Card className={theme === 'dark' ? 'bg-secondary' : ''}>
@@ -106,6 +117,10 @@ const ProfilePage = () => {
                       <Col md={6}>
                         <h5>Age:</h5>
                         <p>{userData.age}</p>
+                      </Col>
+                      <Col md={6}>
+                        <h5>Role:</h5>
+                        <p>{userData.role}</p>
                       </Col>
                     </Row>
                     <Button variant="primary" className="btn-gradient" onClick={() => setShowEditModal(true)}>Edit Profile</Button>

@@ -56,12 +56,6 @@ function OffcanvasExample() {
                       {role === "admin" && (
                         <>
                           <NavDropdown.Item as={Link} to="/admindashboard">Admin Dashboard</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/feedback'>FeedBack</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/checkout'>CheckOut</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/Hostdashboard'>Host Dashboard</NavDropdown.Item>
                        
                         </>
                       )}
@@ -74,6 +68,7 @@ function OffcanvasExample() {
                           <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to='/Hostdashboard'>Host Dashboard</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/CheckoutPage">Check out Page</NavDropdown.Item>
                         </>
                       )}
 

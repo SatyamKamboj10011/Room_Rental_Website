@@ -50,7 +50,7 @@ function DescriptionPage() {
   };
 
   const handleBookNow = () => {
-    navigate(`/booking/${listing.id}`);
+    navigate(`/booking/${listing.id}`,{state:{listingId:listing.id}});
   };
 
   if (loading) {
@@ -73,6 +73,17 @@ function DescriptionPage() {
   return (
     <Container style={containerStyle}>
       {/* Title and Price */}
+      <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2017/01/07/17/48/interior-1961070_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        `}
+        </style>
       <Row className="mb-4 text-center">
         <Col>
           <h1 style={titleStyle}>{listing.title}</h1>

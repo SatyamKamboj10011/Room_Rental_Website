@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import CategoryButtons from './ButtonGroup'; // Assuming CategoryButtons is a reusable component
 import { Form, Pagination } from 'react-bootstrap';
+import { useUserAuth } from './context/UserAuthContext';
+
 
 function Listings() {
   const [listings, setListings] = useState([]);
@@ -78,7 +80,7 @@ function Listings() {
       {/* Internal CSS */}
       <style>{`
         body {
-          background-image: url('https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+          background-image: url('https://cdn.pixabay.com/photo/2020/06/27/16/40/apartment-5346460_1280.jpg');
           background-size: cover;
           background-position: center;
           background-attachment: fixed;
@@ -233,7 +235,7 @@ function Listings() {
         <Spinner animation="border" style={{ display: 'block', margin: 'auto' }} />
       ) : (
         <>
-          <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+          <Row xs={1} sm={2} md={2} lg={3} className="g-4">
             {currentListings.map((listing) => (
               <Col key={listing.id}>
                 <Card className="listing-card">
@@ -258,6 +260,15 @@ function Listings() {
                       </p>
                     </Card.Text>
                     <div className="card-footer">
+     {/* Display availability */}
+     <Card.Text>
+     <p>
+                        <strong>Status:</strong>{' '}
+                        <span style={{ color: listing.available ? 'green' : 'red' }}>
+                          {listing.available ? 'Available' : 'Unavailable'}
+                        </span>
+                      </p>
+          </Card.Text>
                       <Link to={`/DescriptionPage/${listing.id}`}>
                         <Button className="view-details-btn">View Details</Button>
                       </Link>
