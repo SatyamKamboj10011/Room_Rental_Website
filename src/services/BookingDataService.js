@@ -111,6 +111,28 @@ getBookingsForListing = async (listingId) => {
   }
 };
 
+getEarningsForListing = async (listingId) => {
+    if (!listingId) throw new Error("Listing ID is required");
+
+    try {
+      const bookingsQuery = query(collection(db, "bookings"), where("listingId", "==", listingId));
+      const querySnapshot = await getDocs(bookingsQuery);
+      
+      // Map bookings to get their prices
+      const bookings = querySnapshot.docs.map(doc => doc.data());
+      
+      // Calculate earnings based on bookings
+      const totalEarnings = bookings.reduce((total, booking) => {
+        const price = parseFloat(booking.price) || 0; // Ensure price is a number
+        return total + price;
+      }, 0);
+
+      return totalEarnings; // Return the total earnings for the listing
+    } catch (error) {
+      console.error("Error fetching earnings for the listing:", error);
+      throw new Error(error.message || "Error fetching earnings for this listing");
+    }
+  };
 }
 
 export default new BookingDataService();

@@ -93,7 +93,15 @@ const Login = () => {
           <GoogleButton
             type="dark"
             onClick={handleGoogleSignIn}
-            className="google-btn"
+            className="google-btn" style={{
+              backgroundColor: 'white',
+              color: 'black',
+              width: '100%',
+              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+              borderRadius: '10px',
+            }}
           />
         </div>
 

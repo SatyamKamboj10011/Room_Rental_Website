@@ -28,6 +28,7 @@ import HomePage from './CarouselHomePage';
 import AboutContactPage from './Aboutus';
 import ViewBookingPage from './ViewBookingPage';
 import InvoicePage from './InvoicePage';
+import Guestlistings from './Guestlisting';
 
 function App() {
   return (
@@ -102,8 +103,9 @@ function App() {
               />
         
          
-           <Route path='/Feedback' element={<Create/>}/>
+           <Route path='/feedback/:id' element={<Create/>}/>
            <Route path='/Booking' element={<BookingPage/>}/>
+           <Route path='/Guestlistings' element={<Guestlistings/>}/>
         </Routes>
       </div>
     </BrowserRouter>

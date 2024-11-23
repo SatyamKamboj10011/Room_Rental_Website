@@ -91,7 +91,7 @@ function HomePage() {
                     fontWeight: 'bold',
                   }}
                   as={Link}
-                  to="/listings"
+                  to="/Guestlistings"
                 >
                   <FaHome className="me-2" /> Explore Homes
                 </Button>

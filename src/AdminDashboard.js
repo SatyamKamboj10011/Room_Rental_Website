@@ -14,6 +14,7 @@ import {
 } from "react-bootstrap";
 import UserDataService from "./services/UserDataService";
 import ListingsDataService from "./services/ListingsDataService";
+import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
 import { FaSearch, FaDollarSign, FaTrashAlt, FaCheck } from "react-icons/fa";
 
 const AdminDashboard = () => {
@@ -35,21 +36,25 @@ const AdminDashboard = () => {
 
   // Fetch admin earnings
   useEffect(() => {
-    const fetchEarnings = async () => {
-      try {
-        const response = await fetch("/api/admin-earnings"); // API endpoint to get earnings
-        const data = await response.json();
-        setTotalEarnings(data.totalEarnings);
-      } catch (error) {
-        console.error("Error fetching admin earnings:", error);
-        setError("Failed to load admin earnings.");
-      } finally {
-        setLoadingEarnings(false);
-      }
-    };
+  const fetchEarnings = async () => {
+    try {
+      const data = await BookingDataService.getBookings(); // Fetch all listings
+      const listingsArray = data || []; // Ensure data is an array
+      const earnings = listingsArray.reduce((total, listing) => {
+        const price = parseFloat(listing.price) || 0; // Safely parse price
+        return total + (price * 0.05); // Add 5% of the price to the total
+      }, 0);
+      setTotalEarnings(earnings);
+    } catch (error) {
+      console.error("Error calculating admin earnings:", error);
+      setError("Failed to calculate admin earnings.");
+    } finally {
+      setLoadingEarnings(false);
+    }
+  };
 
-    fetchEarnings();
-  }, []);
+  fetchEarnings();
+}, []);
 
   // Fetch all users from Firestore
   const fetchUsers = async () => {
