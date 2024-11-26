@@ -23,7 +23,7 @@ import BookingPage from './BookingPage';
 import { AdminRoute, HostRoute,GuestRoute,UserRoute } from './components/ProtectedRoute';
 import { Check } from 'lucide-react';
 import CheckoutPage from './CheckoutPage';
-import HostDashboard from './HostDashboard';
+import HostDashboard from './Hostdashboard';
 import HomePage from './CarouselHomePage';
 import AboutContactPage from './Aboutus';
 import ViewBookingPage from './ViewBookingPage';
