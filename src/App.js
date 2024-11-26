@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import OffcanvasExample from './Navbar';
 import CarouselHomePage from './CarouselHomePage';
@@ -14,7 +13,7 @@ import Login from './components/Login';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import Listings from './Listings';
 import DescriptionPage from './DescriptionPage';
-import Create from  './Review/Create';
+import Create from './Review/Create';
 import AddListings from './AddListings';
 import AdminDashboard from './AdminDashboard';
 import UserProfileDashboard from './ProfilePage';

@@ -3,7 +3,7 @@ import { db } from '../firebase'; // Adjust the path as necessary to your Fireba
  
 const collectionName = 'feedback';
 const collectionRef = collection(db, collectionName);
- 
+
 class FBDataService {
   // Add a new listing to Firestore
   adddata = (newData) => {

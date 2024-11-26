@@ -172,4 +172,11 @@ function CreateReviewPage() {
   );
 }
 
+const containerStyle = {
+  padding: '2rem',
+  background: '#fff',
+  borderRadius: '10px',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+};
+
 export default CreateReviewPage;
