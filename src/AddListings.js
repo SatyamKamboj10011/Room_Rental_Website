@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ListingsDataService from "./services/ListingsDataService"; // Your Firebase service
-import { ButtonGroup, Form, Alert, Button, Container, Row, Col, Card, Image, Spinner } from "react-bootstrap";
-import { storage } from './firebase'; // Import Firebase storage
-import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"; // Functions for image upload and deletion
+import ListingsDataService from "./services/ListingsDataService";
+import { Button, Container, Row, Col, Card, Form, Alert } from "react-bootstrap";
 import { useUserAuth } from "./context/UserAuthContext";
 
 
@@ -16,7 +14,10 @@ function AddListings() {
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [location, setLocation] = useState("");
-  const [roomType, setRoomType] = useState(""); // New state for room type
+  const [roomType, setRoomType] = useState("");
+  const [available, setAvailable] = useState(true);
+  const [images, setImages] = useState([]);  // State to hold the uploaded images
+  const [imageURLs, setImageURLs] = useState([]);  // State to store URLs of uploaded images
   const [message, setMessage] = useState({ error: false, msg: "" });
   const [isUploading, setIsUploading] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
@@ -24,9 +25,7 @@ function AddListings() {
   const { user } = useUserAuth();
 
   useEffect(() => {
-    if (id) {
-      fetchListingData();
-    }
+    if (id) fetchListingData();
   }, [id]);
 
   const fetchListingData = async () => {
@@ -38,8 +37,9 @@ function AddListings() {
         setDescription(listing.description || "");
         setPrice(listing.price || "");
         setLocation(listing.location || "");
-        setExistingImages(listing.images || []); // Populate existing images
-        setRoomType(listing.roomType || ""); // Populate room type
+        setRoomType(listing.roomType || "");
+        setAvailable(listing.available ?? true);
+        setImageURLs(listing.images || []); // Set the existing image URLs if available
       } else {
         console.error("No listing found with the given ID.");
         setMessage({ error: true, msg: "Listing not found." });
@@ -50,16 +50,77 @@ function AddListings() {
     }
   };
 
+  const handleAvailabilityToggle = async () => {
+    const updatedAvailability = !available;
+    setAvailable(updatedAvailability);
+    try {
+      await ListingsDataService.updateListing(id, { available: updatedAvailability });
+      setMessage({ error: false, msg: "Availability updated successfully!" });
+    } catch (error) {
+      setMessage({ error: true, msg: "Error updating availability." });
+    }
+  };
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files);  // Convert FileList to an array
+    if (files.length === 0) return;
+  
+    // Check if user tries to upload more than 3 images
+    if (files.length + imageURLs.length > 3) {
+      setMessage({ error: true, msg: "You can upload a maximum of 3 images." });
+      return;
+    }
+  
+    const uploadedImageURLs = [];
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      try {
+        // Use fetch to upload the image to ImgBB
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=cb1698e63775c38d0af63afaf7bb61b7`, {
+          method: 'POST',
+          body: formData,
+        });
+  
+        const data = await response.json();  // Parse the JSON response
+  
+        if (data.success) {
+          uploadedImageURLs.push(data.data.url);  // Store the uploaded image URL
+        } else {
+          setMessage({ error: true, msg: "Error uploading image to ImgBB." });
+          return;
+        }
+      } catch (error) {
+        setMessage({ error: true, msg: "Error uploading image." });
+        return;
+      }
+    }
+  
+    // Update state with newly uploaded URLs, without exceeding max of 3 images
+    setImageURLs(prevURLs => [...prevURLs, ...uploadedImageURLs]);  // Add new URLs to existing URLs
+    setImages(prevImages => [...prevImages, ...files]);  // Store the files for future use (if needed)
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
-    if (title === "" || description === "" || price === "" || location === "" || roomType === "") {
+    if (!title || !description || !price || !location || !roomType) {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
+  
 
-    const newListing = { title, description, price, location, roomType, hostId: user?.uid };
+    const newListing = {
+      title,
+      description,
+      price,
+      location,
+      roomType,
+      hostId: user?.uid,
+      available,
+      images: imageURLs,  // Store the image URLs
+    };
 
     try {
       let listingId;
@@ -72,9 +133,15 @@ function AddListings() {
         const docRef = await ListingsDataService.addListing(newListing);
         listingId = docRef.id;
         setMessage({ error: false, msg: "Listing added successfully!" });
-      }
 
-      await handleImageUpload(listingId); // Upload images
+        setTitle("");
+        setDescription("");
+        setPrice("");
+        setLocation("");
+        setRoomType("");
+        setAvailable(true);
+        setImageURLs([]);  // Reset image URLs after adding a new listing
+      }
     } catch (error) {
       setMessage({ error: true, msg: error.message });
     }
@@ -142,28 +209,77 @@ function AddListings() {
   };
 
   return (
-    <Container className="py-4">
-      <Row className="justify-content-md-center">
-        {/* Column for Image */}
-        <Col md={6} className="d-none d-md-block">
-          <Image
-            src="https://i.pinimg.com/originals/d3/a1/3a/d3a13ae8cb66b48d9f3bf714fccf11b2.jpg"
-            fluid
-            style={{ borderRadius: '10px', height: '100%', objectFit: 'cover' }}
-            alt="Decorative Image"
-          />
-        </Col>
+    <div
+      style={{
+        backgroundImage: `url('https://cdn.pixabay.com/photo/2017/08/27/10/16/interior-2685521_960_720.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        padding: "20px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Container>
+        <Row className="justify-content-center">
+          <Col md={5} lg={4}>
+            <div
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                borderRadius: "15px",
+                padding: "20px",
+                textAlign: "center",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              <img
+                src="https://th.bing.com/th/id/OIP.r-MyMkJd3UvU6rFpLbCatAAAAA?w=474&h=474&rs=1&pid=ImgDetMain"
+                alt="Decorative"
+                style={{
+                  width: "100%",
+                  borderRadius: "10px",
+                  marginBottom: "15px",
+                  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
+                }}
+              />
+              <h3 style={{ color: "#007bff", fontWeight: "bold" }}>Your Perfect Space</h3>
+              <p style={{ color: "#555" }}>
+                Add or update your listings and manage your room's availability with ease.
+              </p>
+            </div>
+          </Col>
 
-        {/* Column for Form */}
-        <Col md={6}>
-          <Card style={{ borderRadius: '10px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', backgroundColor: 'rgba(255, 255, 255, 0.85)' }}>
-            <Card.Header style={{ backgroundColor: '#007bff', color: '#fff', fontSize: '1.25rem', fontWeight: 'bold' }}>
-              {id ? "Update Listing" : "Add Listing"}
-            </Card.Header>
-            <Card.Body>
-              <Alert variant={message?.error ? "danger" : "success"} show={!!message.msg} dismissible onClose={() => setMessage("")}>
-                {message?.msg}
-              </Alert>
+          <Col md={7} lg={6}>
+            <Card
+              style={{
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+                borderRadius: "15px",
+                overflow: "hidden",
+              }}
+            >
+              <Card.Header
+                style={{
+                  backgroundImage: "linear-gradient(to right, #007bff, #4caf50)",
+                  color: "white",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "1.8rem",
+                  padding: "20px 0",
+                }}
+              >
+                {id ? "Update Listing" : "Add Listing"}
+              </Card.Header>
+              <Card.Body style={{ padding: "30px" }}>
+                {message.msg && (
+                  <Alert
+                    variant={message.error ? "danger" : "success"}
+                    dismissible
+                    onClose={() => setMessage("")}
+                  >
+                    {message.msg}
+                  </Alert>
+                )}
 
               <Form onSubmit={handleSubmit}>
                 <Row className="mb-3">
@@ -251,43 +367,57 @@ function AddListings() {
                   </Form.Control>
                 </Form.Group>
 
-                {/* Image Upload */}
-                <Row className="mb-3">
-                  <Col md={12}>
-                    <Form.Group controlId="formImage" className="mb-3">
-                      <Form.Label>Images</Form.Label>
-                      <Form.Control
-                        type="file"
-                        onChange={(e) => setImage(e.target.files[0])}
-                        accept="image/*"
-                        className="mb-2"
-                      />
-                      <Form.Control
-                        type="file"
-                        onChange={(e) => setImage2(e.target.files[0])}
-                        accept="image/*"
-                        className="mb-2"
-                      />
-                      <Form.Control
-                        type="file"
-                        onChange={(e) => setImage3(e.target.files[0])}
-                        accept="image/*"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+                  <Form.Group controlId="formImages" className="mb-3">
+                    <Form.Label>Upload Images (Max 3)</Form.Label>
+                    <Form.Control
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleImageUpload}
+                    />
+                    <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                      {imageURLs.map((url, index) => (
+                        <img
+                          key={index}
+                          src={url}
+                          alt={`Uploaded Preview ${index + 1}`}
+                          width="30%"
+                          style={{ borderRadius: "5px" }}
+                        />
+                      ))}
+                    </div>
+                  </Form.Group>
 
-                <ButtonGroup className="mb-3">
-                  <Button variant="primary" type="submit" disabled={isUploading}>
-                    {isUploading ? (
-                      <>
-                        <Spinner animation="border" size="sm" /> Uploading...
-                      </>
-                    ) : id ? (
-                      "Update Listing"
-                    ) : (
-                      "Add Listing"
-                    )}
+                  <div className="d-flex align-items-center justify-content-between mb-3">
+                    <p className="mb-0">
+                      <strong>Availability:</strong>{" "}
+                      <span style={{ color: available ? "green" : "red" }}>
+                        {available ? "Available" : "Unavailable"}
+                      </span>
+                    </p>
+                    <Button
+                      variant={available ? "danger" : "success"}
+                      onClick={handleAvailabilityToggle}
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      {available ? "Set Unavailable" : "Set Available"}
+                    </Button>
+                  </div>
+
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    style={{
+                      width: "100%",
+                      padding: "10px",
+                      fontSize: "1.2rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {id ? "Update Listing" : "Add Listing"}
                   </Button>
                 </ButtonGroup>
               </Form>

@@ -147,7 +147,7 @@ function CheckoutPage() {
                 <Form.Group className="mb-3">
                   <Form.Label>Card Number</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     name="cardNumber"
                     placeholder="1234 5678 9012 3456"
                     value={cardDetails.cardNumber}
@@ -161,7 +161,7 @@ function CheckoutPage() {
                     <Form.Group className="mb-3">
                       <Form.Label>Expiry Date</Form.Label>
                       <Form.Control
-                        type="text"
+                        type="month"
                         name="expiryDate"
                         placeholder="MM/YY"
                         value={cardDetails.expiryDate}
@@ -174,7 +174,7 @@ function CheckoutPage() {
                     <Form.Group className="mb-3">
                       <Form.Label>CVV</Form.Label>
                       <Form.Control
-                        type="password"
+                        type="number"
                         name="cvv"
                         placeholder="123"
                         value={cardDetails.cvv}

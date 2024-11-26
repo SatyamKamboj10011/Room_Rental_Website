@@ -15,12 +15,20 @@ const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState(null); // Default is null for better checks
-  const [role, setRole] = useState(""); // Default role can be empty string or 'Guest'
+  const [role, setRole] = useState("user"); // Default role can be empty string or 'user'
+  const [authError, setAuthError] = useState(null);
 
   // Log in function
-  function logIn(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+  async function logIn(email, password) {
+    try{
+      setAuthError(null);
+     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+     return userCredential;
+    } catch (error){
+   setAuthError("Login failed. Please try again.");
+   console.error(error);
   }
+}
 
   // Sign up function
   function signUp(email, password) {
@@ -45,17 +53,23 @@ export function UserAuthContextProvider({ children }) {
       if (userDoc.exists()) {
         const { role } = userDoc.data();
         console.log("Fetched role from Firestore:", role);
-        return role || "User"; // Fallback to 'User' if role is undefined
+        return role || "user"; // Fallback to 'User' if role is undefined
       } else {
         console.warn("No user document found for UID:", uid);
-        return "User"; // Fallback role
+        return "user"; // Fallback role
       }
     } catch (error) {
       console.error("Error fetching user role from Firestore:", error);
-      return "Guest"; // Return 'Guest' in case of an error
+      return "guest"; // Return 'Guest' in case of an error
     }
   };
 
+  async function refreshUserRole() {
+    if(user?.uid){
+      const updatedrole = await fetchUserRole(user.uid);
+      setRole(updatedrole);
+    }
+  }
   // This useEffect listens for auth state changes (user log in, log out)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -69,7 +83,7 @@ export function UserAuthContextProvider({ children }) {
       } else {
         console.log("User is logged out or undefined.");
         setUser(null);
-        setRole(""); // Reset role when logged out
+        setRole("guest"); // Reset role when logged out
       }
     });
 
@@ -81,7 +95,7 @@ export function UserAuthContextProvider({ children }) {
 
   return (
     <userAuthContext.Provider
-      value={{ user, role, logIn, signUp, logOut, googleSignIn }}
+      value={{ user, role, logIn, signUp, logOut, googleSignIn,refreshUserRole,authError}}
     >
       {children}
     </userAuthContext.Provider>

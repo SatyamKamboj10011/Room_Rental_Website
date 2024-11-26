@@ -9,6 +9,7 @@ import {
   deleteDoc,
   doc,
   getFirestore,
+  serverTimestamp
 } from "firebase/firestore";
 
 const collectionName = "usersdetails"; // Firestore collection
@@ -22,6 +23,20 @@ class UserDataService {
     } catch (error) {
       console.error("Error adding user:", error);
       throw error;
+    }
+  };
+
+  addLoginLog = async (userId, loginLog) => {
+    try {
+      const loginLogsCollection = collection(db, 'usersdetails', userId, 'loginLogs');
+      await addDoc(loginLogsCollection, {
+        ...loginLog,
+        timestamp: serverTimestamp(), // Automatically add the timestamp
+      });
+      console.log("Login log added successfully");
+    } catch (error) {
+      console.error("Error adding login log:", error);
+      throw error; // Rethrow to handle in the component
     }
   };
 

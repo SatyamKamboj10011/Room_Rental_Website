@@ -166,10 +166,18 @@ function BookingPage() {
                 </Form.Group>
 
                 {error && <Alert variant="danger">{error}</Alert>}
-
+                <Row>
+                  <Col className="d-flex justify-content-between">
                 <Button variant="success" size="lg" onClick={handleBookingSubmit}>
                   Confirm Booking
                 </Button>
+                
+                    <Button variant="secondary" size="lg" onClick={() => navigate(-1)}>
+                      Back
+                    </Button>
+                
+                </Col>
+                </Row>
               </Form>
             </Card.Body>
           </Card>
