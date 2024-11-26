@@ -27,7 +27,6 @@ import HostDashboard from './HostDashboard';
 import HomePage from './CarouselHomePage';
 import AboutContactPage from './Aboutus';
 import ViewBookingPage from './ViewBookingPage';
-import InvoicePage from './InvoicePage';
 
 function App() {
   return (
@@ -47,13 +46,12 @@ function App() {
           <Route path="/AddListings" element={<AddListings />} />
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
           <Route path="/ProfilePage" element={<ProfilePage/>}/>
-          <Route path='/booking/:listingId' element={<BookingPage/>}/>
-          <Route path="/CheckoutPage/:listingId" element={<CheckoutPage/>}/>
+          <Route path='/booking/:id' element={<BookingPage/>}/>
+          <Route path="/CheckoutPage" element={<CheckoutPage/>}/>
           <Route path="/HostDashboard" element={<HostDashboard/>}/>
           <Route path="/view-booking/:listingId" element={<ViewBookingPage/>}/>
           <Route path ='/show/:listingId' element={<Show/>}/>
           <Route path = '/add-listing/:id' element={<AddListings/>}/>
-          <Route path="/invoice/:bookingId" element={<InvoicePage />} />
 
           <Route
                 path="/admindashboard"
