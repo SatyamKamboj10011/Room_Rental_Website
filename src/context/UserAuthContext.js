@@ -14,13 +14,21 @@ import UserDataService from "../services/UserDataService";
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
-  const [user, setUser] = useState(null); // Default to null for clarity
-  const [role, setRole] = useState("guest"); // Default to 'guest' to ensure role is set
+  const [user, setUser] = useState(null); // Default is null for better checks
+  const [role, setRole] = useState("user"); // Default role can be empty string or 'user'
+  const [authError, setAuthError] = useState(null);
 
   // Log in function
-  function logIn(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+  async function logIn(email, password) {
+    try{
+      setAuthError(null);
+     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+     return userCredential;
+    } catch (error){
+   setAuthError("Login failed. Please try again.");
+   console.error(error);
   }
+}
 
   // Sign up function
   function signUp(email, password) {
@@ -38,54 +46,56 @@ export function UserAuthContextProvider({ children }) {
     return signInWithPopup(auth, googleAuthProvider);
   }
 
+  // Fetch user data (role) from Firestore
+  const fetchUserRole = async (uid) => {
+    try {
+      const userDoc = await UserDataService.getUser(uid); // Fetch user document
+      if (userDoc.exists()) {
+        const { role } = userDoc.data();
+        console.log("Fetched role from Firestore:", role);
+        return role || "user"; // Fallback to 'User' if role is undefined
+      } else {
+        console.warn("No user document found for UID:", uid);
+        return "user"; // Fallback role
+      }
+    } catch (error) {
+      console.error("Error fetching user role from Firestore:", error);
+      return "guest"; // Return 'Guest' in case of an error
+    }
+  };
+
+  async function refreshUserRole() {
+    if(user?.uid){
+      const updatedrole = await fetchUserRole(user.uid);
+      setRole(updatedrole);
+    }
+  }
   // This useEffect listens for auth state changes (user log in, log out)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        // If user is logged in, set user and fetch role from Firestore
-        console.log("Auth user:", currentUser);
+      if (currentUser && currentUser.uid) {
+        console.log("Authenticated user:", currentUser);
+        setUser(currentUser);
 
-        if (currentUser && currentUser.uid) {
-          setUser(currentUser); // Set user in context
-
-          try {
-            const userDoc = await UserDataService.getUser(currentUser.uid); // Fetch user data from Firestore
-            if (userDoc.exists()) {
-              const userRole = userDoc.data().role || "guest"; // Set 'guest' as fallback role
-              console.log("User role (UserAuthContext):", userRole);
-              setRole(userRole); // Set role to context
-            } else {
-              // If user document doesn't exist, reset user and role
-              console.log("User document not found in Firestore.");
-              setRole("guest");
-              setUser(null);
-            }
-          } catch (error) {
-            console.error("Error fetching user data from Firestore:", error);
-            setRole("guest"); // Default role if fetching fails
-            setUser(null);
-          }
-        } else {
-          console.log("Current user is undefined or does not have a valid UID");
-          setRole("guest");
-          setUser(null);
-        }
+        // Fetch and set the role from Firestore
+        const userRole = await fetchUserRole(currentUser.uid);
+        setRole(userRole);
       } else {
-        // If no user is logged in, reset the context
-        setRole("guest"); // Default to guest when logged out
+        console.log("User is logged out or undefined.");
         setUser(null);
+        setRole("guest"); // Reset role when logged out
       }
     });
 
     return () => {
-      // Clean up the listener when component unmounts
+      // Clean up the listener when the component unmounts
       unsubscribe();
     };
-  }, []); // Empty dependency array ensures it runs once on mount
+  }, []); // Run only on mount
 
   return (
     <userAuthContext.Provider
-      value={{ user, role, logIn, signUp, logOut, googleSignIn }}
+      value={{ user, role, logIn, signUp, logOut, googleSignIn,refreshUserRole,authError}}
     >
       {children}
     </userAuthContext.Provider>

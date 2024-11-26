@@ -13,21 +13,20 @@ const Register = () => {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [role, setRole] = useState("");
 
   const { signUp } = useUserAuth();
   const navigate = useNavigate();
 
   const saveUser = async (uid) => {
     const newData = {
-      uid, // Use the UID here
+      uid,
       firstname,
       lastname,
       age,
       phone,
       address,
       email,
-      role,
+      role: "user", // Default role assignment
     };
 
     try {
@@ -60,92 +59,183 @@ const Register = () => {
 
   return (
     <Container className="mt-5">
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <div className="p-4 bg-light border rounded">
-            <h2 className="text-center mb-4">Create an Account</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-              <Row>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicFirstName">
-                    <Form.Control
-                      type="text"
-                      placeholder="First Name"
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicLastName">
-                    <Form.Control
-                      type="text"
-                      placeholder="Last Name"
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
+      <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2024/02/16/20/02/living-room-8578263_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Poppins', sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+        .register-container {
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 15px;
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+          padding: 40px;
+        }
+        .register-title {
+          font-size: 28px;
+          font-weight: bold;
+          color: #007bff;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .input-field {
+          border-radius: 8px;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ddd;
+        }
+        .input-field:focus {
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.8);
+          border-color: #007bff;
+        }
+        .register-button {
+          background: linear-gradient(90deg, #007bff, #0056b3);
+          border: none;
+          border-radius: 8px;
+          padding: 10px;
+          color: #fff;
+          font-size: 16px;
+          font-weight: bold;
+          width: 100%;
+          cursor: pointer;
+          transition: background 0.3s ease;
+        }
+        .register-button:hover {
+          background: linear-gradient(90deg, #0056b3, #003d7a);
+        }
+        .right-column {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .register-link {
+          text-align: center;
+          margin-top: 15px;
+          font-size: 14px;
+        }
+        .register-link a {
+          color: #007bff;
+          text-decoration: none;
+          font-weight: bold;
+        }
+        .register-link a:hover {
+          text-decoration: underline;
+        }
+      `}</style>
 
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control
-                  type="email"
-                  placeholder="Email address"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
+      <Row className="justify-content-center align-items-center">
+        {/* Left Column for Form */}
+        <Col md={6} className="register-container">
+          <h2 className="register-title">Create an Account</h2>
+          {error && <Alert variant="danger">{error}</Alert>}
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Group>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formBasicFirstName" className="mb-3">
+              <Form.Control
+                className="input-field"
+                type="text"
+                placeholder="First Name"
+                value={firstname}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPhone">
-                <Form.Control
-                  type="text"
-                  placeholder="Phone Number"
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicLastName" className="mb-3">
+              <Form.Control
+                className="input-field"
+                type="text"
+                placeholder="Last Name"
+                value={lastname}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicAge">
-                <Form.Control
-                  type="number"
-                  placeholder="Age"
-                  onChange={(e) => setAge(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicEmail" className="mb-3">
+              <Form.Control
+                className="input-field"
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicAddress">
-                <Form.Control
-                  type="text"
-                  placeholder="Address"
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicPassword" className="mb-3">
+              <Form.Control
+                className="input-field"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicRole">
-                <Form.Control
-                  type="text"
-                  placeholder="User Role"
-                  onChange={(e) => setRole(e.target.value)}
-                />
-              </Form.Group>
+            <Form.Group controlId="formBasicPhone" className="mb-3">
+              <Form.Control
+                className="input-field"
+                type="text"
+                placeholder="Phone Number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <div className="d-grid gap-2">
-                <Button variant="primary" type="submit" className="btn-block">
-                  Sign Up
-                </Button>
-              </div>
-            </Form>
+            <Form.Group controlId="formBasicAge" className="mb-3">
+              <Form.Control
+                className="input-field"
+                type="number"
+                placeholder="Age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-            <div className="mt-3 text-center">
-              Already have an account? <Link to="/login">Log In</Link>
-            </div>
+            <Form.Group controlId="formBasicAddress" className="mb-3">
+              <Form.Control
+                className="input-field"
+                type="text"
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Button className="register-button" type="submit">
+              Sign Up
+            </Button>
+          </Form>
+
+          <div className="register-link">
+            Already have an account? <Link to="/login">Log In</Link>
           </div>
+        </Col>
+
+        {/* Right Column for Illustration */}
+        <Col
+          md={6}
+          className="right-column d-none d-md-flex"
+        >
+          <img
+            src="https://images.squarespace-cdn.com/content/v1/6220ad1db2910108f6cfc24f/46da4dd1-e009-4d51-92bc-7bd013235df1/googlevsprivacy.gif" // Stylish room-related illustration
+            alt="Register Illustration"
+            className="img-fluid"
+            style={{
+              borderRadius: "15px",
+              maxWidth: "70%",
+              background:"transparent",
+            }}
+          />
         </Col>
       </Row>
     </Container>

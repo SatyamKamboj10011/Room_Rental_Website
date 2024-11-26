@@ -1,267 +1,383 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Navbar, Nav, Table, Button, Modal, Form, Card, Alert } from 'react-bootstrap';
-import { FaUsers, FaChartLine, FaHome, FaDollarSign, FaEdit, FaTrashAlt, FaCog } from 'react-icons/fa';
-import { getDocs, collection, updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { db } from './firebase'; // Adjust path based on your project structure
+import React, { useEffect, useState } from "react";
+import {
+  Table,
+  Spinner,
+  Card,
+  Row,
+  Col,
+  Container,
+  Alert,
+  Form,
+  InputGroup,
+  Button,
+  Pagination,
+} from "react-bootstrap";
+import UserDataService from "./services/UserDataService";
+import ListingsDataService from "./services/ListingsDataService";
+import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
+import { FaSearch, FaDollarSign, FaTrashAlt, FaCheck } from "react-icons/fa";
+import { useUserAuth } from "./context/UserAuthContext";
 
-function AdminDashboard() {
-  // State to manage users and selected user for editing
+const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [listings, setListings] = useState([]);
+  const [totalEarnings, setTotalEarnings] = useState(0); // Admin earnings state
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingListings, setLoadingListings] = useState(true);
+  const [loadingEarnings, setLoadingEarnings] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [userSearch, setUserSearch] = useState("");
+  const [listingSearch, setListingSearch] = useState("");
+  const [currentUserPage, setCurrentUserPage] = useState(1);
+  const [currentListingPage, setCurrentListingPage] = useState(1);
+  const {user, role}= useUserAuth();
 
-  // Fetch users from Firestore
+
+  const usersPerPage = 5;
+  const listingsPerPage = 5;
+
+  // Fetch admin earnings
+  useEffect(() => {
+  const fetchEarnings = async () => {
+    try {
+      const data = await BookingDataService.getBookings(); // Fetch all listings
+      const listingsArray = data || []; // Ensure data is an array
+      const earnings = listingsArray.reduce((total, listing) => {
+        const price = parseFloat(listing.price) || 0; // Safely parse price
+        return total + (price * 0.05); // Add 5% of the price to the total
+      }, 0);
+      setTotalEarnings(earnings);
+    } catch (error) {
+      console.error("Error calculating admin earnings:", error);
+      setError("Failed to calculate admin earnings.");
+    } finally {
+      setLoadingEarnings(false);
+    }
+  };
+
+  fetchEarnings();
+}, []);
+
+  // Fetch all users from Firestore
   const fetchUsers = async () => {
     try {
-      const userSnapshot = await getDocs(collection(db, "usersdetails"));
-      const userList = userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setUsers(userList);
+      const data = await UserDataService.getAllUsers();
+      const usersList = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setUsers(usersList);
     } catch (error) {
-      setMessage({ type: 'danger', text: "Error fetching users: " + error.message });
+      console.error("Error fetching users:", error);
+      setError("Failed to load users.");
+    } finally {
+      setLoadingUsers(false);
     }
   };
-
-  // Edit user handler
-  const handleEdit = (user) => {
-    setSelectedUser(user);
-    setShowEditModal(true);
-  };
-
-  // Close the modal
-  const handleCloseModal = () => {
-    setShowEditModal(false);
-    setSelectedUser(null);
-  };
-
-  // Update user details in Firestore
-  const handleSaveChanges = async () => {
-    if (!selectedUser) return;
+  
+  // Fetch all listings from Firestore
+  const fetchListings = async () => {
     try {
-      const userRef = doc(db, "usersdetails", selectedUser.id);
-      await updateDoc(userRef, {
-        name: selectedUser.name,
-        email: selectedUser.email,
-        role: selectedUser.role,
-        status: selectedUser.status,
-      });
-      fetchUsers();  // Refresh the users list after updating
-      setMessage({ type: 'success', text: "User updated successfully!" });
-      setShowEditModal(false);
+      const data = await ListingsDataService.getAllListings();
+      setListings(data);
     } catch (error) {
-      setMessage({ type: 'danger', text: "Error updating user: " + error.message });
+      console.error("Error fetching listings:", error);
+      setError("Failed to load listings.");
+    } finally {
+      setLoadingListings(false);
     }
   };
 
-  // Delete user from Firestore
-  const handleDelete = async (userId) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        const userRef = doc(db, "usersdetails", userId);
-        await deleteDoc(userRef);
-        fetchUsers();  // Refresh the list after deleting
-        setMessage({ type: 'success', text: "User deleted successfully!" });
-      } catch (error) {
-        setMessage({ type: 'danger', text: "Error deleting user: " + error.message });
-      }
-    }
-  };
-
-  // Fetch users when component mounts
+  // Fetch data when component mounts
   useEffect(() => {
     fetchUsers();
+    fetchListings();
   }, []);
 
+  // Handle role change
+  const handleRoleChange = async (userId, newRole) => {
+    setError(""); // Reset any previous errors
+    setSuccess(""); // Reset any previous success messages
+    try {
+      await UserDataService.updateUserRole(userId, newRole );
+ 
+      // Update the role in the local state for instant feedback
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId ? { ...user, role: newRole } : user
+        )
+      );
+      setSuccess("User role updated successfully.");
+    } catch (error) {
+      console.error("Error updating user role:", error);
+      setError("Failed to update user role. Please try again.");
+    }
+  };
+  
+
+  // const handleDeleteUser = async (userId) => {
+  //   if (window.confirm("Are you sure you want to delete this user?")) {
+  //     try {
+  //       await UserDataService.deleteUser(userId);
+  //       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  //       setSuccess("User deleted successfully.");
+  //     } catch (error) {
+  //       console.error("Error deleting user:", error);
+  //       setError("Failed to delete user.");
+  //     }
+  //   }
+  // };
+
+  const handleDeleteUser = async (userId) => {
+    setError("");
+    setSuccess("");
+    try {
+      await UserDataService.deleteUser(userId);
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+      setSuccess("User deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        setError("Failed to delete user.");
+        }
+        };
+  
+ 
+      const handleDeleteListing = async (listingId) => {
+        setError(""); // Reset any previous errors
+        setSuccess(""); // Reset any previous success messages
+        try {
+          await ListingsDataService.deleteListing(listingId);
+          setListings((prevListings) => prevListings.filter((listing) => listing.id
+          !== listingId));
+          setSuccess("Listing deleted successfully.");
+          } catch (error) {
+            console.error("Error deleting listing:", error);
+            setError("Failed to delete listing. Please try again.");
+            }
+            };
+
+
+  // Pagination logic for users
+  const userIndexOfLast = currentUserPage * usersPerPage;
+  const userIndexOfFirst = userIndexOfLast - usersPerPage;
+  const currentUsers = users.slice(userIndexOfFirst, userIndexOfLast);
+
+  // Pagination logic for listings
+  const listingIndexOfLast = currentListingPage * listingsPerPage;
+  const listingIndexOfFirst = listingIndexOfLast - listingsPerPage;
+  const currentListings = listings.slice(listingIndexOfFirst, listingIndexOfLast);
+
+  // Handle page change for users
+  const handleUserPageChange = (pageNumber) => setCurrentUserPage(pageNumber);
+
+  // Handle page change for listings
+  const handleListingPageChange = (pageNumber) => setCurrentListingPage(pageNumber);
+        
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar */}
-      <div className="bg-dark text-white p-3" style={{ width: "250px", minHeight: "100vh" }}>
-        <h4 className="text-center">Admin Panel</h4>
-        <Nav defaultActiveKey="/admin" className="flex-column mt-4">
-          <Nav.Link href="#dashboard" className="text-white">
-            <FaHome className="mr-2" /> Dashboard
-          </Nav.Link>
-          <Nav.Link href="#users" className="text-white">
-            <FaUsers className="mr-2" /> User Management
-          </Nav.Link>
-          <Nav.Link href="#analytics" className="text-white">
-            <FaChartLine className="mr-2" /> Analytics
-          </Nav.Link>
-          <Nav.Link href="#settings" className="text-white">
-            <FaCog className="mr-2" /> Settings
-          </Nav.Link>
-        </Nav>
-      </div>
+    <Container className="my-4">
+        <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2017/01/07/17/48/interior-1961070_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        `}
+        </style>
+      <h1 className="text-center mb-4 text-primary">Admin Dashboard</h1>
 
-      {/* Main Dashboard Area */}
-      <div style={{ flex: 1 }}>
-        {/* Top Navbar */}
-        <Navbar bg="light" expand="lg" className="shadow-sm">
-          <Container>
-            <Navbar.Brand href="#home">Admin Dashboard</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="#dashboard">Dashboard</Nav.Link>
-                <Nav.Link href="#users">Users</Nav.Link>
-                <Nav.Link href="#analytics">Analytics</Nav.Link>
-              </Nav>
-              <Button variant="outline-danger" href="#logout">Logout</Button>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
 
-        <Container fluid className="mt-4">
-          <Row>
-            {/* Dashboard Widgets */}
-            <Col md={12}>
-              <Row className="mb-4">
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaUsers size={40} className="mb-3" />
-                      <Card.Title>Total Users</Card.Title>
-                      <Card.Text>{users.length}</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaHome size={40} className="mb-3" />
-                      <Card.Title>Active Listings</Card.Title>
-                      <Card.Text>320</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaChartLine size={40} className="mb-3" />
-                      <Card.Title>Site Analytics</Card.Title>
-                      <Card.Text>5.2K Visitors</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col md={3}>
-                  <Card className="text-center shadow-sm">
-                    <Card.Body>
-                      <FaDollarSign size={40} className="mb-3" />
-                      <Card.Title>Revenue</Card.Title>
-                      <Card.Text>$45,000</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-
-            {/* User Management Table */}
-            <Col md={12} className="mt-5">
-              <h4>User Management</h4>
-              {message && (
-                <Alert variant={message.type} dismissible onClose={() => setMessage(null)}>
-                  {message.text}
-                </Alert>
-              )}
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user, index) => (
-                    <tr key={user.id}>
-                      <td>{index + 1}</td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.role}</td>
-                      <td>{user.status}</td>
-                      <td>
-                        <Button variant="info" size="sm" onClick={() => handleEdit(user)}>
-                          <FaEdit /> Edit
-                        </Button>{' '}
-                        <Button variant="danger" size="sm" onClick={() => handleDelete(user.id)}>
-                          <FaTrashAlt /> Delete
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        </Container>
-
-        {/* Edit User Modal */}
-        <Modal show={showEditModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit User</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {selectedUser && (
-              <Form>
-                <Form.Group controlId="formName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={selectedUser.name}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    value={selectedUser.email}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formRole">
-                  <Form.Label>Role</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={selectedUser.role}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value })}
-                  >
-                    <option>Admin</option>
-                    <option>User</option>
-                  </Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="formStatus">
-                  <Form.Label>Status</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={selectedUser.status}
-                    onChange={(e) => setSelectedUser({ ...selectedUser, status: e.target.value })}
-                  >
-                    <option>Active</option>
-                    <option>Inactive</option>
-                  </Form.Control>
-                </Form.Group>
-              </Form>
+      {/* Admin Earnings Section */}
+      <Card className="shadow-sm mb-4">
+        <Card.Body>
+          <h5>
+            <FaDollarSign className="text-success" /> Total Earnings:{" "}
+            {loadingEarnings ? (
+              <Spinner animation="border" variant="success" size="sm" />
+            ) : (
+              `$${totalEarnings.toFixed(2)}`
             )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
+          </h5>
+        </Card.Body>
+      </Card>
+
+      {/* Search Bar */}
+      <Row className="mb-4">
+        <Col md={6}>
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="Search Users"
+              aria-label="Search Users"
+              value={userSearch}
+              onChange={(e) => setUserSearch(e.target.value)}
+            />
+            <Button variant="outline-secondary" onClick={() => setUserSearch("")}>
+              <FaSearch />
             </Button>
-            <Button variant="primary" onClick={handleSaveChanges}>
-              Save Changes
+          </InputGroup>
+        </Col>
+        <Col md={6}>
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="Search Listings"
+              aria-label="Search Listings"
+              value={listingSearch}
+              onChange={(e) => setListingSearch(e.target.value)}
+            />
+            <Button variant="outline-secondary" onClick={() => setListingSearch("")}>
+              <FaSearch />
             </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    </div>
+          </InputGroup>
+        </Col>
+      </Row>
+
+
+      {/* Users Section */}
+      {/* Users Section */}
+      <Row className="mb-4">
+        <Col md={12}>
+          <Card className="shadow-sm">
+            <Card.Header className="bg-info text-white">
+              <h5>Users</h5>
+            </Card.Header>
+            <Card.Body>
+              {loadingUsers ? (
+                <div className="text-center">
+                  <Spinner animation="border" variant="primary" />
+                  <p>Loading Users...</p>
+                </div>
+              ) : users.length === 0 ? (
+                <Alert variant="warning" className="text-center">
+                  No users found
+                </Alert>
+              ) : (
+                <Table striped bordered hover responsive variant="light">
+                  <thead>
+                    <tr className="table-info">
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentUsers
+                      .filter(user =>
+                        user.firstname.toLowerCase().includes(userSearch.toLowerCase()) ||
+                        user.email.toLowerCase().includes(userSearch.toLowerCase())
+                      )
+                      .map((user) => (
+                        <tr key={user.id}>
+                          <td>{user.id}</td>
+                          <td>{user.firstname || "N/A"}</td>
+                          <td>{user.email}</td>
+                          <td>
+                            <Form.Select
+                              value={user.role || "user"} // Default role is "guest"
+                              onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                            >
+                              <option value="admin">Admin</option>
+                              <option value="host">Host</option>
+                              <option value="user">User</option>
+                            </Form.Select>
+                          </td>
+                          <td><Button variant="danger" onClick={() => handleDeleteUser(user.id)}><FaTrashAlt/>Delete</Button></td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </Table>
+              )}
+              {/* Pagination for users */}
+              <Pagination className="justify-content-center">
+                {Array.from({ length: Math.ceil(users.length / usersPerPage) }, (_, i) => (
+                  <Pagination.Item
+                    key={i + 1}
+                    active={i + 1 === currentUserPage}
+                    onClick={() => handleUserPageChange(i + 1)}
+                  >
+                    {i + 1}
+                  </Pagination.Item>
+                ))}
+              </Pagination>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Listings Section */}
+      <Row>
+        <Col md={12}>
+          <Card className="shadow-sm">
+            <Card.Header className="bg-success text-white">
+              <h5>Listings</h5>
+            </Card.Header>
+            <Card.Body>
+              {loadingListings ? (
+                <div className="text-center">
+                  <Spinner animation="border" variant="secondary" />
+                  <p>Loading Listings...</p>
+                </div>
+              ) : listings.length === 0 ? (
+                <Alert variant="warning" className="text-center">
+                  No listings found
+                </Alert>
+              ) : (
+                <Table striped bordered hover responsive variant="light">
+                  <thead>
+                    <tr className="table-success">
+                      <th>ID</th>
+                      <th>Title</th>
+                      <th>Price</th>
+                      <th>Location</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentListings
+                      .filter(listing =>
+                        listing.title.toLowerCase().includes(listingSearch.toLowerCase())
+                      )
+                      .map((listing) => (
+                        <tr key={listing.id}>
+                          <td>{listing.id}</td>
+                          <td>{listing.title}</td>
+                          <td>{listing.price}</td>
+                          <td>{listing.location || "N/A"}</td>
+                          <td>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDeleteListing(listing.id)}
+                          >
+                            <FaTrashAlt /> Delete
+                          </Button>
+                        </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </Table>
+              )}
+              {/* Pagination for listings */}
+              <Pagination className="justify-content-center">
+                {Array.from({ length: Math.ceil(listings.length / listingsPerPage) }, (_, i) => (
+                  <Pagination.Item
+                    key={i + 1}
+                    active={i + 1 === currentListingPage}
+                    onClick={() => handleListingPageChange(i + 1)}
+                  >
+                    {i + 1}
+                  </Pagination.Item>
+                ))}
+              </Pagination>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
 export default AdminDashboard;
