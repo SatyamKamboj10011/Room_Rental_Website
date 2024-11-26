@@ -49,7 +49,7 @@ function Show() {
       ) : (
         <p>No feedback found.</p>
       )}
-      <button onClick={handleDelete} class="btn btn-danger">Delete Feedback</button>
+      <button onClick={handleDelete} className="btn btn-outline-danger">Delete Feedback</button>
       
     </div>
   );

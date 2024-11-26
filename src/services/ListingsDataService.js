@@ -14,9 +14,19 @@ class ListingsDataService {
   }
  
   // Update an existing listing by its ID
-  updateListing = (id, updatedListing) => {
-    const listingRef = doc(db, collectionName, id); // Reference to the specific listing document
-    return updateDoc(listingRef, updatedListing);   // Update the document in Firestore
+  updateListing = async (listingId, updatedListing) => {
+    if (!listingId || !updatedListing) {
+      throw new Error('Invalid listing data or listing ID');
+    }
+
+    try {
+      const listingDocRef = doc(db, "listings", listingId);
+      await updateDoc(listingDocRef, updatedListing);
+      console.log('Listing updated successfully');
+    } catch (error) {
+      console.error('Error updating listing:', error);
+      throw new Error('Failed to update listing');
+    }
   };
  
   // Fetch all listings with error handling
@@ -80,6 +90,21 @@ async getHostListings(hostId) {
     throw new Error("Failed to fetch host listings.");
   }
 }
+
+updateListingAvailability = async (listingId, newStatus) => {
+  if (!listingId || newStatus === undefined) {
+    throw new Error('Listing ID and new status are required');
+  }
+
+  try {
+    const listingDocRef = doc(db, 'listings', listingId);
+    await updateDoc(listingDocRef, { available: newStatus });
+    console.log(`Listing ${listingId} availability updated to ${newStatus}`);
+  } catch (error) {
+    console.error('Error updating listing availability:', error);
+    throw new Error('Error updating availability');
+  }
+};
  
   // Upload image to Firebase Storage and return its download URL
   async uploadImage(listingId, file) {

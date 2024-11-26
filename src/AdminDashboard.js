@@ -14,7 +14,9 @@ import {
 } from "react-bootstrap";
 import UserDataService from "./services/UserDataService";
 import ListingsDataService from "./services/ListingsDataService";
-import { FaSearch, FaDollarSign } from "react-icons/fa";
+import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
+import { FaSearch, FaDollarSign, FaTrashAlt, FaCheck } from "react-icons/fa";
+import { useUserAuth } from "./context/UserAuthContext";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -29,27 +31,33 @@ const AdminDashboard = () => {
   const [listingSearch, setListingSearch] = useState("");
   const [currentUserPage, setCurrentUserPage] = useState(1);
   const [currentListingPage, setCurrentListingPage] = useState(1);
+  const {user, role}= useUserAuth();
+
 
   const usersPerPage = 5;
   const listingsPerPage = 5;
 
   // Fetch admin earnings
   useEffect(() => {
-    const fetchEarnings = async () => {
-      try {
-        const response = await fetch("/api/admin-earnings"); // API endpoint to get earnings
-        const data = await response.json();
-        setTotalEarnings(data.totalEarnings);
-      } catch (error) {
-        console.error("Error fetching admin earnings:", error);
-        setError("Failed to load admin earnings.");
-      } finally {
-        setLoadingEarnings(false);
-      }
-    };
+  const fetchEarnings = async () => {
+    try {
+      const data = await BookingDataService.getBookings(); // Fetch all listings
+      const listingsArray = data || []; // Ensure data is an array
+      const earnings = listingsArray.reduce((total, listing) => {
+        const price = parseFloat(listing.price) || 0; // Safely parse price
+        return total + (price * 0.05); // Add 5% of the price to the total
+      }, 0);
+      setTotalEarnings(earnings);
+    } catch (error) {
+      console.error("Error calculating admin earnings:", error);
+      setError("Failed to calculate admin earnings.");
+    } finally {
+      setLoadingEarnings(false);
+    }
+  };
 
-    fetchEarnings();
-  }, []);
+  fetchEarnings();
+}, []);
 
   // Fetch all users from Firestore
   const fetchUsers = async () => {
@@ -89,8 +97,8 @@ const AdminDashboard = () => {
     setError(""); // Reset any previous errors
     setSuccess(""); // Reset any previous success messages
     try {
-      await UserDataService.updateUserRole(userId, { role: newRole });
-
+      await UserDataService.updateUserRole(userId, newRole );
+ 
       // Update the role in the local state for instant feedback
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
@@ -103,6 +111,49 @@ const AdminDashboard = () => {
       setError("Failed to update user role. Please try again.");
     }
   };
+  
+
+  // const handleDeleteUser = async (userId) => {
+  //   if (window.confirm("Are you sure you want to delete this user?")) {
+  //     try {
+  //       await UserDataService.deleteUser(userId);
+  //       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  //       setSuccess("User deleted successfully.");
+  //     } catch (error) {
+  //       console.error("Error deleting user:", error);
+  //       setError("Failed to delete user.");
+  //     }
+  //   }
+  // };
+
+  const handleDeleteUser = async (userId) => {
+    setError("");
+    setSuccess("");
+    try {
+      await UserDataService.deleteUser(userId);
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+      setSuccess("User deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        setError("Failed to delete user.");
+        }
+        };
+  
+ 
+      const handleDeleteListing = async (listingId) => {
+        setError(""); // Reset any previous errors
+        setSuccess(""); // Reset any previous success messages
+        try {
+          await ListingsDataService.deleteListing(listingId);
+          setListings((prevListings) => prevListings.filter((listing) => listing.id
+          !== listingId));
+          setSuccess("Listing deleted successfully.");
+          } catch (error) {
+            console.error("Error deleting listing:", error);
+            setError("Failed to delete listing. Please try again.");
+            }
+            };
+
 
   // Pagination logic for users
   const userIndexOfLast = currentUserPage * usersPerPage;
@@ -119,9 +170,20 @@ const AdminDashboard = () => {
 
   // Handle page change for listings
   const handleListingPageChange = (pageNumber) => setCurrentListingPage(pageNumber);
-
+        
   return (
     <Container className="my-4">
+        <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2017/01/07/17/48/interior-1961070_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        `}
+        </style>
       <h1 className="text-center mb-4 text-primary">Admin Dashboard</h1>
 
       {error && <Alert variant="danger">{error}</Alert>}
@@ -173,6 +235,7 @@ const AdminDashboard = () => {
 
 
       {/* Users Section */}
+      {/* Users Section */}
       <Row className="mb-4">
         <Col md={12}>
           <Card className="shadow-sm">
@@ -197,6 +260,7 @@ const AdminDashboard = () => {
                       <th>Name</th>
                       <th>Email</th>
                       <th>Role</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -212,14 +276,15 @@ const AdminDashboard = () => {
                           <td>{user.email}</td>
                           <td>
                             <Form.Select
-                              value={user.role || "guest"} // Default role is "guest"
+                              value={user.role || "user"} // Default role is "guest"
                               onChange={(e) => handleRoleChange(user.id, e.target.value)}
                             >
                               <option value="admin">Admin</option>
                               <option value="host">Host</option>
-                              <option value="guest">Guest</option>
+                              <option value="user">User</option>
                             </Form.Select>
                           </td>
+                          <td><Button variant="danger" onClick={() => handleDeleteUser(user.id)}><FaTrashAlt/>Delete</Button></td>
                         </tr>
                       ))}
                   </tbody>
@@ -267,6 +332,7 @@ const AdminDashboard = () => {
                       <th>Title</th>
                       <th>Price</th>
                       <th>Location</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -280,6 +346,15 @@ const AdminDashboard = () => {
                           <td>{listing.title}</td>
                           <td>{listing.price}</td>
                           <td>{listing.location || "N/A"}</td>
+                          <td>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDeleteListing(listing.id)}
+                          >
+                            <FaTrashAlt /> Delete
+                          </Button>
+                        </td>
                         </tr>
                       ))}
                   </tbody>

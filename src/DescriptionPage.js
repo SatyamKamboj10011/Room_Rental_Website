@@ -14,24 +14,27 @@ function DescriptionPage() {
   const { id } = useParams();
   const navigate = useNavigate();
  
-  useEffect(() => {
+   useEffect(() => {
     getListingById(id);
     getFeedbackData(id);
   }, [id]);
 
-  const getFeedbackData = async () => {
+const getFeedbackData = async () => {
     try {
       const feedbackData = await FBDataService.getAllData();
       if (!feedbackData || feedbackData.length === 0) {
         setFeedback([]); // No feedback found
         return;
       }
-      const feedbackList = feedbackData.map(doc => ({ ...doc, id: doc.id }));
-      setFeedback(feedbackList);
+  
+      // Filter feedback for the current listing
+      const filteredFeedback = feedbackData.filter((fb) => fb.listingId === id);
+      setFeedback(filteredFeedback);
     } catch (error) {
       console.error("Error fetching feedback data:", error);
     }
   };
+  
 
   const getListingById = async (listingId) => {
     try {
@@ -50,7 +53,7 @@ function DescriptionPage() {
   };
 
   const handleBookNow = () => {
-    navigate(`/booking/${listing.id}`);
+    navigate(`/booking/${listing.id}`,{state:{listingId:listing.id}});
   };
 
   if (loading) {
@@ -73,6 +76,17 @@ function DescriptionPage() {
   return (
     <Container style={containerStyle}>
       {/* Title and Price */}
+      <style>{`
+        body {
+          background-image: url('https://cdn.pixabay.com/photo/2017/01/07/17/48/interior-1961070_1280.jpg');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        `}
+        </style>
       <Row className="mb-4 text-center">
         <Col>
           <h1 style={titleStyle}>{listing.title}</h1>
@@ -181,10 +195,10 @@ function DescriptionPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {feedback.length > 0 ? (
+                {feedback.length > 0 ? (
                     feedback.map((fb) => (
                       <tr key={fb.id}>
-                        <td>{fb.date}</td>
+                        <td><Link to={`/show/${fb.id}`} style={{textDecoration:'none'}}className="btn btn-outline-primary">{fb.date}</Link></td>
                         <td>{fb.feedback}</td>
                         <td>{fb.name}</td>
                       </tr>
@@ -209,7 +223,7 @@ function DescriptionPage() {
             style={addReviewButtonStyle}
             variant="info"
           >
-            <Link to={`/feedback`} style={{ color: 'white', textDecoration: 'none' }}>
+            <Link to={`/feedback/${listing.id}`} style={{ color: 'white', textDecoration: 'none' }}>
               Add Review
             </Link>
           </Button>

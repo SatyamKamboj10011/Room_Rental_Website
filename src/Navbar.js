@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { useUserAuth } from "./context/UserAuthContext"; // Import the UserAuth context
 
 function OffcanvasExample() {
@@ -15,7 +15,7 @@ function OffcanvasExample() {
   const handleLogout = async () => {
     try {
       await logOut(); // Log the user out
-      navigate('/'); // Redirect to homepage after logout
+      navigate("/"); // Redirect to homepage after logout
     } catch (err) {
       console.log(err.message);
     }
@@ -23,10 +23,24 @@ function OffcanvasExample() {
 
   return (
     <>
-      {['md'].map((expand) => (
-        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+      {["md"].map((expand) => (
+        <Navbar
+          key={expand}
+          expand={expand}
+          className="bg-body-tertiary mb-3"
+          style={{
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+            zIndex: "1000",
+            backgroundColor: "#ffffff",
+          }}
+        >
           <Container fluid>
-            <Navbar.Brand as={Link} to="/" className="text-primary fw-bold">Otago Room Rental</Navbar.Brand>
+            {/* Logo */}
+            <Navbar.Brand as={Link} to="/" className="text-primary fw-bold d-flex align-items-center">
+              OTAGO Room Rental 🏠
+            </Navbar.Brand>
+
+            {/* Toggle button for smaller screens */}
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -41,9 +55,13 @@ function OffcanvasExample() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   {/* Always visible links */}
-                  <Nav.Link as={Link} to="/">Home</Nav.Link>
+                  <Nav.Link as={Link} to="/" className="nav-link">
+                    Home
+                  </Nav.Link>
                   {!user && (
-                    <Nav.Link as={Link} to="/Register">Register</Nav.Link>
+                    <Nav.Link as={Link} to="/Register" className="nav-link">
+                      Register
+                    </Nav.Link>
                   )}
 
                   {/* Role-based dropdown links */}
@@ -55,44 +73,54 @@ function OffcanvasExample() {
                       {/* Admin-only links */}
                       {role === "admin" && (
                         <>
-                          <NavDropdown.Item as={Link} to="/admindashboard">Admin Dashboard</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/feedback'>FeedBack</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/checkout'>CheckOut</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/Hostdashboard'>Host Dashboard</NavDropdown.Item>
-                       
+                          <NavDropdown.Item as={Link} to="/admindashboard">
+                            Admin Dashboard
+                          </NavDropdown.Item>
                         </>
                       )}
 
                       {/* Host-only links (including admins) */}
                       {(role === "host") && (
                         <>
-                          <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/AddListings">Add Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/Hostdashboard'>Host Dashboard</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/ProfilePage">
+                            Profile Page
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/AddListings">
+                            Add Listings
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/listings">
+                            Listings
+                          </NavDropdown.Item>
+                         
+                          <NavDropdown.Item as={Link} to="/Hostdashboard">
+                            Host Dashboard
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/CheckoutPage">
+                            Checkout Page
+                          </NavDropdown.Item>
                         </>
                       )}
 
-                       {/* User links (including admins) */}
-                       {(role === "admin" || role === "user") && (
+                      {/* User links (including admins) */}
+                      {(role === "user") && (
                         <>
-                          <NavDropdown.Item as={Link} to="/ProfilePage">Profile Page</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/listings">Listings</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/bookingpage">BookNow</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/feedback'>FeedBack</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to='/checkout'>CheckOut</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/ProfilePage">
+                            Profile Page
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/listings">
+                            Listings
+                          </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to='/userdashboard'>User Dashboard</NavDropdown.Item>
+                          
                         </>
                       )}
 
                       {/* Guest links */}
                       {role === "guest" && (
                         <>
-                          <NavDropdown.Item as={Link} to="/">Home</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/">
+                            Home
+                          </NavDropdown.Item>
                         </>
                       )}
                     </NavDropdown>
@@ -101,7 +129,12 @@ function OffcanvasExample() {
                   {/* Show login or logout based on user status */}
                   {!user ? (
                     <Button variant="primary">
-                      <Link to="/Login" style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
+                      <Link
+                        to="/Login"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Login
+                      </Link>
                     </Button>
                   ) : (
                     <Button variant="danger" onClick={handleLogout}>

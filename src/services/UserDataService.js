@@ -8,6 +8,8 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  getFirestore,
+  serverTimestamp
 } from "firebase/firestore";
 
 const collectionName = "usersdetails"; // Firestore collection
@@ -24,6 +26,29 @@ class UserDataService {
     }
   };
 
+  addLoginLog = async (userId, loginLog) => {
+    try {
+      const loginLogsCollection = collection(db, 'usersdetails', userId, 'loginLogs');
+      await addDoc(loginLogsCollection, {
+        ...loginLog,
+        timestamp: serverTimestamp(), // Automatically add the timestamp
+      });
+      console.log("Login log added successfully");
+    } catch (error) {
+      console.error("Error adding login log:", error);
+      throw error; // Rethrow to handle in the component
+    }
+  };
+
+  verifyUser = async (id)=>{
+    try{
+      const userDoc = doc(db, collectionName, id);
+      return await updateDoc(userDoc, {verified: true});
+    } catch (error){
+      console.error("Error verifying user:", error);
+      throw error;
+    }
+  };
   // Set a user document by specific UID
   setUser = async (newUser) => {
     try {
@@ -57,15 +82,19 @@ class UserDataService {
   };
 
   // Delete user by ID
-  deleteUser = async (id) => {
+   deleteUser = async (userId) => {
+    const db = getFirestore();
+    const userRef = doc(db, "usersdetails", userId);
+  
     try {
-      const userDoc = doc(db, collectionName, id);
-      return await deleteDoc(userDoc);
+      await deleteDoc(userRef);
+      console.log("User deleted:", userId);
     } catch (error) {
       console.error("Error deleting user:", error);
       throw error;
     }
   };
+  
 
   // Get all users
   getAllUsers = async () => {
