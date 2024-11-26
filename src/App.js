@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import OffcanvasExample from './Navbar';
 import CarouselHomePage from './CarouselHomePage';
@@ -14,7 +13,7 @@ import Login from './components/Login';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import Listings from './Listings';
 import DescriptionPage from './DescriptionPage';
-import Create from  './Review/Create';
+import Create from './Review/Create';
 import AddListings from './AddListings';
 import AdminDashboard from './AdminDashboard';
 import UserProfileDashboard from './ProfilePage';
@@ -23,7 +22,7 @@ import BookingPage from './BookingPage';
 import { AdminRoute, HostRoute,GuestRoute,UserRoute } from './components/ProtectedRoute';
 import { Check } from 'lucide-react';
 import CheckoutPage from './CheckoutPage';
-import HostDashboard from './HostDashboard';
+import HostDashboard from './Hostdashboard';
 import HomePage from './CarouselHomePage';
 import AboutContactPage from './Aboutus';
 import ViewBookingPage from './ViewBookingPage';
