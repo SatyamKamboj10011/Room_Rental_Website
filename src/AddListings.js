@@ -3,36 +3,28 @@ import { useParams } from "react-router-dom";
 import ListingsDataService from "./services/ListingsDataService";
 import { Button, Container, Row, Col, Card, Form, Alert } from "react-bootstrap";
 import { useUserAuth } from "./context/UserAuthContext";
-
-
+ 
 function AddListings() {
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState(null);
-  const [image2, setImage2] = useState(null);
-  const [image3, setImage3] = useState(null);
   const [location, setLocation] = useState("");
   const [roomType, setRoomType] = useState("");
   const [available, setAvailable] = useState(true);
   const [images, setImages] = useState([]);  // State to hold the uploaded images
   const [imageURLs, setImageURLs] = useState([]);  // State to store URLs of uploaded images
   const [message, setMessage] = useState({ error: false, msg: "" });
-  const [isUploading, setIsUploading] = useState(false);
-  const [existingImages, setExistingImages] = useState([]);
-  
   const { user } = useUserAuth();
-
+ 
   useEffect(() => {
     if (id) fetchListingData();
   }, [id]);
-
+ 
   const fetchListingData = async () => {
     try {
-      const listing = await ListingsDataService.getListingById(id); // Fetch listing data by ID
+      const listing = await ListingsDataService.getListingById(id);
       if (listing) {
-        console.log("Fetched Listing: ", listing); // Debug log
         setTitle(listing.title || "");
         setDescription(listing.description || "");
         setPrice(listing.price || "");
@@ -41,15 +33,13 @@ function AddListings() {
         setAvailable(listing.available ?? true);
         setImageURLs(listing.images || []); // Set the existing image URLs if available
       } else {
-        console.error("No listing found with the given ID.");
         setMessage({ error: true, msg: "Listing not found." });
       }
     } catch (error) {
-      console.error("Error fetching listing data: ", error);
       setMessage({ error: true, msg: "Error fetching listing data." });
     }
   };
-
+ 
   const handleAvailabilityToggle = async () => {
     const updatedAvailability = !available;
     setAvailable(updatedAvailability);
@@ -63,27 +53,27 @@ function AddListings() {
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);  // Convert FileList to an array
     if (files.length === 0) return;
-  
+ 
     // Check if user tries to upload more than 3 images
     if (files.length + imageURLs.length > 3) {
       setMessage({ error: true, msg: "You can upload a maximum of 3 images." });
       return;
     }
-  
+ 
     const uploadedImageURLs = [];
     for (const file of files) {
       const formData = new FormData();
       formData.append("image", file);
-  
+ 
       try {
         // Use fetch to upload the image to ImgBB
         const response = await fetch(`https://api.imgbb.com/1/upload?key=cb1698e63775c38d0af63afaf7bb61b7`, {
           method: 'POST',
           body: formData,
         });
-  
+ 
         const data = await response.json();  // Parse the JSON response
-  
+ 
         if (data.success) {
           uploadedImageURLs.push(data.data.url);  // Store the uploaded image URL
         } else {
@@ -95,22 +85,22 @@ function AddListings() {
         return;
       }
     }
-  
+ 
     // Update state with newly uploaded URLs, without exceeding max of 3 images
     setImageURLs(prevURLs => [...prevURLs, ...uploadedImageURLs]);  // Add new URLs to existing URLs
     setImages(prevImages => [...prevImages, ...files]);  // Store the files for future use (if needed)
   };
-  
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-
+ 
     if (!title || !description || !price || !location || !roomType) {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
-  
-
+ 
+ 
     const newListing = {
       title,
       description,
@@ -121,19 +111,15 @@ function AddListings() {
       available,
       images: imageURLs,  // Store the image URLs
     };
-
+ 
     try {
-      let listingId;
-
       if (id) {
         await ListingsDataService.updateListing(id, newListing);
-        listingId = id;
         setMessage({ error: false, msg: "Listing updated successfully!" });
       } else {
-        const docRef = await ListingsDataService.addListing(newListing);
-        listingId = docRef.id;
+        await ListingsDataService.addListing(newListing);
         setMessage({ error: false, msg: "Listing added successfully!" });
-
+ 
         setTitle("");
         setDescription("");
         setPrice("");
@@ -145,69 +131,8 @@ function AddListings() {
     } catch (error) {
       setMessage({ error: true, msg: error.message });
     }
-
-    resetForm(); // Reset the form after submitting
   };
-
-  const handleImageUpload = async (listingId) => {
-    setIsUploading(true);
-    const imageUrls = [...existingImages];
-    try {
-      if (image) {
-        const imageUrl = await uploadToFirebase(listingId, image, "image1");
-        imageUrls.push(imageUrl);
-      }
-      if (image2) {
-        const imageUrl2 = await uploadToFirebase(listingId, image2, "image2");
-        imageUrls.push(imageUrl2);
-      }
-      if (image3) {
-        const imageUrl3 = await uploadToFirebase(listingId, image3, "image3");
-        imageUrls.push(imageUrl3);
-      }
-      await ListingsDataService.updateListingImages(listingId, imageUrls);
-    } catch (error) {
-      setMessage({ error: true, msg: "Error uploading images." });
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const uploadToFirebase = async (listingId, file, imageName) => {
-    const imageRef = ref(storage, `listings/${listingId}/${imageName}`);
-    await uploadBytes(imageRef, file);
-    const downloadUrl = await getDownloadURL(imageRef);
-    return downloadUrl;
-  };
-
-  const handleDeleteImage = async (index) => {
-    const imageUrl = existingImages[index];
-    try {
-      await deleteImageFromFirebase(id, imageUrl); // Delete from Firebase storage
-      const updatedImages = existingImages.filter((_, i) => i !== index);
-      setExistingImages(updatedImages); // Update state to remove image from UI
-    } catch (error) {
-      setMessage({ error: true, msg: "Error deleting image from storage." });
-    }
-  };
-
-  const deleteImageFromFirebase = async (listingId, imageUrl) => {
-    const imageRef = ref(storage, `listings/${listingId}/${imageUrl}`);
-    await deleteObject(imageRef);
-  };
-
-  const resetForm = () => {
-    setTitle("");
-    setDescription("");
-    setPrice("");
-    setImage(null);
-    setImage2(null);
-    setImage3(null);
-    setLocation("");
-    setRoomType("");
-    setExistingImages([]);
-  };
-
+ 
   return (
     <div
       style={{
@@ -249,7 +174,7 @@ function AddListings() {
               </p>
             </div>
           </Col>
-
+ 
           <Col md={7} lg={6}>
             <Card
               style={{
@@ -280,93 +205,63 @@ function AddListings() {
                     {message.msg}
                   </Alert>
                 )}
-
-              <Form onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                  <Col md={12}>
-                    <Form.Group controlId="formTitle">
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Enter the title"
-                        style={formControlStyle}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Row className="mb-3">
-                  <Col md={12}>
-                    <Form.Group controlId="formPrice">
-                      <Form.Label>Price</Form.Label>
-                      <Form.Control
-                        type="number"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.valueAsNumber)}
-                        placeholder="Enter the price per week"
-                        style={formControlStyle}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Form.Group controlId="formDescription" className="mb-3">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Describe the listing"
-                    style={formControlStyle}
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formLocation" className="mb-3">
-                  <Form.Label>Location</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder="Enter the location"
-                    style={formControlStyle}
-                  />
-                </Form.Group>
-
-                <Row>
-                  {existingImages.map((url, index) => (
-                    <Col key={index} md={4} className="position-relative">
-                      <img src={url} alt={`Listing Image ${index + 1}`} className="img-fluid mb-3" />
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleDeleteImage(index)}
-                        className="position-absolute top-0 end-0"
-                      >
-                        &times;
-                      </Button>
-                    </Col>
-                  ))}
-                </Row>
-
-                {/* Room Type Dropdown */}
-                <Form.Group controlId="formRoomType" className="mb-3">
-                  <Form.Label>Room Type</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={roomType}
-                    onChange={(e) => setRoomType(e.target.value)}
-                    style={formControlStyle}
-                  >
-                    <option value="">Select room type</option>
-                    <option value="single">Single Room</option>
-                    <option value="double">Double Room</option>
-                    <option value="suite">Suite</option>
-                  </Form.Control>
-                </Form.Group>
-
+ 
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group controlId="formTitle" className="mb-3">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </Form.Group>
+ 
+                  <Form.Group controlId="formPrice" className="mb-3">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Enter price"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.valueAsNumber)}
+                    />
+                  </Form.Group>
+ 
+                  <Form.Group controlId="formDescription" className="mb-3">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      placeholder="Enter description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </Form.Group>
+ 
+                  <Form.Group controlId="formLocation" className="mb-3">
+                    <Form.Label>Location</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                    />
+                  </Form.Group>
+ 
+                  <Form.Group controlId="formRoomType" className="mb-3">
+                    <Form.Label>Room Type</Form.Label>
+                    <Form.Control
+                      as="select"
+                      value={roomType}
+                      onChange={(e) => setRoomType(e.target.value)}
+                    >
+                      <option value="">Select room type</option>
+                      <option value="single">Single Room</option>
+                      <option value="double">Double Room</option>
+                      <option value="suite">Suite</option>
+                    </Form.Control>
+                  </Form.Group>
+ 
                   <Form.Group controlId="formImages" className="mb-3">
                     <Form.Label>Upload Images (Max 3)</Form.Label>
                     <Form.Control
@@ -387,7 +282,7 @@ function AddListings() {
                       ))}
                     </div>
                   </Form.Group>
-
+ 
                   <div className="d-flex align-items-center justify-content-between mb-3">
                     <p className="mb-0">
                       <strong>Availability:</strong>{" "}
@@ -406,7 +301,7 @@ function AddListings() {
                       {available ? "Set Unavailable" : "Set Available"}
                     </Button>
                   </div>
-
+ 
                   <Button
                     variant="primary"
                     type="submit"
@@ -419,20 +314,14 @@ function AddListings() {
                   >
                     {id ? "Update Listing" : "Add Listing"}
                   </Button>
-                </ButtonGroup>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
-
-const formControlStyle = {
-  borderRadius: "5px",
-  borderColor: "#007bff",
-  boxShadow: "0 0 5px rgba(0, 123, 255, 0.3)"
-};
-
+ 
 export default AddListings;
