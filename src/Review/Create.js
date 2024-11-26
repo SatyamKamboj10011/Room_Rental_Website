@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
+import { FaStar } from 'react-icons/fa';
 import FBDataService from '../services/fbServices';
 
 function CreateReviewPage() {
   const [feedback, setFeedback] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
-  const [isHovered, setIsHovered] = useState(false);
+  const [rating, setRating] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -33,50 +34,72 @@ function CreateReviewPage() {
   return (
     <div
     style={{
-      maxWidth: '600px',
-      margin: '3rem auto',
+      height: '100vh',
+      background: 'url(https://i.pinimg.com/originals/77/6a/d8/776ad81e48f5fdab91d0436af12f02c4.gif)',
+      backgroundSize: 'cover',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       padding: '2rem',
-      background: isHovered ? '#f0f8ff' : '#f9f9f9', 
-      borderRadius: '12px',
-      boxShadow: isHovered
-        ? '0 12px 25px rgba(0, 0, 0, 0.3)' 
-        : '0 8px 20px rgba(0, 0, 0, 0.15)',
-      transition: '0.3s ease-in-out',
+      position: 'relative',
     }}
-    onMouseEnter={() => setIsHovered(true)}
-    onMouseLeave={() => setIsHovered(false)}
+  >
+    {/* Form Container */}
+    <div
+      style={{
+        maxWidth: '600px',
+        width: '100%',
+        padding: '2rem',
+        background: 'rgba(255, 255, 255, 0.85)', // Slightly transparent white
+        borderRadius: '12px',
+        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+        textAlign: 'center',
+        zIndex: 1, // Form in front of background
+      }}
     >
       <h2
         style={{
-          textAlign: 'center',
-          marginBottom: '1.5rem',
-          color: '#333',
           fontWeight: 'bold',
+          color: '#007bff',
+          marginBottom: '1.5rem',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
         }}
       >
         Add Your Review
       </h2>
-      <Form
-        onSubmit={handleSubmit}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Form.Group
-          controlId="feedback"
-          style={{
-            marginBottom: '1.5rem',
-          }}
-        >
+
+      {/* Star Rating */}
+      <div style={{ marginBottom: '1.5rem' }}>
+        <p style={{ fontWeight: '500', color: '#555', marginBottom: '0.5rem' }}>Rate This Listing</p>
+        <div>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <FaStar
+              key={star}
+              size={24}
+              style={{
+                marginRight: '5px',
+                cursor: 'pointer',
+              }}
+              color={star <= rating ? '#007bff' : '#ccc'}
+              onClick={() => setRating(star)}
+            />
+          ))}
+        </div>
+      </div>
+
+      <Form onSubmit={handleSubmit}>
+        {/* Feedback Field */}
+        <Form.Group controlId="feedback" style={{ marginBottom: '1.5rem' }}>
           <Form.Label
             style={{
-              marginBottom: '0.5rem',
               fontWeight: '500',
               color: '#555',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            Feedback
+            <span style={{ marginRight: '10px', color: '#007bff' }}>💬</span> Feedback
           </Form.Label>
           <Form.Control
             as="textarea"
@@ -86,27 +109,25 @@ function CreateReviewPage() {
             placeholder="Write your feedback here..."
             style={{
               borderRadius: '8px',
-              border: '1px solid #ccc',
+              border: '1px solid #007bff',
               padding: '10px',
               fontSize: '14px',
             }}
             required
           />
         </Form.Group>
-        <Form.Group
-          controlId="name"
-          style={{
-            marginBottom: '1.5rem',
-          }}
-        >
+
+        {/* Name Field */}
+        <Form.Group controlId="name" style={{ marginBottom: '1.5rem' }}>
           <Form.Label
             style={{
-              marginBottom: '0.5rem',
               fontWeight: '500',
               color: '#555',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            Name
+            <span style={{ marginRight: '10px', color: '#007bff' }}>👤</span> Name
           </Form.Label>
           <Form.Control
             type="text"
@@ -115,27 +136,25 @@ function CreateReviewPage() {
             placeholder="Enter your name"
             style={{
               borderRadius: '8px',
-              border: '1px solid #ccc',
+              border: '1px solid #007bff',
               padding: '10px',
               fontSize: '14px',
             }}
             required
           />
         </Form.Group>
-        <Form.Group
-          controlId="date"
-          style={{
-            marginBottom: '1.5rem',
-          }}
-        >
+
+        {/* Date Field */}
+        <Form.Group controlId="date" style={{ marginBottom: '1.5rem' }}>
           <Form.Label
             style={{
-              marginBottom: '0.5rem',
               fontWeight: '500',
               color: '#555',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            Date
+            <span style={{ marginRight: '10px', color: '#007bff' }}>📅</span> Date
           </Form.Label>
           <Form.Control
             type="date"
@@ -143,32 +162,36 @@ function CreateReviewPage() {
             onChange={(e) => setDate(e.target.value)}
             style={{
               borderRadius: '8px',
-              border: '1px solid #ccc',
+              border: '1px solid #007bff',
               padding: '10px',
               fontSize: '14px',
             }}
           />
         </Form.Group>
-        <div
+
+        {/* Submit Button */}
+        <Button
+          type="submit"
           style={{
-            textAlign: 'center',
+            background: '#007bff',
+            border: 'none',
+            padding: '10px 20px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            color: '#fff',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            width: '100%',
+            transition: '0.3s ease',
           }}
+          onMouseEnter={(e) => (e.target.style.background = '#0056b3')}
+          onMouseLeave={(e) => (e.target.style.background = '#007bff')}
         >
-          <Button
-            type="submit"
-            style={{
-              padding: '10px 20px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: '#fff',
-              borderRadius: '8px',
-            }}
-            >
-            Submit Review
-          </Button>
-        </div>
+          Submit Review
+        </Button>
       </Form>
     </div>
+  </div>
   );
 }
 

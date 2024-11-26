@@ -72,7 +72,7 @@ const AdminDashboard = () => {
       setLoadingUsers(false);
     }
   };
-
+  
   // Fetch all listings from Firestore
   const fetchListings = async () => {
     try {

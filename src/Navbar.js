@@ -80,7 +80,7 @@ function OffcanvasExample() {
                       )}
 
                       {/* Host-only links (including admins) */}
-                      {(role === "admin" || role === "host") && (
+                      {(role === "host") && (
                         <>
                           <NavDropdown.Item as={Link} to="/ProfilePage">
                             Profile Page

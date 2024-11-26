@@ -3,7 +3,7 @@ import { db } from '../firebase'; // Adjust the path as necessary to your Fireba
  
 const collectionName = 'feedback';
 const collectionRef = collection(db, collectionName);
- 
+
 class FBDataService {
   // Add a new listing to Firestore
   adddata = (newData) => {
@@ -42,10 +42,10 @@ class FBDataService {
   // Fetch a single listing by ID
   async getDataById(id) {
     try {
-      const docRef = doc(db, collectionName, id); // Create a reference to the document
-      const dataSnapshot = await getDoc(docRef); // Fetch the document
- 
+      const docRef = doc(db, collectionName, id);
+      const dataSnapshot = await getDoc(docRef);
       if (dataSnapshot.exists()) {
+        console.log("Fetched data:", dataSnapshot.data());  // Add this log to verify data
         return { id: dataSnapshot.id, ...dataSnapshot.data() };
       } else {
         console.log('Data not found');

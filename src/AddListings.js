@@ -5,7 +5,7 @@ import { Button, Container, Row, Col, Card, Form, Alert } from "react-bootstrap"
 import { useUserAuth } from "./context/UserAuthContext";
 
 function AddListings() {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the listing ID from the URL
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -129,6 +129,7 @@ function AddListings() {
         setImageURLs([]);  // Reset image URLs after adding a new listing
       }
     } catch (error) {
+      console.error("Error saving listing: ", error);
       setMessage({ error: true, msg: error.message });
     }
   };
