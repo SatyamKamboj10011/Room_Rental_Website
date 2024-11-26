@@ -15,7 +15,7 @@ function HostDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && role === "host") {
+    if (user && role === "host"|| "admin") {
       fetchHostListings();
     }
   }, [user, role]);

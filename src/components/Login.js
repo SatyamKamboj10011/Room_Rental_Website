@@ -1,50 +1,70 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Alert, Button } from "react-bootstrap";
+import { Form, Alert, Button, Spinner } from "react-bootstrap";
 import GoogleButton from "react-google-button";
 import { useUserAuth } from "../context/UserAuthContext";
+import UserDataService from "../services/UserDataService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { logIn, googleSignIn } = useUserAuth();
   const navigate = useNavigate();
+
+  const addLoginLog = async (userId) => {
+    try {
+      const loginLog = {
+        timestamp: new Date(),
+        method: "email-password",
+        ipAddress: "ip address", // Replace with real IP logic
+      };
+      await UserDataService.addLoginLog(userId, loginLog);
+    } catch (error) {
+      console.error("Error adding login log:", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
     try {
-      await logIn(email, password);
-      navigate("/");
+      const userCredential = await logIn(email, password); // Firebase authentication return value
+      console.log("Login Successfull:", userCredential);
+
+      const userId = userCredential.user?.uid; // Safely access the uid property
+      if (userId) {
+        await addLoginLog(userId); // Proceed to add login log
+        navigate("/"); // Navigate after login
+      } else {
+        setError("User ID not found.");
+      }
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoogleSignIn = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await googleSignIn();
-      navigate("/");
+      navigate("/"); // Navigate after Google login
     } catch (error) {
       setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="login-page">
-      {/* Background Video */}
-      <video
-        src="https://videos.pexels.com/video-files/4770380/4770380-hd_1920_1080_30fps.mp4" // Replace with your video URL
-        type="video/mp4"
-        autoPlay
-        loop
-        muted
-        className="background-video"
-      />
-      
+     
       {/* Overlay for readability */}
       <div className="overlay"></div>
 
@@ -81,8 +101,9 @@ const Login = () => {
               variant="primary"
               type="submit"
               className="login-btn"
+              disabled={isLoading}
             >
-              Log In
+              {isLoading ? <Spinner animation="border" size="sm" /> : "Log In"}
             </Button>
           </div>
         </Form>
@@ -93,7 +114,8 @@ const Login = () => {
           <GoogleButton
             type="dark"
             onClick={handleGoogleSignIn}
-            className="google-btn" style={{
+            className="google-btn" 
+            style={{
               backgroundColor: 'white',
               color: 'black',
               width: '100%',
@@ -102,6 +124,7 @@ const Login = () => {
               justifyContent: 'center',
               borderRadius: '10px',
             }}
+            disabled={isLoading}
           />
         </div>
 
@@ -117,6 +140,7 @@ const Login = () => {
       <style>{`
         /* Base styles */
         * {
+        
           margin: 0;
           padding: 0;
           box-sizing: border-box;
@@ -130,20 +154,17 @@ const Login = () => {
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: #111;
+        
         }
 
-        /* Background video */
-        .background-video {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          z-index: -1;
-          filter: brightness(0.5); /* Darken the video for readability */
-        }
+       .login-page {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("https://cdn.pixabay.com/photo/2024/07/03/07/50/table-8869129_1280.jpg") center/cover no-repeat;
+}
 
         /* Overlay for better text contrast */
         .overlay {
@@ -152,14 +173,14 @@ const Login = () => {
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+          background: rgba(0, 0, 0, 0.2); /* Dark overlay */
           z-index: 0;
         }
 
         /* Centering the login form */
         .login-container {
           z-index: 1;
-          background-color: white;
+          background:whitesmoke;
           padding: 40px;
           border-radius: 12px;
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -167,6 +188,7 @@ const Login = () => {
           width: 100%;
           text-align: center;
           transition: transform 0.3s ease;
+          
         }
 
         /* Hover effect for the login container */

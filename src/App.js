@@ -29,6 +29,7 @@ import AboutContactPage from './Aboutus';
 import ViewBookingPage from './ViewBookingPage';
 import InvoicePage from './InvoicePage';
 import Guestlistings from './Guestlisting';
+import UserDashboardPage from './UserDashboard';
 
 function App() {
   return (
@@ -55,23 +56,59 @@ function App() {
           <Route path ='/show/:listingId' element={<Show/>}/>
           <Route path = '/add-listing/:id' element={<AddListings/>}/>
           <Route path="/invoice/:bookingId" element={<InvoicePage />} />
+          <Route path ='/userdashboard' element={<UserDashboardPage/>}/>
 
+         {/* Admin */}
           <Route
                 path="/admindashboard"
                 element={
                   <AdminRoute>
                     <AdminDashboard />
-                    <HostDashboard/>
                   </AdminRoute>
                 }
               />
+              {/* Host */}
               <Route
                 path="/hostdashboard"
                 element={
                   <HostRoute>
-                    <ProfilePage />
                     <HostDashboard/>
                   </HostRoute>
+                }
+              />
+
+                <Route
+                path="/add-listing/:id"
+                element={
+                  <HostRoute>
+                    <AddListings/>
+                  </HostRoute>
+                }
+              />
+
+              <Route
+              path="/view-booking/:listingId"
+              element={
+                <HostRoute>
+                  <ViewBookingPage />
+                </HostRoute>
+              }
+            />
+              <Route
+                path="/ProfilePage"
+                element={
+                  <UserRoute>
+                    <ProfilePage />
+                  </UserRoute>
+                }
+              />
+
+<Route
+                path="/userdashboard"
+                element={
+                  <UserRoute>
+                    <UserDashboardPage />
+                  </UserRoute>
                 }
               />
               <Route
@@ -82,6 +119,31 @@ function App() {
                   </UserRoute>
                 }
               />
+                <Route
+              path="/booking/:listingId"
+              element={
+                <UserRoute>
+                  <BookingPage />
+                </UserRoute>
+              }
+            />
+            <Route
+              path="/CheckoutPage/:listingId"
+              element={
+                <UserRoute>
+                  <CheckoutPage />
+                </UserRoute>
+              }
+            />
+            <Route
+              path="/invoice/:bookingId"
+              element={
+                <UserRoute>
+                  <InvoicePage />
+                </UserRoute>
+              }
+              />
+              {/* HomePage */}
                <Route
                 path="/"
                 element={
@@ -90,6 +152,8 @@ function App() {
                 </>
                 }
               />
+
+
               <Route
                 path="/"
                 element={

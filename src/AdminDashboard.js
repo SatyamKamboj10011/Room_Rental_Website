@@ -16,6 +16,7 @@ import UserDataService from "./services/UserDataService";
 import ListingsDataService from "./services/ListingsDataService";
 import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
 import { FaSearch, FaDollarSign, FaTrashAlt, FaCheck } from "react-icons/fa";
+import { useUserAuth } from "./context/UserAuthContext";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -30,6 +31,8 @@ const AdminDashboard = () => {
   const [listingSearch, setListingSearch] = useState("");
   const [currentUserPage, setCurrentUserPage] = useState(1);
   const [currentListingPage, setCurrentListingPage] = useState(1);
+  const {user, role}= useUserAuth();
+
 
   const usersPerPage = 5;
   const listingsPerPage = 5;
@@ -94,7 +97,7 @@ const AdminDashboard = () => {
     setError(""); // Reset any previous errors
     setSuccess(""); // Reset any previous success messages
     try {
-      await UserDataService.updateUserRole(userId, { role: newRole });
+      await UserDataService.updateUserRole(userId, newRole );
  
       // Update the role in the local state for instant feedback
       setUsers((prevUsers) =>

@@ -5,7 +5,7 @@ import { db } from './firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Bootstrap icons
-
+ 
 const ProfilePage = () => {
   const { user } = useUserAuth();
   const [userData, setUserData] = useState(null);
@@ -13,7 +13,7 @@ const ProfilePage = () => {
   const [showEditModal, setShowEditModal] = useState(false); // State for edit modal
   const [theme, setTheme] = useState('light'); // Theme switcher state
   const navigate = useNavigate();
-
+ 
   // Fetch user data from Firestore
   useEffect(() => {
     if (user && user.uid) {
@@ -32,30 +32,30 @@ const ProfilePage = () => {
           setLoading(false);
         }
       };
-
+ 
       fetchUserData();
     } else {
       setLoading(false);
     }
   }, [user]);
-
+ 
   // Toggle theme
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
-
+ 
   // Profile completion percentage (example logic)
   const profileCompletionPercentage = (() => {
     const fields = ['firstname', 'lastname', 'email', 'phone', 'address', 'age'];
     const filledFields = fields.filter((field) => userData?.[field]);
     return Math.round((filledFields.length / fields.length) * 100);
   })();
-
+ 
   // Handle logout
   const handleLogout = () => {
     navigate('/login');
   };
-
+ 
   if (loading) {
     return (
       <Container className="text-center mt-5">
@@ -63,20 +63,10 @@ const ProfilePage = () => {
       </Container>
     );
   }
-
+ 
   return (
     <Container className={`mt-5 ${theme === 'dark' ? 'bg-dark text-white' : ''}`} style={{ borderRadius: '10px', padding: '20px' }}>
-      <style>{`
-        body {
-          background-image: url('https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg');
-          background-size: cover;
-          background-position: center;
-          background-attachment: fixed;
-          font-family: 'Arial', sans-serif;
-          margin: 0;
-          padding: 0;
-        `}
-        </style>
+      
       <Row className="justify-content-center">
         <Col md={10}>
           <Card className={theme === 'dark' ? 'bg-secondary' : ''}>
@@ -84,7 +74,7 @@ const ProfilePage = () => {
               <h2>My Profile</h2>
               <ProgressBar now={profileCompletionPercentage} label={`${profileCompletionPercentage}%`} className="mt-3" />
             </Card.Header>
-
+ 
             <Card.Body>
               {userData ? (
                 <Tabs defaultActiveKey="info" id="profile-tabs" className="mb-3">
@@ -118,19 +108,15 @@ const ProfilePage = () => {
                         <h5>Age:</h5>
                         <p>{userData.age}</p>
                       </Col>
-                      <Col md={6}>
-                        <h5>Role:</h5>
-                        <p>{userData.role}</p>
-                      </Col>
                     </Row>
                     <Button variant="primary" className="btn-gradient" onClick={() => setShowEditModal(true)}>Edit Profile</Button>
                   </Tab>
-
+ 
                   <Tab eventKey="security" title="Security">
                     <p>Password: **********</p>
                     <Button variant="warning">Change Password</Button>
                   </Tab>
-
+ 
                   <Tab eventKey="activity" title="Activity History">
                     <ListGroup variant="flush">
                       <ListGroup.Item>
@@ -149,7 +135,7 @@ const ProfilePage = () => {
                 <p className="text-center">User data not found.</p>
               )}
             </Card.Body>
-
+ 
             <Card.Footer className="text-center">
               <div className="my-3">
                 <Badge bg="success" className="mx-1">Verified User</Badge>
@@ -180,7 +166,7 @@ const ProfilePage = () => {
           </Card>
         </Col>
       </Row>
-
+ 
       {/* Edit Profile Modal */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>
@@ -207,5 +193,5 @@ const ProfilePage = () => {
     </Container>
   );
 };
-
+ 
 export default ProfilePage;
