@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Spinner, Alert, Image, Form } from 'react-bootstrap';
-import BookingDataService from './services/BookingDataService';
+import BookingDataService from '../services/BookingDataService';
 
 function CheckoutPage() {
   const { state } = useLocation();

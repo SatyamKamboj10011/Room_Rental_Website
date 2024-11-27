@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../services/firebase";
 import UserDataService from "../services/UserDataService";
 
 // Create the context

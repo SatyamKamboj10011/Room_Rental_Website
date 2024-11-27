@@ -12,11 +12,11 @@ import {
   Button,
   Pagination,
 } from "react-bootstrap";
-import UserDataService from "./services/UserDataService";
-import ListingsDataService from "./services/ListingsDataService";
-import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
+import UserDataService from "../services/UserDataService";
+import ListingsDataService from "../services/ListingsDataService";
+import BookingDataService from '../services/BookingDataService'; // Adjust the path as needed
 import { FaSearch, FaDollarSign, FaTrashAlt, FaCheck } from "react-icons/fa";
-import { useUserAuth } from "./context/UserAuthContext";
+import { useUserAuth } from "../context/UserAuthContext";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);

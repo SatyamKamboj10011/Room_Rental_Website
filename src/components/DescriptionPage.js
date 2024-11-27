@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Image, Row, Button, Card, ListGroup, Badge, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import ListingsDataService from './services/ListingsDataService';
+import ListingsDataService from '../services/ListingsDataService';
 import { FaStar, FaMapMarkerAlt } from 'react-icons/fa';
 import Spinner from 'react-bootstrap/Spinner';
-import FBDataService from './services/fbServices';
+import FBDataService from '../services/fbServices';
 import { Carousel } from 'react-bootstrap'; // Importing the Carousel component
 
 function DescriptionPage() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import OffcanvasExample from './Navbar';
+import OffcanvasExample from './components/Navbar';
 import CarouselHomePage from './CarouselHomePage';
 import CategoryButtons from './ButtonGroup';
 import HomeCards from './HomeCards';
@@ -8,26 +8,25 @@ import HeaderAndFooterExample from './WhyChooseUs';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
  
 import Show from './Review/Show';
-import Register from './Register';
+import Register from './components/Register';
 import Login from './components/Login';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import Listings from './Listings';
-import DescriptionPage from './DescriptionPage';
+import DescriptionPage from './components/DescriptionPage';
 import Create from './Review/Create';
-import AddListings from './AddListings';
-import AdminDashboard from './AdminDashboard';
-import UserProfileDashboard from './ProfilePage';
-import ProfilePage from './ProfilePage';
-import BookingPage from './BookingPage';
+import AddListings from './components/AddListings';
+import AdminDashboard from './components/AdminDashboard';
+import ProfilePage from './components/ProfilePage';
+import BookingPage from './components/BookingPage';
 import { AdminRoute, HostRoute,GuestRoute,UserRoute } from './components/ProtectedRoute';
 import { Check } from 'lucide-react';
-import CheckoutPage from './CheckoutPage';
-import HostDashboard from './Hostdashboard';
+import CheckoutPage from './components/CheckoutPage';
+import HostDashboard from './components/Hostdashboard';
 import HomePage from './CarouselHomePage';
 import AboutContactPage from './Aboutus';
-import ViewBookingPage from './ViewBookingPage';
-import InvoicePage from './InvoicePage';
-import Guestlistings from './Guestlisting';
+import ViewBookingPage from './components/ViewBookingPage';
+import InvoicePage from './components/InvoicePage';
+import Guestlistings from './components/Guestlisting';
 import UserDashboardPage from './UserDashboard';
 
 function App() {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Form, Image, Spinner, Badge, Alert } from 'react-bootstrap';
-import BookingDataService from './services/BookingDataService'; // Adjust the path as needed
+import BookingDataService from '../services/BookingDataService'; // Adjust the path as needed
 import { FaCalendarAlt, FaUser, FaEnvelope } from 'react-icons/fa';
 
 function BookingPage() {

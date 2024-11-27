@@ -6,7 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-import { useUserAuth } from "./context/UserAuthContext"; // Import the UserAuth context
+import { useUserAuth } from "../context/UserAuthContext"; // Import the UserAuth context
 
 function OffcanvasExample() {
   const { user, role, logOut } = useUserAuth(); // Destructure user and role from context
@@ -80,7 +80,7 @@ function OffcanvasExample() {
                       )}
 
                       {/* Host-only links (including admins) */}
-                      {(role === "host") && (
+                      {(role === "host" || role === "admin") && (
                         <>
                           <NavDropdown.Item as={Link} to="/ProfilePage">
                             Profile Page
@@ -95,9 +95,7 @@ function OffcanvasExample() {
                           <NavDropdown.Item as={Link} to="/Hostdashboard">
                             Host Dashboard
                           </NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/CheckoutPage">
-                            Checkout Page
-                          </NavDropdown.Item>
+                          
                         </>
                       )}
 
@@ -116,7 +114,7 @@ function OffcanvasExample() {
                       )}
 
                       {/* Guest links */}
-                      {role === "guest" && (
+                      {role === "" && (
                         <>
                           <NavDropdown.Item as={Link} to="/">
                             Home

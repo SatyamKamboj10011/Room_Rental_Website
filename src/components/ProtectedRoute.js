@@ -8,7 +8,7 @@ const checkAccess = (user, role, requiredRole) => {
     return "login"; // Redirect to login if user is not authenticated
   }
 
-  if (requiredRole && role !== requiredRole) {
+  if (requiredRole && !role !== requiredRole) {
     return "unauthorized"; // Redirect to unauthorized if the role doesn't match
   }
 

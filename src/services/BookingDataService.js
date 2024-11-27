@@ -1,4 +1,4 @@
-import { db } from '../firebase'; // Adjust the path
+import { db } from './firebase'; // Adjust the path
 import { doc, getDoc, addDoc, collection ,getDocs,query,where} from 'firebase/firestore';
 
 class BookingDataService {
@@ -69,7 +69,7 @@ class BookingDataService {
         this.getBookingDetailsById(bookingId),
         this.getListingById(listingId)
       ]);
-      return { booking, listing };
+      return { ...booking, roomTitle: listing.title, roomLocation: listing.location };
     } catch (error) {
       console.error("Error fetching booking and listing:", error);
       throw new Error("Error fetching booking and listing");

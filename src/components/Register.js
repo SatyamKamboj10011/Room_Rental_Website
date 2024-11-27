@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Alert, Button, Row, Col, Container } from "react-bootstrap";
-import { useUserAuth } from "./context/UserAuthContext";
-import UserDataService from "./services/UserDataService"; // Assuming you have a service to save user data
+import { useUserAuth } from "../context/UserAuthContext";
+import UserDataService from "../services/UserDataService"; // Assuming you have a service to save user data
 
 const Register = () => {
   const [email, setEmail] = useState("");

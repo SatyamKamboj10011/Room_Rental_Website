@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Card, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
-import BookingDataService from "./services/BookingDataService";
+import BookingDataService from "../services/BookingDataService";
 import { format } from "date-fns";
 import { FaDownload } from 'react-icons/fa';
 
@@ -42,8 +42,8 @@ function InvoicePage() {
     const details = [
       `Guest Name: ${bookingDetails.guestName}`,
       `Guest Email: ${bookingDetails.guestEmail}`,
-      `Room Title: ${bookingDetails.title}`,
-      `Room Location: ${bookingDetails.location}`,
+      `Room Title: ${bookingDetails.roomTitle}`,
+      `Room Location: ${bookingDetails.roomLocation}`,
       `Check-in Date: ${formattedCheckIn}`,
       `Check-out Date: ${formattedCheckOut}`,
       `Total Price: $${bookingDetails.price}`,
@@ -114,10 +114,10 @@ function InvoicePage() {
           <Col md={6}>
             <p><strong>Guest Name:</strong> {bookingDetails.guestName}</p>
             <p><strong>Guest Email:</strong> {bookingDetails.guestEmail}</p>
-            <p><strong>Room Title:</strong> {bookingDetails.title}</p>
+            <p><strong>Room Title:</strong> {bookingDetails.roomTitle}</p>
           </Col>
           <Col md={6}>
-            <p><strong>Room Location:</strong> {bookingDetails.location}</p>
+            <p><strong>Room Location:</strong> {bookingDetails.roomLocation}</p>
             <p><strong>Check-in Date:</strong> {formattedCheckIn}</p>
             <p><strong>Check-out Date:</strong> {formattedCheckOut}</p>
           </Col>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import BookingDataService from './services/BookingDataService'; // Adjust path as needed
+import BookingDataService from '../services/BookingDataService'; // Adjust path as needed
 
 function ViewBookingsPage() {
   const { listingId } = useParams(); // Get listingId from URL params

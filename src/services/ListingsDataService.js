@@ -1,6 +1,6 @@
 import { collection, getDocs, doc, getDoc, addDoc, updateDoc,deleteDoc, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';  // For handling file uploads
-import { db } from '../firebase';  // Adjust the path as necessary to your Firebase config
+import { db } from './firebase';  // Adjust the path as necessary to your Firebase config
  
 const collectionName = 'listings';
 const listingsCollectionRef = collection(db, collectionName);

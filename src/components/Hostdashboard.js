@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Card, Button, Row, Col, Spinner, Form, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import ListingsDataService from "./services/ListingsDataService";
-import { useUserAuth } from "./context/UserAuthContext";
+import ListingsDataService from "../services/ListingsDataService";
+import { useUserAuth } from "../context/UserAuthContext";
 import { FaSearch } from "react-icons/fa";
-import BookingDataService from "./services/BookingDataService"; // Import the service
+import BookingDataService from "../services/BookingDataService"; // Import the service
 
 function HostDashboard() {
   const { user, role } = useUserAuth();

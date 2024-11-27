@@ -6,12 +6,12 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import ListingsDataService from './services/ListingsDataService';
+import ListingsDataService from '../services/ListingsDataService';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
-import CategoryButtons from './ButtonGroup'; // Assuming CategoryButtons is a reusable component
+import CategoryButtons from '../ButtonGroup'; // Assuming CategoryButtons is a reusable component
 import { Form, Pagination } from 'react-bootstrap';
-import { useUserAuth } from './context/UserAuthContext';
+import { useUserAuth } from '../context/UserAuthContext';
 
 
 function Guestlistings() {

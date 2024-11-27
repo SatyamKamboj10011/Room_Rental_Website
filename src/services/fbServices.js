@@ -1,5 +1,5 @@
 import { collection, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../firebase'; // Adjust the path as necessary to your Firebase config
+import { db } from './firebase'; // Adjust the path as necessary to your Firebase config
  
 const collectionName = 'feedback';
 const collectionRef = collection(db, collectionName);

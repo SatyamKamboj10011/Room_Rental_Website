@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ListingsDataService from "./services/ListingsDataService";
+import ListingsDataService from "../services/ListingsDataService";
 import { Button, Container, Row, Col, Card, Form, Alert } from "react-bootstrap";
-import { useUserAuth } from "./context/UserAuthContext";
+import { useUserAuth } from "../context/UserAuthContext";
 
 function AddListings() {
   const { id } = useParams(); // Get the listing ID from the URL
@@ -260,6 +260,8 @@ function AddListings() {
                       <option value="single">Single Room</option>
                       <option value="double">Double Room</option>
                       <option value="suite">Suite</option>
+                      <option value="apartment">Apartment</option>
+                      <option value="studio">Studio</option>
                     </Form.Control>
                   </Form.Group>
 
