@@ -131,11 +131,11 @@ const ProfilePage = () => {
                     <p>{userData.role}</p>
                     <Button variant="warning">
                       <a
-                        href={`https://mail.google.com/mail/?view=cm&fs=1&to=admin@example.com&su=Host%20Request&body=Dear%20Admin,%0A%0AI%20would%20like%20to%20become%20a%20host.%0A%0APlease%20review%20my%20request%20and%20change%20my%20role.%0A%0AThank%20you!%0A%0AUsername:%20${userData.firstname}%20${userData.lastname}`}
+                        href={`https://mail.google.com/mail/?view=cm&fs=1&to=satyamkamboj296@gmail.com.com&su=Host%20Request&body=Dear%20Admin,%0A%0AI%20would%20like%20to%20become%20a%20host.%0A%0APlease%20review%20my%20request%20and%20change%20my%20role.%0A%0AThank%20you!%0A%0AUsername:%20${userData.firstname}%20${userData.lastname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Request to Become a Host
+                        Request to Change Role
                       </a>
                     </Button>
                   </Tab>
