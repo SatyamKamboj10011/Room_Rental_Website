@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Alert, Button, Spinner } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import GoogleButton from "react-google-button";
 import { useUserAuth } from "../context/UserAuthContext";
 import UserDataService from "../services/UserDataService";
+import { FaSignInAlt, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isHovered, setIsHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { logIn, googleSignIn } = useUserAuth();
   const navigate = useNavigate();
 
@@ -32,13 +33,11 @@ const Login = () => {
     setError("");
     setIsLoading(true);
     try {
-      const userCredential = await logIn(email, password); // Firebase authentication return value
-      console.log("Login Successfull:", userCredential);
-
-      const userId = userCredential.user?.uid; // Safely access the uid property
+      const userCredential = await logIn(email, password);
+      const userId = userCredential.user?.uid;
       if (userId) {
-        await addLoginLog(userId); // Proceed to add login log
-        navigate("/"); // Navigate after login
+        await addLoginLog(userId);
+        navigate("/");
       } else {
         setError("User ID not found.");
       }
@@ -54,7 +53,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       await googleSignIn();
-      navigate("/"); // Navigate after Google login
+      navigate("/");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -64,197 +63,435 @@ const Login = () => {
 
   return (
     <div className="login-page">
-     
-      {/* Overlay for readability */}
-      <div className="overlay"></div>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+          --primary: #4361ee;
+          --primary-light: #4895ef;
+          --primary-dark: #3a0ca3;
+          --secondary: #7209b7;
+          --accent: #f72585;
+          --dark: #1a1a2e;
+          --light: #f8f9fa;
+          --gray: #6c757d;
+          --light-gray: #e9ecef;
+          --error: #ef233c;
+          --success: #4bb543;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Inter', sans-serif;
+        }
+        
+        .login-page {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          background-color: #f8f9fa;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .login-container {
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          background: white;
+          border-radius: 16px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+          overflow: hidden;
+        }
+        
+        .login-illustration {
+          background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+          padding: 4rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .login-illustration::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          right: -50%;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+          transform: rotate(30deg);
+        }
+        
+        .illustration-content {
+          position: relative;
+          z-index: 2;
+          max-width: 400px;
+        }
+        
+        .illustration-content h1 {
+          font-size: 2.5rem;
+          font-weight: 700;
+          margin-bottom: 1.5rem;
+          line-height: 1.2;
+        }
+        
+        .illustration-content p {
+          font-size: 1rem;
+          opacity: 0.9;
+          margin-bottom: 2rem;
+        }
+        
+        .features-list {
+          list-style: none;
+          margin-top: 2rem;
+        }
+        
+        .features-list li {
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+        }
+        
+        .features-list li::before {
+          content: '✓';
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          background-color: rgba(255,255,255,0.2);
+          border-radius: 50%;
+          text-align: center;
+          line-height: 24px;
+          margin-right: 12px;
+          font-size: 0.8rem;
+        }
+        
+        .login-form-container {
+          padding: 4rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        
+        .login-header {
+          margin-bottom: 2.5rem;
+          text-align: center;
+        }
+        
+        .login-header h2 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--dark);
+          margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+          color: var(--gray);
+          font-size: 0.95rem;
+        }
+        
+        .error-alert {
+          background-color: rgba(239, 35, 60, 0.1);
+          color: var(--error);
+          padding: 1rem;
+          border-radius: 8px;
+          margin-bottom: 1.5rem;
+          font-size: 0.9rem;
+          border-left: 3px solid var(--error);
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+          margin-bottom: 1.5rem;
+          position: relative;
+        }
+        
+        .form-label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          color: var(--dark);
+          font-size: 0.9rem;
+        }
+        
+        .input-group {
+          position: relative;
+        }
+        
+        .form-control {
+          width: 100%;
+          padding: 1rem 1rem 1rem 2.5rem;
+          border: 1px solid var(--light-gray);
+          border-radius: 8px;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          background-color: white;
+        }
+        
+        .form-control:focus {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+          outline: none;
+        }
+        
+        .input-icon {
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--gray);
+          font-size: 1rem;
+        }
+        
+        .password-toggle {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--gray);
+          cursor: pointer;
+          font-size: 1rem;
+        }
+        
+        .login-btn {
+          width: 100%;
+          padding: 1rem;
+          background: var(--primary);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-top: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .login-btn:hover {
+          background: var(--primary-dark);
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .login-btn:disabled {
+          background: var(--light-gray);
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+        
+        .btn-icon {
+          margin-right: 0.5rem;
+        }
+        
+        .divider {
+          display: flex;
+          align-items: center;
+          margin: 1.5rem 0;
+          color: var(--gray);
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+        
+        .divider::before,
+        .divider::after {
+          content: "";
+          flex: 1;
+          border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .divider::before {
+          margin-right: 1rem;
+        }
+        
+        .divider::after {
+          margin-left: 1rem;
+        }
+        
+        .google-btn {
+          width: 100%;
+          border-radius: 8px !important;
+          box-shadow: none !important;
+          transition: all 0.3s ease !important;
+          border: 1px solid var(--light-gray) !important;
+          overflow: hidden;
+        }
+        
+        .google-btn:hover {
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+          transform: translateY(-2px) !important;
+        }
+        
+        .signup-link {
+          text-align: center;
+          margin-top: 1.5rem;
+          color: var(--gray);
+          font-size: 0.9rem;
+        }
+        
+        .signup-link a {
+          color: var(--primary);
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+        
+        .signup-link a:hover {
+          text-decoration: underline;
+        }
+        
+        .spinner {
+          margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 992px) {
+          .login-container {
+            grid-template-columns: 1fr;
+          }
+          
+          .login-illustration {
+            display: none;
+          }
+          
+          .login-form-container {
+            padding: 2rem;
+          }
+        }
+        
+        @media (max-width: 576px) {
+          .login-form-container {
+            padding: 1.5rem;
+          }
+          
+          .login-header h2 {
+            font-size: 1.8rem;
+          }
+        }
+      `}</style>
 
       <div className="login-container">
-        <h2 className="login-title">Welcome to Otago Room Rental</h2>
-        
-        {error && <Alert variant="danger">{error}</Alert>}
+        {/* Illustration Section */}
+        <div className="login-illustration">
+          <div className="illustration-content">
+            <h1>Welcome Back to Otago Rentals</h1>
+            <p>Find your perfect room in Dunedin and manage your rentals with ease.</p>
+            
+            <ul className="features-list">
+              <li>Browse thousands of rooms and flats</li>
+              <li>Save your favorite listings</li>
+              <li>Connect directly with landlords</li>
+              <li>Manage all your rentals in one place</li>
+            </ul>
+          </div>
+        </div>
 
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="input-field"
-            />
-          </Form.Group>
+        {/* Form Section */}
+        <div className="login-form-container">
+          <div className="login-header">
+            <h2>Sign In</h2>
+            <p>Access your account to continue</p>
+          </div>
 
-          <Form.Group className="mb-4">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="input-field"
-            />
-          </Form.Group>
+          {error && (
+            <div className="error-alert">
+              {error}
+            </div>
+          )}
 
-          <div className="login-btn-container">
-            <Button
-              variant="primary"
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">Email Address</label>
+              <div className="input-group">
+                <FaEnvelope className="input-icon" />
+                <input
+                  type="email"
+                  id="email"
+                  className="form-control"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password" className="form-label">Password</label>
+              <div className="input-group">
+                <FaLock className="input-icon" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  className="form-control"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <span 
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-end mb-3">
+              <Link to="/forgot-password" className="text-primary small">Forgot password?</Link>
+            </div>
+
+            <button
               type="submit"
               className="login-btn"
               disabled={isLoading}
             >
-              {isLoading ? <Spinner animation="border" size="sm" /> : "Log In"}
-            </Button>
-          </div>
-        </Form>
+              {isLoading ? (
+                <>
+                  <Spinner animation="border" size="sm" className="spinner" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  <FaSignInAlt className="btn-icon" />
+                  Sign In
+                </>
+              )}
+            </button>
+          </form>
 
-        <div className="divider">or continue with</div>
+          <div className="divider">or continue with</div>
 
-        <div className="google-btn-container">
           <GoogleButton
-            type="dark"
             onClick={handleGoogleSignIn}
-            className="google-btn" 
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-              width: '100%',
-              textAlign: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              borderRadius: '10px',
-            }}
+            className="google-btn"
             disabled={isLoading}
           />
-        </div>
 
-        <div className="signup-link">
-          <p>
-            Don't have an account?{" "}
-            <Link to="/Register" className="signup-link-text">Sign up</Link>
-          </p>
+          <div className="signup-link">
+            Don't have an account? <Link to="/Register">Sign up</Link>
+          </div>
         </div>
       </div>
-
-      {/* Internal CSS */}
-      <style>{`
-        /* Base styles */
-        * {
-        
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Roboto', sans-serif;
-        }
-
-        /* Full-screen layout */
-        .login-page {
-          position: relative;
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        
-        }
-
-       .login-page {
-  position: relative;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: url("https://cdn.pixabay.com/photo/2024/07/03/07/50/table-8869129_1280.jpg") center/cover no-repeat;
-}
-
-        /* Overlay for better text contrast */
-        .overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.2); /* Dark overlay */
-          z-index: 0;
-        }
-
-        /* Centering the login form */
-        .login-container {
-          z-index: 1;
-          background:whitesmoke;
-          padding: 40px;
-          border-radius: 12px;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-          max-width: 400px;
-          width: 100%;
-          text-align: center;
-          transition: transform 0.3s ease;
-          
-        }
-
-        /* Hover effect for the login container */
-        .login-container:hover {
-          transform: translateY(-10px);
-        }
-
-        /* Title style */
-        .login-title {
-          font-size: 28px;
-          color: #007bff;
-          font-weight: 600;
-          margin-bottom: 20px;
-        }
-
-        /* Form input fields */
-        .input-field {
-          border-radius: 10px;
-          border: 1px solid #007bff;
-          padding: 12px;
-          margin-bottom: 20px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Submit button style */
-        .login-btn {
-          border-radius: 10px;
-          font-weight: 600;
-          padding: 12px;
-          background-color: #007bff;
-          border: none;
-          width: 100%;
-          transition: background-color 0.3s ease;
-        }
-
-        .login-btn:hover {
-          background-color: #0056b3;
-        }
-
-        /* Divider between forms */
-        .divider {
-          margin: 20px 0;
-          font-weight: lighter;
-          color: #555;
-        }
-
-        /* Google sign-in button container */
-        .google-btn-container {
-          margin-bottom: 20px;
-        }
-
-        /* Signup link */
-        .signup-link {
-          font-weight: lighter;
-        }
-
-        .signup-link-text {
-          color: #007bff;
-          font-weight: 600;
-          text-decoration: none;
-        }
-
-        .signup-link-text:hover {
-          text-decoration: underline;
-        }
-      `}</style>
     </div>
   );
 };

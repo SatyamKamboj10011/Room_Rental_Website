@@ -1,152 +1,164 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-import { useUserAuth } from "../context/UserAuthContext"; // Import the UserAuth context
+import { Button, Container, Nav, Navbar, NavDropdown, Offcanvas } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserAuth } from "../context/UserAuthContext";
+import { 
+  FaHome, 
+  FaUserCircle, 
+  FaPlusCircle, 
+  FaList, 
+  FaSignInAlt, 
+  FaSignOutAlt, 
+  FaCrown,
+  FaSearch,
+  FaMapMarkerAlt,
+  FaBell
+} from "react-icons/fa";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
-function OffcanvasExample() {
-  const { user, role, logOut } = useUserAuth(); // Destructure user and role from context
-  const navigate = useNavigate(); // Initialize useNavigate hook
+function OtagoNavbar() {
+  const { user, role, logOut } = useUserAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await logOut(); // Log the user out
-      navigate("/"); // Redirect to homepage after logout
+      await logOut();
+      navigate("/");
     } catch (err) {
       console.log(err.message);
     }
   };
 
   return (
-    <>
-      {["md"].map((expand) => (
-        <Navbar
-          key={expand}
-          expand={expand}
-          className="bg-body-tertiary mb-3"
-          style={{
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            zIndex: "1000",
-            backgroundColor: "#ffffff",
-          }}
-        >
-          <Container fluid>
-            {/* Logo */}
-            <Navbar.Brand as={Link} to="/" className="text-primary fw-bold d-flex align-items-center">
-              OTAGO Room Rental 🏠
-            </Navbar.Brand>
+    <Navbar expand="lg" className="bg-white shadow-sm py-2 sticky-top">
+      <Container>
+        {/* Brand Logo with Location */}
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+          <div className="d-flex align-items-center">
+            <div className="bg-primary text-white rounded p-2 me-2 d-flex align-items-center justify-content-center">
+              <FaMapMarkerAlt size={20} />
+            </div>
+            <div>
+              <span className="fw-bold fs-4 text-dark">Otago</span>
+              <span className="fw-bold fs-4 text-primary">Rentals</span>
+              <div className="text-muted small">Find your perfect room</div>
+            </div>
+          </div>
+        </Navbar.Brand>
 
-            {/* Toggle button for smaller screens */}
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-            <Navbar.Offcanvas
-              id={`offcanvasNavbar-expand-${expand}`}
-              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-              placement="end"
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Menu
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                  {/* Always visible links */}
-                  <Nav.Link as={Link} to="/" className="nav-link">
-                    Home
-                  </Nav.Link>
-                  {!user && (
-                    <Nav.Link as={Link} to="/Register" className="nav-link">
-                      Register
-                    </Nav.Link>
-                  )}
+        <Navbar.Toggle aria-controls="navbarCollapse" className="border-0">
+          <span className="navbar-toggler-icon"></span>
+        </Navbar.Toggle>
 
-                  {/* Role-based dropdown links */}
-                  {user && (
-                    <NavDropdown
-                      title="Dashboard"
-                      id={`offcanvasNavbarDropdown-expand-${expand}`}
-                    >
-                      {/* Admin-only links */}
-                      {role === "admin" && (
-                        <>
-                          <NavDropdown.Item as={Link} to="/admindashboard">
-                            Admin Dashboard
-                          </NavDropdown.Item>
-                        </>
-                      )}
+        <Navbar.Collapse id="navbarCollapse">
+          <Nav className="mx-auto">
+            <Nav.Link as={Link} to="/" className="mx-2 fw-medium d-flex align-items-center">
+              <FaHome className="me-1" /> Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/listings" className="mx-2 fw-medium d-flex align-items-center">
+              <FaSearch className="me-1" /> Browse
+            </Nav.Link>
+            
+            {user && (
+              <NavDropdown
+                title={
+                  <span className="fw-medium d-flex align-items-center">
+                    <FaUserCircle className="me-1" /> My Account
+                  </span>
+                }
+                id="accountDropdown"
+                className="mx-2"
+              >
+                {/* Admin Links */}
+                {role === "admin" && (
+                  <>
+                    <NavDropdown.Item as={Link} to="/admindashboard" className="d-flex align-items-center">
+                      <FaCrown className="me-2 text-warning" /> Admin Dashboard
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                  </>
+                )}
 
-                      {/* Host-only links (including admins) */}
-                      {(role === "host" || role === "admin") && (
-                        <>
-                          <NavDropdown.Item as={Link} to="/ProfilePage">
-                            Profile Page
-                          </NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/AddListings">
-                            Add Listings
-                          </NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/listings">
-                            Listings
-                          </NavDropdown.Item>
-                         
-                          <NavDropdown.Item as={Link} to="/Hostdashboard">
-                            Host Dashboard
-                          </NavDropdown.Item>
-                          
-                        </>
-                      )}
+                {/* Host Links */}
+                {(role === "host" || role === "admin") && (
+                  <>
+                    <NavDropdown.Item as={Link} to="/ProfilePage" className="d-flex align-items-center">
+                      <FaUserCircle className="me-2" /> Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/AddListings" className="d-flex align-items-center">
+                      <FaPlusCircle className="me-2" /> Add Listing
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/listings" className="d-flex align-items-center">
+                      <FaList className="me-2" /> My Listings
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/Hostdashboard" className="d-flex align-items-center">
+                      <FaHome className="me-2" /> Host Dashboard
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                  </>
+                )}
 
-                      {/* User links (including admins) */}
-                      {(role === "user") && (
-                        <>
-                          <NavDropdown.Item as={Link} to="/ProfilePage">
-                            Profile Page
-                          </NavDropdown.Item>
-                          <NavDropdown.Item as={Link} to="/listings">
-                            Listings
-                          </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to='/userdashboard'>User Dashboard</NavDropdown.Item>
-                          
-                        </>
-                      )}
+                {/* User Links */}
+                {role === "user" && (
+                  <>
+                    <NavDropdown.Item as={Link} to="/ProfilePage" className="d-flex align-items-center">
+                      <FaUserCircle className="me-2" /> Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/listings" className="d-flex align-items-center">
+                      <FaList className="me-2" /> Find Rooms
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/userdashboard" className="d-flex align-items-center">
+                      <FaHome className="me-2" /> Dashboard
+                    </NavDropdown.Item>
+                  </>
+                )}
+              </NavDropdown>
+            )}
+          </Nav>
 
-                      {/* Guest links */}
-                      {role === "" && (
-                        <>
-                          <NavDropdown.Item as={Link} to="/">
-                            Home
-                          </NavDropdown.Item>
-                        </>
-                      )}
-                    </NavDropdown>
-                  )}
+          <div className="d-flex align-items-center">
+            {user && (
+              <Button variant="link" className="text-dark me-2 position-relative">
+                <IoMdNotificationsOutline size={20} />
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  3
+                </span>
+              </Button>
+            )}
 
-                  {/* Show login or logout based on user status */}
-                  {!user ? (
-                    <Button variant="primary">
-                      <Link
-                        to="/Login"
-                        style={{ color: "white", textDecoration: "none" }}
-                      >
-                        Login
-                      </Link>
-                    </Button>
-                  ) : (
-                    <Button variant="danger" onClick={handleLogout}>
-                      Logout
-                    </Button>
-                  )}
-                </Nav>
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
-          </Container>
-        </Navbar>
-      ))}
-    </>
+            {!user ? (
+              <>
+                <Button 
+                  as={Link}
+                  to="/Login"
+                  variant="outline-primary"
+                  className="me-2 px-3 rounded-pill"
+                >
+                  <FaSignInAlt className="me-1" /> Login
+                </Button>
+                <Button 
+                  as={Link}
+                  to="/Register"
+                  variant="primary"
+                  className="px-3 rounded-pill"
+                >
+                  Sign Up
+                </Button>
+              </>
+            ) : (
+              <Button 
+                variant="outline-danger"
+                className="px-3 rounded-pill"
+                onClick={handleLogout}
+              >
+                <FaSignOutAlt className="me-1" /> Logout
+              </Button>
+            )}
+          </div>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default OffcanvasExample;
+export default OtagoNavbar;
