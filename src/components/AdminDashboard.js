@@ -5,33 +5,28 @@ import {
   Card,
   Row,
   Col,
-  Container,
   Alert,
   Form,
-  InputGroup,
   Button,
   Pagination,
   Badge,
-  Modal,
-  ProgressBar
+  Modal
 } from "react-bootstrap";
 import {
   FaSearch,
   FaDollarSign,
   FaTrashAlt,
-  FaEdit,
   FaChartLine,
   FaUsers,
   FaHome,
   FaCalendarAlt,
-  FaUserShield,
-  FaFilter
+  FaUserShield
 } from "react-icons/fa";
-import { FiRefreshCw } from "react-icons/fi";
 import { useUserAuth } from "../context/UserAuthContext";
 import UserDataService from "../services/UserDataService";
 import ListingsDataService from "../services/ListingsDataService";
 import BookingDataService from '../services/BookingDataService';
+import DashboardLayout from "./dashboard/DashboardLayout";
 import { Bar, Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -75,9 +70,9 @@ const AdminDashboard = () => {
     booking: ""
   });
   const [pagination, setPagination] = useState({
-    users: { current: 1, perPage: 5 },
-    listings: { current: 1, perPage: 5 },
-    bookings: { current: 1, perPage: 5 }
+    user: { current: 1, perPage: 5 },
+    listing: { current: 1, perPage: 5 },
+    booking: { current: 1, perPage: 5 }
   });
   const [showDeleteModal, setShowDeleteModal] = useState({
     show: false,
@@ -124,7 +119,7 @@ const AdminDashboard = () => {
       
       // Calculate earnings
       const earnings = (bookingsData || []).reduce((total, booking) => {
-        const price = parseFloat(booking.price) || 0;
+        const price = parseFloat(booking.totalPrice ?? booking.price) || 0;
         return total + (price * 0.05);
       }, 0);
       setTotalEarnings(earnings);
@@ -157,6 +152,22 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error("Error updating user role:", error);
       setError("Failed to update user role.");
+    }
+  };
+
+  // Handle hide/unhide listing
+  const handleToggleListingVisibility = async (listingId, currentlyHidden) => {
+    setError("");
+    setSuccess("");
+    try {
+      await ListingsDataService.updateListingAvailability(listingId, !currentlyHidden ? false : true);
+      setListings(prev =>
+        prev.map(l => (l.id === listingId ? { ...l, available: currentlyHidden } : l))
+      );
+      setSuccess(`Listing ${currentlyHidden ? "unhidden" : "hidden"} successfully.`);
+    } catch (error) {
+      console.error("Error toggling listing visibility:", error);
+      setError("Failed to update listing visibility.");
     }
   };
 
@@ -276,227 +287,149 @@ const AdminDashboard = () => {
     ]
   };
 
+  const navItems = [
+    { key: "dashboard", icon: <FaChartLine />, label: "Dashboard" },
+    { key: "users", icon: <FaUsers />, label: "Users" },
+    { key: "listings", icon: <FaHome />, label: "Listings" },
+    { key: "bookings", icon: <FaCalendarAlt />, label: "Bookings" }
+  ];
+
   return (
-    <Container fluid className="admin-dashboard px-0">
+    <DashboardLayout
+      brandIcon={<FaUserShield />}
+      brandLabel="Admin Panel"
+      navItems={navItems}
+      activeKey={activeTab}
+      onNavSelect={setActiveTab}
+      topbarTitle={`Welcome back, ${adminUser?.email || "Admin"}`}
+      onRefresh={fetchAllData}
+    >
       <style>{`
         :root {
-          --primary-color: #4e73df;
-          --secondary-color: #1cc88a;
-          --accent-color: #f6c23e;
-          --dark-color: #5a5c69;
-          --light-color: #f8f9fc;
+          --primary-color: #C1622D;
+          --primary-dark: #a04f24;
+          --secondary-color: #2f6849;
+          --accent-color: #C1622D;
+          --dark-color: #1E3A2E;
+          --light-color: #F7F3EC;
+          --border-color: #e6ddcf;
         }
-        
-        body {
-          font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-          background-color: #f8f9fc;
+
+        .card {
+          border: 1px solid var(--border-color);
+          border-radius: 16px;
+          box-shadow: 0 1px 2px rgba(30, 58, 46, 0.05);
+          margin-bottom: 20px;
+          transition: all 0.25s ease;
         }
-        
-        .admin-dashboard {
+
+        .card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 12px 32px rgba(30, 58, 46, 0.1);
+        }
+
+        .card-header {
+          background-color: white;
+          border-bottom: 1px solid var(--border-color);
+          padding: 1rem 1.35rem;
+          font-weight: 700;
+          color: var(--dark-color);
+          border-radius: 16px 16px 0 0 !important;
+        }
+
+        .stat-card {
+          padding: 1.35rem;
+          position: relative;
           display: flex;
-          min-height: 100vh;
+          flex-direction: column;
         }
-        
-        .sidebar {
-          width: 250px;
-          background: linear-gradient(180deg, var(--primary-color) 10%, #224abe 100%);
-          color: white;
-          padding: 20px 0;
-          box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-          transition: all 0.3s;
-          position: fixed;
-          height: 100vh;
-          z-index: 1000;
-        }
-        
-        .sidebar-brand {
-          height: 4.375rem;
-          text-decoration: none;
-          font-size: 1.2rem;
-          font-weight: 800;
-          padding: 1.5rem 1rem;
-          text-align: center;
-          letter-spacing: 0.05rem;
-          z-index: 1;
+
+        .stat-card-icon { order: -1; }
+
+        .stat-card.primary .stat-card-icon,
+        .stat-card.success .stat-card-icon,
+        .stat-card.warning .stat-card-icon,
+        .stat-card.dark .stat-card-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          font-size: 1.1rem;
           display: flex;
           align-items: center;
           justify-content: center;
+          position: static;
+          margin-bottom: 0.75rem;
         }
-        
-        .sidebar-brand-icon {
-          font-size: 1.5rem;
-          margin-right: 0.5rem;
-        }
-        
-        .sidebar-divider {
-          border-top: 1px solid rgba(255, 255, 255, 0.15);
-          margin: 1rem 0;
-        }
-        
-        .nav-item {
-          position: relative;
-        }
-        
-        .nav-link {
-          color: rgba(255, 255, 255, 0.8);
-          padding: 1rem;
-          font-weight: 600;
-          font-size: 0.85rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05rem;
-          display: flex;
-          align-items: center;
-          transition: all 0.3s;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-          color: white;
-          background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .nav-link i {
-          margin-right: 0.5rem;
-          font-size: 0.85rem;
-        }
-        
-        .main-content {
-          margin-left: 250px;
-          width: calc(100% - 250px);
-          padding: 20px;
-          background-color: #f8f9fc;
-        }
-        
-        .topbar {
-          height: 4.375rem;
-          box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-          background-color: white;
-          padding: 0 20px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 20px;
-          border-radius: 0.35rem;
-        }
-        
-        .topbar-welcome {
-          font-weight: 600;
-          color: var(--dark-color);
-        }
-        
-        .card {
-          border: none;
-          border-radius: 0.35rem;
-          box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
-          margin-bottom: 20px;
-          transition: all 0.3s;
-        }
-        
-        .card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
-        }
-        
-        .card-header {
-          background-color: #f8f9fc;
-          border-bottom: 1px solid #e3e6f0;
-          padding: 1rem 1.35rem;
-          font-weight: 600;
-          color: var(--dark-color);
-          border-radius: 0.35rem 0.35rem 0 0 !important;
-        }
-        
-        .stat-card {
-          border-left: 0.25rem solid;
-          padding: 1rem;
-        }
-        
-        .stat-card.primary {
-          border-left-color: var(--primary-color);
-        }
-        
-        .stat-card.success {
-          border-left-color: var(--secondary-color);
-        }
-        
-        .stat-card.warning {
-          border-left-color: var(--accent-color);
-        }
-        
-        .stat-card.dark {
-          border-left-color: var(--dark-color);
-        }
-        
+
+        .stat-card.primary .stat-card-icon { background: #fbf1ea; color: var(--primary-color); }
+        .stat-card.success .stat-card-icon { background: #eef3f0; color: var(--secondary-color); }
+        .stat-card.warning .stat-card-icon { background: #fbf1ea; color: var(--primary-color); }
+        .stat-card.dark .stat-card-icon { background: #eef3f0; color: var(--dark-color); }
+
         .stat-card-title {
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           font-weight: 600;
-          text-transform: uppercase;
           color: var(--dark-color);
           margin-bottom: 0.25rem;
         }
-        
+
         .stat-card-value {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #5a5c69;
+          font-size: 1.75rem;
+          font-weight: 800;
+          color: var(--dark-color);
         }
-        
-        .stat-card-icon {
-          font-size: 2rem;
-          color: #dddfeb;
-          position: absolute;
-          right: 1rem;
-          top: 1rem;
-        }
-        
+
         .table-responsive {
           overflow-x: auto;
         }
-        
+
         .table {
           width: 100%;
           margin-bottom: 1rem;
-          color: #858796;
+          color: var(--dark-color);
+          font-size: 0.95rem;
         }
-        
+
         .table th {
-          font-weight: 600;
+          font-weight: 700;
           text-transform: uppercase;
-          font-size: 0.7rem;
+          font-size: 0.72rem;
           letter-spacing: 0.05rem;
           color: var(--dark-color);
-          background-color: #f8f9fc;
-          border-bottom: 2px solid #e3e6f0;
+          background-color: var(--light-color);
+          border-bottom: 2px solid var(--border-color);
           padding: 1rem;
         }
-        
+
         .table td {
           padding: 1rem;
           vertical-align: middle;
-          border-top: 1px solid #e3e6f0;
+          border-top: 1px solid var(--border-color);
         }
-        
+
         .badge {
-          font-size: 0.75rem;
+          font-size: 0.78rem;
           font-weight: 600;
-          padding: 0.35em 0.65em;
+          padding: 0.4em 0.7em;
+          border-radius: 100px;
         }
-        
+
         .badge-primary {
-          background-color: var(--primary-color);
+          background-color: var(--primary-color) !important;
         }
-        
+
         .badge-success {
-          background-color: var(--secondary-color);
+          background-color: var(--secondary-color) !important;
         }
-        
+
         .badge-warning {
-          background-color: var(--accent-color);
+          background-color: #d17936 !important;
         }
-        
+
         .badge-danger {
-          background-color: #e74a3b;
+          background-color: #b3261e !important;
         }
-        
+
         .btn-refresh {
           background-color: transparent;
           border: none;
@@ -504,36 +437,43 @@ const AdminDashboard = () => {
           cursor: pointer;
           transition: all 0.3s;
         }
-        
+
         .btn-refresh:hover {
           color: var(--primary-color);
           transform: rotate(180deg);
         }
-        
+
         .search-box {
           position: relative;
         }
-        
+
         .search-box input {
           padding-left: 2.5rem;
-          border-radius: 0.35rem;
-          border: 1px solid #d1d3e2;
+          border-radius: 10px;
+          border: 1px solid var(--border-color);
+          background: var(--light-color);
         }
-        
+
+        .search-box input:focus {
+          background: white;
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 3px rgba(193, 98, 45, 0.12);
+        }
+
         .search-box i {
           position: absolute;
           left: 1rem;
           top: 50%;
           transform: translateY(-50%);
-          color: #b7b9cc;
+          color: var(--muted, #8a8078);
         }
-        
+
         .pagination {
           display: flex;
           justify-content: center;
           margin-top: 1rem;
         }
-        
+
         .page-item.active .page-link {
           background-color: var(--primary-color);
           border-color: var(--primary-color);
@@ -548,79 +488,9 @@ const AdminDashboard = () => {
           height: 300px;
           padding: 1rem;
         }
-        
-        @media (max-width: 992px) {
-          .sidebar {
-            width: 100%;
-            height: auto;
-            position: relative;
-            margin-bottom: 20px;
-          }
-          
-          .main-content {
-            margin-left: 0;
-            width: 100%;
-          }
-        }
       `}</style>
 
-      {/* Sidebar Navigation */}
-      <div className="sidebar">
-        <div className="sidebar-brand">
-          <i className="sidebar-brand-icon"><FaUserShield /></i>
-          <span>Admin Panel</span>
-        </div>
-        
-        <div className="sidebar-divider"></div>
-        
-        <nav className="nav flex-column">
-          <button
-            className={`nav-link ${activeTab === "dashboard" ? "active" : ""}`}
-            onClick={() => setActiveTab("dashboard")}
-          >
-            <i><FaChartLine /></i>
-            Dashboard
-          </button>
-          
-          <button
-            className={`nav-link ${activeTab === "users" ? "active" : ""}`}
-            onClick={() => setActiveTab("users")}
-          >
-            <i><FaUsers /></i>
-            Users
-          </button>
-          
-          <button
-            className={`nav-link ${activeTab === "listings" ? "active" : ""}`}
-            onClick={() => setActiveTab("listings")}
-          >
-            <i><FaHome /></i>
-            Listings
-          </button>
-          
-          <button
-            className={`nav-link ${activeTab === "bookings" ? "active" : ""}`}
-            onClick={() => setActiveTab("bookings")}
-          >
-            <i><FaCalendarAlt /></i>
-            Bookings
-          </button>
-        </nav>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="main-content">
-        {/* Top Bar */}
-        <div className="topbar">
-          <h4 className="topbar-welcome">
-            Welcome back, {adminUser?.email || "Admin"}
-          </h4>
-          <button className="btn-refresh" onClick={fetchAllData}>
-            <FiRefreshCw size={20} />
-          </button>
-        </div>
-
-        {/* Alerts */}
+      {/* Alerts */}
         {error && (
           <Alert variant="danger" onClose={() => setError("")} dismissible>
             {error}
@@ -734,7 +604,6 @@ const AdminDashboard = () => {
                           <tr>
                             <th>Name</th>
                             <th>Role</th>
-                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -750,18 +619,6 @@ const AdminDashboard = () => {
                                 >
                                   {user.role}
                                 </Badge>
-                              </td>
-                              <td>
-                                <Button
-                                  variant="link"
-                                  size="sm"
-                                  onClick={() => {
-                                    setActiveTab("users");
-                                    document.getElementById('users-section').scrollIntoView();
-                                  }}
-                                >
-                                  View
-                                </Button>
                               </td>
                             </tr>
                           ))}
@@ -788,7 +645,6 @@ const AdminDashboard = () => {
                           <tr>
                             <th>Title</th>
                             <th>Price</th>
-                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -796,18 +652,6 @@ const AdminDashboard = () => {
                             <tr key={listing.id}>
                               <td>{listing.title}</td>
                               <td>${listing.price}</td>
-                              <td>
-                                <Button
-                                  variant="link"
-                                  size="sm"
-                                  onClick={() => {
-                                    setActiveTab("listings");
-                                    document.getElementById('listings-section').scrollIntoView();
-                                  }}
-                                >
-                                  View
-                                </Button>
-                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -897,11 +741,11 @@ const AdminDashboard = () => {
                   </div>
                   
                   <Pagination className="justify-content-center mt-3">
-                    {Array.from({ length: Math.ceil(filterData(users, "user").length / pagination.users.perPage) }, (_, i) => (
+                    {Array.from({ length: Math.ceil(filterData(users, "user").length / pagination.user.perPage) }, (_, i) => (
                       <Pagination.Item
                         key={i + 1}
-                        active={i + 1 === pagination.users.current}
-                        onClick={() => handlePageChange("users", i + 1)}
+                        active={i + 1 === pagination.user.current}
+                        onClick={() => handlePageChange("user", i + 1)}
                       >
                         {i + 1}
                       </Pagination.Item>
@@ -962,11 +806,19 @@ const AdminDashboard = () => {
                             <td>${listing.price}</td>
                             <td>{listing.location || "N/A"}</td>
                             <td>
-                              <Badge bg={listing.status === 'active' ? 'success' : 'warning'}>
-                                {listing.status || 'inactive'}
+                              <Badge bg={listing.available === false ? 'secondary' : 'success'}>
+                                {listing.available === false ? 'hidden' : 'visible'}
                               </Badge>
                             </td>
                             <td>
+                              <Button
+                                variant={listing.available === false ? "outline-success" : "outline-secondary"}
+                                size="sm"
+                                className="me-2"
+                                onClick={() => handleToggleListingVisibility(listing.id, listing.available === false)}
+                              >
+                                {listing.available === false ? "Unhide" : "Hide"}
+                              </Button>
                               <Button
                                 variant="danger"
                                 size="sm"
@@ -982,11 +834,11 @@ const AdminDashboard = () => {
                   </div>
                   
                   <Pagination className="justify-content-center mt-3">
-                    {Array.from({ length: Math.ceil(filterData(listings, "listing").length / pagination.listings.perPage) }, (_, i) => (
+                    {Array.from({ length: Math.ceil(filterData(listings, "listing").length / pagination.listing.perPage) }, (_, i) => (
                       <Pagination.Item
                         key={i + 1}
-                        active={i + 1 === pagination.listings.current}
-                        onClick={() => handlePageChange("listings", i + 1)}
+                        active={i + 1 === pagination.listing.current}
+                        onClick={() => handlePageChange("listing", i + 1)}
                       >
                         {i + 1}
                       </Pagination.Item>
@@ -1047,7 +899,7 @@ const AdminDashboard = () => {
                               {new Date(booking.startDate).toLocaleDateString()} - {' '}
                               {new Date(booking.endDate).toLocaleDateString()}
                             </td>
-                            <td>${booking.price}</td>
+                            <td>${booking.totalPrice ?? booking.price}</td>
                             <td>
                               <Badge bg={
                                 booking.status === 'confirmed' ? 'success' :
@@ -1056,7 +908,7 @@ const AdminDashboard = () => {
                                 {booking.status}
                               </Badge>
                             </td>
-                            <td>${(booking.price * 0.05).toFixed(2)}</td>
+                            <td>${((parseFloat(booking.totalPrice ?? booking.price) || 0) * 0.05).toFixed(2)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -1064,11 +916,11 @@ const AdminDashboard = () => {
                   </div>
                   
                   <Pagination className="justify-content-center mt-3">
-                    {Array.from({ length: Math.ceil(filterData(bookings, "booking").length / pagination.bookings.perPage) }, (_, i) => (
+                    {Array.from({ length: Math.ceil(filterData(bookings, "booking").length / pagination.booking.perPage) }, (_, i) => (
                       <Pagination.Item
                         key={i + 1}
-                        active={i + 1 === pagination.bookings.current}
-                        onClick={() => handlePageChange("bookings", i + 1)}
+                        active={i + 1 === pagination.booking.current}
+                        onClick={() => handlePageChange("booking", i + 1)}
                       >
                         {i + 1}
                       </Pagination.Item>
@@ -1079,7 +931,6 @@ const AdminDashboard = () => {
             </Card.Body>
           </Card>
         )}
-      </div>
 
       {/* Delete Confirmation Modal */}
       <Modal
@@ -1105,7 +956,7 @@ const AdminDashboard = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </Container>
+    </DashboardLayout>
   );
 };
 

@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+# OtagoRentals
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack room rental marketplace built with React and Firebase. Guests can search, book and pay for properties; hosts can list properties and manage bookings and earnings; admins get a full back-office panel for users, listings and platform-wide bookings.
 
-## Available Scripts
+![Home page](docs/screenshots/home.png)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### For guests
+- Browse and filter listings by type, price and location
+- Rich property detail pages with photo gallery, amenities and guest reviews
+- Multi-step booking flow: dates & guest details → secure checkout → invoice
+- Downloadable PDF invoices
+- Personal dashboard with booking history
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### For hosts
+- Publish, edit and delete listings with photos, amenities and pricing
+- Dashboard with total earnings and a portfolio overview of all listings
+- Per-listing booking management: stats, revenue chart and a booking calendar that highlights upcoming/current/completed reservations
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### For admins
+- Platform-wide dashboard: users, listings, active listings and total earnings, with monthly earnings and user-role charts
+- User management with role changes (user / host / admin)
+- Listing moderation (hide/unhide, delete)
+- Booking oversight across all listings
 
-### `npm test`
+### Platform
+- Email/password and Google authentication (Firebase Auth)
+- Role-based route protection (guest, user, host, admin)
+- Firestore as the backing data store
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots
 
-### `npm run build`
+| | |
+|---|---|
+| ![Listings](docs/screenshots/listings.png) Browse listings | ![Property detail](docs/screenshots/property-detail.png) Property detail |
+| ![Checkout](docs/screenshots/checkout.png) Checkout | ![Invoice](docs/screenshots/invoice.png) Invoice |
+| ![Host dashboard](docs/screenshots/host-dashboard.png) Host dashboard | ![Host bookings](docs/screenshots/host-booking-calendar.png) Host booking calendar |
+| ![Admin dashboard](docs/screenshots/admin-dashboard.png) Admin dashboard | ![Add listing](docs/screenshots/add-listing.png) Add a listing |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tech stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Frontend:** React 18, React Router, React-Bootstrap, Tailwind CSS
+- **Backend/Data:** Firebase Authentication, Firestore, Firebase Storage
+- **Charts & PDFs:** Chart.js, jsPDF
+- **Tooling:** Create React App via CRACO
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Getting started
 
-### `npm run eject`
+### Prerequisites
+- Node.js 18+ and npm
+- A Firebase project with Authentication (Email/Password + Google) and Firestore enabled
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Setup
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repo and install dependencies:
+   ```bash
+   git clone <repo-url>
+   cd Room_Rental_Website
+   npm install
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Copy `.env.example` to `.env` and fill in your Firebase project's web app config (Firebase Console → Project settings → General → Your apps):
+   ```bash
+   cp .env.example .env
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Start the dev server:
+   ```bash
+   npm start
+   ```
+   The app runs at [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+### Available scripts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Command | Description |
+|---|---|
+| `npm start` | Run the app in development mode |
+| `npm run build` | Build a production bundle to `build/` |
+| `npm test` | Run the test suite |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Deploying
 
-### Code Splitting
+The repo includes a `firebase.json` configured for Firebase Hosting:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+npm run build
+firebase deploy --only hosting
+```
 
-### Analyzing the Bundle Size
+## Project structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+src/
+  components/       # Pages and feature components (listings, checkout, dashboards, etc.)
+  components/dashboard/  # Shared sidebar/topbar layout + booking calendar used by host/admin panels
+  context/          # Auth context (UserAuthContext)
+  services/         # Firebase/Firestore data access (listings, bookings, users)
+  utils/            # Shared helpers (e.g. fallback images)
+```
 
-### Making a Progressive Web App
+## Roles
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+| Role | Access |
+|---|---|
+| Guest | Public pages only (home, about, listing browsing preview) |
+| User | Book properties, manage own bookings, personal dashboard |
+| Host | Everything a user can do, plus publish/manage listings and view booking activity |
+| Admin | Full platform access: user role management, listing moderation, all bookings |
 
-### Advanced Configuration
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is for personal/portfolio use.

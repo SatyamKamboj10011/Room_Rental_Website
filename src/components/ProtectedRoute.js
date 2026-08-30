@@ -8,7 +8,7 @@ const checkAccess = (user, role, requiredRole) => {
     return "login"; // Redirect to login if user is not authenticated
   }
 
-  if (requiredRole && !role !== requiredRole) {
+  if (requiredRole && role !== requiredRole && role !== "admin") {
     return "unauthorized"; // Redirect to unauthorized if the role doesn't match
   }
 
@@ -17,7 +17,8 @@ const checkAccess = (user, role, requiredRole) => {
 
 // Protected Route for general users
 export const ProtectedRoute = ({ children }) => {
-  const { user, role } = useUserAuth();
+  const { user, role, authLoading } = useUserAuth();
+  if (authLoading) return null;
 
   const redirectPath = checkAccess(user, role);
   if (redirectPath) {
@@ -29,7 +30,8 @@ export const ProtectedRoute = ({ children }) => {
 
 // Admin Route
 export const AdminRoute = ({ children }) => {
-  const { user, role } = useUserAuth();
+  const { user, role, authLoading } = useUserAuth();
+  if (authLoading) return null;
 
   const redirectPath = checkAccess(user, role, "admin");
   if (redirectPath) {
@@ -40,7 +42,8 @@ export const AdminRoute = ({ children }) => {
 };
 
 export const UserRoute = ({ children }) => {
-  const { user, role } = useUserAuth();
+  const { user, role, authLoading } = useUserAuth();
+  if (authLoading) return null;
 
   const redirectPath = checkAccess(user, role, "user");
   if (redirectPath) {
@@ -52,7 +55,8 @@ export const UserRoute = ({ children }) => {
 
 // Host Route
 export const HostRoute = ({ children }) => {
-  const { user, role } = useUserAuth();
+  const { user, role, authLoading } = useUserAuth();
+  if (authLoading) return null;
 
   const redirectPath = checkAccess(user, role, "host");
   if (redirectPath) {
@@ -64,14 +68,10 @@ export const HostRoute = ({ children }) => {
 
 // Guest Route
 export const GuestRoute = ({ children }) => {
-  const { user, role } = useUserAuth();
+  const { authLoading } = useUserAuth();
+  if (authLoading) return null;
 
-  const redirectPath = checkAccess(user, role);
-  if (redirectPath) {
-    return <Navigate to={`/${redirectPath}`} />;
-  }
-
-  return children; // Allow access if the user is a guest, host, or admin
+  return children; // Home page is public - guests, users, hosts, and admins all see it
 };
 
 export default ProtectedRoute;

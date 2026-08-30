@@ -1,11 +1,8 @@
 import React from 'react';
 import OffcanvasExample from './components/Navbar';
 import CarouselHomePage from './CarouselHomePage';
-import CategoryButtons from './ButtonGroup';
-import HomeCards from './HomeCards';
-import HeaderAndFooterExample from './WhyChooseUs';
- 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
  
 import Show from './Review/Show';
 import Register from './components/Register';
@@ -19,22 +16,34 @@ import AdminDashboard from './components/AdminDashboard';
 import ProfilePage from './components/ProfilePage';
 import BookingPage from './components/BookingPage';
 import { AdminRoute, HostRoute,GuestRoute,UserRoute } from './components/ProtectedRoute';
-import { Check } from 'lucide-react';
 import CheckoutPage from './components/CheckoutPage';
 import HostDashboard from './components/Hostdashboard';
-import HomePage from './CarouselHomePage';
 import AboutContactPage from './Aboutus';
 import ViewBookingPage from './components/ViewBookingPage';
 import InvoicePage from './components/InvoicePage';
 import Guestlistings from './components/Guestlisting';
 import UserDashboardPage from './UserDashboard';
+import { BlogPage, FaqPage, GuidesPage, TermsPage, PrivacyPage, NotFoundPage, UnauthorizedPage } from './StaticPages';
+import ForgotPassword from './components/ForgotPassword';
+
+// The login/register pages are full-bleed hero layouts with their own
+// minimal top bar, so the standard site nav would duplicate that chrome.
+const NO_NAVBAR_PATHS = ['/login', '/register'];
+
+function SiteNavbar() {
+  const { pathname } = useLocation();
+  if (NO_NAVBAR_PATHS.includes(pathname.toLowerCase())) {
+    return null;
+  }
+  return <OffcanvasExample />;
+}
 
 function App() {
   return (
     <UserAuthContextProvider>
     <BrowserRouter>
     <div>
-      <OffcanvasExample/>
+      <SiteNavbar/>
      <Routes>
      
           <Route path = '/Login' element={<Login/>}/>
@@ -45,16 +54,7 @@ function App() {
           <Route path="/DescriptionPage/:id" element={<DescriptionPage />} />
           <Route path="/Aboutus" element={<AboutContactPage />} />
           <Route path="/AddListings" element={<AddListings />} />
-          <Route path="/AdminDashboard" element={<AdminDashboard />} />
-          <Route path="/ProfilePage" element={<ProfilePage/>}/>
-          <Route path='/booking/:listingId' element={<BookingPage/>}/>
-          <Route path="/CheckoutPage/:listingId" element={<CheckoutPage/>}/>
-          <Route path="/HostDashboard" element={<HostDashboard/>}/>
-          <Route path="/view-booking/:listingId" element={<ViewBookingPage/>}/>
           <Route path ='/show/:listingId' element={<Show/>}/>
-          <Route path = '/add-listing/:id' element={<AddListings/>}/>
-          <Route path="/invoice/:bookingId" element={<InvoicePage />} />
-          <Route path ='/userdashboard' element={<UserDashboardPage/>}/>
 
          {/* Admin */}
           <Route
@@ -93,15 +93,6 @@ function App() {
               }
             />
               <Route
-                path="/ProfilePage"
-                element={
-                  <UserRoute>
-                    <ProfilePage />
-                  </UserRoute>
-                }
-              />
-
-<Route
                 path="/userdashboard"
                 element={
                   <UserRoute>
@@ -142,32 +133,27 @@ function App() {
               }
               />
               {/* HomePage */}
-               <Route
-                path="/"
-                element={
-                  <>
-             <HomePage />
-                </>
-                }
-              />
-
-
               <Route
                 path="/"
                 element={
                   <GuestRoute>
-             <CarouselHomePage />
-              <HomeCards />
-              <HeaderAndFooterExample />
-              <AboutContactPage/>
+                    <CarouselHomePage />
                   </GuestRoute>
                 }
               />
-       
+
          
            <Route path='/feedback/:id' element={<Create/>}/>
            <Route path='/Booking' element={<BookingPage/>}/>
            <Route path='/Guestlistings' element={<Guestlistings/>}/>
+           <Route path='/blog' element={<BlogPage/>}/>
+           <Route path='/faq' element={<FaqPage/>}/>
+           <Route path='/guides' element={<GuidesPage/>}/>
+           <Route path='/terms' element={<TermsPage/>}/>
+           <Route path='/privacy' element={<PrivacyPage/>}/>
+           <Route path='/forgot-password' element={<ForgotPassword/>}/>
+           <Route path='/unauthorized' element={<UnauthorizedPage/>}/>
+           <Route path='*' element={<NotFoundPage/>}/>
         </Routes>
       </div>
     </BrowserRouter>

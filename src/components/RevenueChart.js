@@ -8,7 +8,9 @@ function RevenueChart({ bookings }) {
   
   bookings.forEach(booking => {
     const month = new Date(booking.checkInDate).toLocaleString('default', { month: 'short' });
-    monthlyRevenue[month] = (monthlyRevenue[month] || 0) + parseFloat(booking.price);
+    monthlyRevenue[month] =
+      (monthlyRevenue[month] || 0) +
+      (parseFloat(booking.totalPrice ?? booking.price) || 0);
   });
 
   const data = {
@@ -17,12 +19,12 @@ function RevenueChart({ bookings }) {
       {
         label: 'Revenue ($)',
         data: Object.values(monthlyRevenue),
-        borderColor: '#4e73df',
-        backgroundColor: 'rgba(78, 115, 223, 0.05)',
-        pointBackgroundColor: '#4e73df',
+        borderColor: '#3D61DD',
+        backgroundColor: 'rgba(61, 97, 221, 0.08)',
+        pointBackgroundColor: '#3D61DD',
         pointBorderColor: '#fff',
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: '#4e73df',
+        pointHoverBackgroundColor: '#3D61DD',
         pointHoverBorderColor: '#fff',
         pointHitRadius: 10,
         pointBorderWidth: 2,

@@ -1,5 +1,5 @@
 import { db } from './firebase'; // Adjust the path
-import { doc, getDoc, addDoc, collection ,getDocs,query,where} from 'firebase/firestore';
+import { doc, getDoc, addDoc, updateDoc, collection ,getDocs,query,where} from 'firebase/firestore';
 
 class BookingDataService {
 
@@ -59,6 +59,17 @@ class BookingDataService {
     } catch (error) {
       console.error('Firestore - Error creating booking:', error);
       throw new Error('Booking creation failed');
+    }
+  };
+
+  // Cancel a booking
+  cancelBooking = async (bookingId) => {
+    if (!bookingId) throw new Error("Booking ID is required");
+    try {
+      await updateDoc(doc(db, "bookings", bookingId), { cancelled: true });
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+      throw new Error("Error cancelling booking");
     }
   };
 
@@ -123,7 +134,7 @@ getEarningsForListing = async (listingId) => {
       
       // Calculate earnings based on bookings
       const totalEarnings = bookings.reduce((total, booking) => {
-        const price = parseFloat(booking.price) || 0; // Ensure price is a number
+        const price = parseFloat(booking.totalPrice ?? booking.price) || 0; // Ensure price is a number
         return total + price;
       }, 0);
 
