@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import CategoryButtons from '../ButtonGroup'; // Assuming CategoryButtons is a reusable component
 import { Form, Pagination } from 'react-bootstrap';
-import { useUserAuth } from '../context/UserAuthContext';
+import { getFallbackImage } from '../utils/fallbackImage';
 
 
 function Guestlistings() {
@@ -54,8 +54,11 @@ function Guestlistings() {
   };
 
   const filteredListings = listings.filter(listing =>
+    listing.available !== false &&
     listing.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedType ? listing.Type === selectedType : true)
+    (selectedType
+      ? (listing.Type || listing.roomType || '').toLowerCase() === selectedType.toLowerCase()
+      : true)
   );
 
   const indexOfLastListing = currentPage * listingsPerPage;
@@ -65,36 +68,25 @@ function Guestlistings() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
+    <div style={{ background: '#F6F9FF', minHeight: '100vh', padding: '2rem 0' }}>
     <Container
       style={{
         maxWidth: '1400px',
         margin: 'auto',
         padding: '40px',
-        backgroundColor: '#ffffff99',
-        borderRadius: '10px',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+        backgroundColor: '#ffffff',
+        borderRadius: '14px',
+        boxShadow: '0 8px 30px rgba(61, 97, 221, 0.08)',
         position: 'relative',
         zIndex: '2',
       }}
     >
-      {/* Internal CSS */}
       <style>{`
-        body {
-          background-image: url('https://cdn.pixabay.com/photo/2020/06/27/16/40/apartment-5346460_1280.jpg');
-          background-size: cover;
-          background-position: center;
-          background-attachment: fixed;
-          font-family: 'Arial', sans-serif;
-          margin: 0;
-          padding: 0;
-        }
-        
         .page-title {
           text-align: center;
-          color: #ffffff;
+          color: #111827;
           margin-bottom: 40px;
           font-size: 2.5rem;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
           font-weight: bold;
         }
 
@@ -110,13 +102,13 @@ function Guestlistings() {
           padding: 12px;
           font-size: 1rem;
           border-radius: 25px;
-          border: 2px solid #007bff;
+          border: 2px solid #3D61DD;
           background-color: #f8f9fa;
         }
 
         .search-bar:focus {
           outline: none;
-          border-color: #0056b3;
+          border-color: #849BE5;
         }
 
         /* Ensuring all cards are the same height */
@@ -157,7 +149,7 @@ function Guestlistings() {
         }
 
         .price-label {
-          color: #007bff;
+          color: #3D61DD;
           font-weight: bold;
         }
 
@@ -170,7 +162,7 @@ function Guestlistings() {
 
         .location svg {
           margin-right: 5px;
-          color: #007bff;
+          color: #3D61DD;
         }
 
         .description {
@@ -187,8 +179,8 @@ function Guestlistings() {
         }
 
         .view-details-btn {
-          background-color: #007bff;
-          border-color: #007bff;
+          background-color: #3D61DD;
+          border-color: #3D61DD;
           padding: 10px 20px;
           font-size: 1rem;
           border-radius: 5px;
@@ -196,7 +188,7 @@ function Guestlistings() {
         }
 
         .view-details-btn:hover {
-          background-color: #0056b3;
+          background-color: #849BE5;
           transform: scale(1.05);
         }
 
@@ -241,7 +233,7 @@ function Guestlistings() {
                 <Card className="listing-card">
                   <Card.Img
                     variant="top"
-                    src={listing.image || "https://via.placeholder.com/300"}
+                    src={listing.image || listing.images?.[0] || getFallbackImage(listing.id)}
                     alt={listing.title}
                     className="listing-image"
                   />
@@ -256,23 +248,22 @@ function Guestlistings() {
                         <span>{listing.location}</span>
                       </div>
                       <p className="description">
-                        {listing.description.length > 100 ? `${listing.description.substring(0, 97)}...` : listing.description}
+                        {(listing.description || '').length > 100
+                          ? `${listing.description.substring(0, 97)}...`
+                          : listing.description || 'No description available.'}
                       </p>
                     </Card.Text>
                     <div className="card-footer">
-     {/* Display availability */}
-     <Card.Text>
-     <p>
-                        <strong>Status:</strong>{' '}
-                        <span style={{ color: listing.available ? 'green' : 'red' }}>
-                          {listing.available ? 'Available' : 'Unavailable'}
-                        </span>
-                      </p>
-          </Card.Text>
-
-                      <small className="text-muted">
-                        Last updated: {listing.lastUpdated || "N/A"}
-                      </small>
+                      <span style={{ color: listing.available !== false ? 'green' : 'red', fontWeight: 600 }}>
+                        {listing.available !== false ? 'Available' : 'Unavailable'}
+                      </span>
+                      <Button
+                        as={Link}
+                        to={`/DescriptionPage/${listing.id}`}
+                        className="view-details-btn"
+                      >
+                        View Details
+                      </Button>
                     </div>
                   </Card.Body>
                 </Card>
@@ -294,6 +285,7 @@ function Guestlistings() {
         </>
       )}
     </Container>
+    </div>
   );
 }
 

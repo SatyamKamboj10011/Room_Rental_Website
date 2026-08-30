@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
-import { FaStar } from 'react-icons/fa';
+import {
+  FaStar,
+  FaCommentDots,
+  FaUser,
+  FaCalendarAlt,
+  FaArrowLeft,
+  FaCheckCircle
+} from 'react-icons/fa';
 import FBDataService from '../services/fbServices';
 
 function CreateReviewPage() {
@@ -9,189 +16,535 @@ function CreateReviewPage() {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (rating === 0) {
+      alert('Please select a rating before submitting your review.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     const newReview = {
       feedback,
       name,
       date: date || new Date().toLocaleDateString(),
-      listingId: id, // Add listingId to associate feedback with the current listing
+      rating,
+      listingId: id,
     };
 
     try {
       const docRef = await FBDataService.adddata(newReview);
+
       console.log('Document written with ID: ', docRef.id);
+
       navigate(-1);
     } catch (error) {
       console.error('Error adding review:', error);
+      alert('Something went wrong while submitting your review. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  const displayedRating = hoverRating || rating;
+
   return (
     <div
-    style={{
-      height: '100vh',
-      background: 'url(https://i.pinimg.com/originals/77/6a/d8/776ad81e48f5fdab91d0436af12f02c4.gif)',
-      backgroundSize: 'cover',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '2rem',
-      position: 'relative',
-    }}
-  >
-    {/* Form Container */}
-    <div
       style={{
-        maxWidth: '600px',
-        width: '100%',
-        padding: '2rem',
-        background: 'rgba(255, 255, 255, 0.85)', // Slightly transparent white
-        borderRadius: '12px',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
-        textAlign: 'center',
-        zIndex: 1, // Form in front of background
+        minHeight: '100vh',
+        background: '#f7f9fc',
+        padding: '70px 20px 90px',
+        color: '#172033'
       }}
     >
-      <h2
+      <div
         style={{
-          fontWeight: 'bold',
-          color: '#007bff',
-          marginBottom: '1.5rem',
-          textTransform: 'uppercase',
-          letterSpacing: '1px',
+          maxWidth: 760,
+          margin: '0 auto'
         }}
       >
-        Add Your Review
-      </h2>
 
-      {/* Star Rating */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <p style={{ fontWeight: '500', color: '#555', marginBottom: '0.5rem' }}>Rate This Listing</p>
-        <div>
-          {[1, 2, 3, 4, 5].map((star) => (
-            <FaStar
-              key={star}
-              size={24}
-              style={{
-                marginRight: '5px',
-                cursor: 'pointer',
-              }}
-              color={star <= rating ? '#007bff' : '#ccc'}
-              onClick={() => setRating(star)}
-            />
-          ))}
-        </div>
-      </div>
+        {/* BACK BUTTON */}
 
-      <Form onSubmit={handleSubmit}>
-        {/* Feedback Field */}
-        <Form.Group controlId="feedback" style={{ marginBottom: '1.5rem' }}>
-          <Form.Label
-            style={{
-              fontWeight: '500',
-              color: '#555',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <span style={{ marginRight: '10px', color: '#007bff' }}>💬</span> Feedback
-          </Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={4}
-            value={feedback}
-            onChange={(e) => setFeedback(e.target.value)}
-            placeholder="Write your feedback here..."
-            style={{
-              borderRadius: '8px',
-              border: '1px solid #007bff',
-              padding: '10px',
-              fontSize: '14px',
-            }}
-            required
-          />
-        </Form.Group>
-
-        {/* Name Field */}
-        <Form.Group controlId="name" style={{ marginBottom: '1.5rem' }}>
-          <Form.Label
-            style={{
-              fontWeight: '500',
-              color: '#555',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <span style={{ marginRight: '10px', color: '#007bff' }}>👤</span> Name
-          </Form.Label>
-          <Form.Control
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-            style={{
-              borderRadius: '8px',
-              border: '1px solid #007bff',
-              padding: '10px',
-              fontSize: '14px',
-            }}
-            required
-          />
-        </Form.Group>
-
-        {/* Date Field */}
-        <Form.Group controlId="date" style={{ marginBottom: '1.5rem' }}>
-          <Form.Label
-            style={{
-              fontWeight: '500',
-              color: '#555',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <span style={{ marginRight: '10px', color: '#007bff' }}>📅</span> Date
-          </Form.Label>
-          <Form.Control
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            style={{
-              borderRadius: '8px',
-              border: '1px solid #007bff',
-              padding: '10px',
-              fontSize: '14px',
-            }}
-          />
-        </Form.Group>
-
-        {/* Submit Button */}
-        <Button
-          type="submit"
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
           style={{
-            background: '#007bff',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
             border: 'none',
-            padding: '10px 20px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            color: '#fff',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            width: '100%',
-            transition: '0.3s ease',
+            background: 'transparent',
+            color: '#64748b',
+            fontSize: 12,
+            fontWeight: 650,
+            padding: 0,
+            marginBottom: 25,
+            cursor: 'pointer'
           }}
-          onMouseEnter={(e) => (e.target.style.background = '#0056b3')}
-          onMouseLeave={(e) => (e.target.style.background = '#007bff')}
         >
-          Submit Review
-        </Button>
-      </Form>
+          <FaArrowLeft size={10} />
+          Back to listing
+        </button>
+
+
+        {/* MAIN CARD */}
+
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e5eaf1',
+            borderRadius: 22,
+            boxShadow: '0 18px 55px rgba(15, 23, 42, 0.07)',
+            overflow: 'hidden'
+          }}
+        >
+
+          {/* HEADER */}
+
+          <div
+            style={{
+              padding: '34px 38px 30px',
+              borderBottom: '1px solid #edf0f4',
+              background:
+                'linear-gradient(135deg, #ffffff 0%, #f8faff 100%)'
+            }}
+          >
+
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 46,
+                height: 46,
+                borderRadius: 13,
+                background: '#eef3ff',
+                color: '#C1622D',
+                marginBottom: 17
+              }}
+            >
+              <FaCommentDots size={18} />
+            </div>
+
+
+            <div
+              style={{
+                fontSize: 9,
+                fontWeight: 800,
+                letterSpacing: 1.6,
+                color: '#C1622D',
+                marginBottom: 8
+              }}
+            >
+              SHARE YOUR EXPERIENCE
+            </div>
+
+
+            <h1
+              style={{
+                margin: 0,
+                fontSize: 'clamp(31px, 4vw, 42px)',
+                fontWeight: 850,
+                letterSpacing: '-1.3px',
+                color: '#111827'
+              }}
+            >
+              Write a review
+            </h1>
+
+
+            <p
+              style={{
+                margin: '10px 0 0',
+                color: '#64748b',
+                fontSize: 12,
+                lineHeight: 1.65,
+                maxWidth: 540
+              }}
+            >
+              Share your experience with this property and help other
+              renters make a more informed decision.
+            </p>
+
+          </div>
+
+
+          {/* FORM */}
+
+          <div
+            style={{
+              padding: '34px 38px 40px'
+            }}
+          >
+
+            <Form onSubmit={handleSubmit}>
+
+              {/* RATING */}
+
+              <div
+                style={{
+                  padding: '23px 24px',
+                  borderRadius: 15,
+                  background: '#F7F3EC',
+                  border: '1px solid #e8edf3',
+                  marginBottom: 27
+                }}
+              >
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 13
+                  }}
+                >
+
+                  <div>
+
+                    <div
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 800,
+                        color: '#172033'
+                      }}
+                    >
+                      How would you rate this listing?
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: 9,
+                        color: '#94a3b8',
+                        marginTop: 4
+                      }}
+                    >
+                      Select a rating from 1 to 5 stars
+                    </div>
+
+                  </div>
+
+
+                  {rating > 0 && (
+
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 5,
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: '#C1622D'
+                      }}
+                    >
+                      <FaStar size={10} />
+                      {rating}/5
+                    </div>
+
+                  )}
+
+                </div>
+
+
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: 8,
+                    alignItems: 'center'
+                  }}
+                  onMouseLeave={() => setHoverRating(0)}
+                >
+
+                  {[1, 2, 3, 4, 5].map((star) => (
+
+                    <button
+                      key={star}
+                      type="button"
+                      aria-label={`Rate ${star} stars`}
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHoverRating(star)}
+                      style={{
+                        border: 'none',
+                        background: 'transparent',
+                        padding: 2,
+                        cursor: 'pointer',
+                        transform:
+                          displayedRating === star
+                            ? 'scale(1.08)'
+                            : 'scale(1)',
+                        transition: 'all .15s ease'
+                      }}
+                    >
+
+                      <FaStar
+                        size={27}
+                        color={
+                          star <= displayedRating
+                            ? '#C1622D'
+                            : '#dbe2ea'
+                        }
+                      />
+
+                    </button>
+
+                  ))}
+
+                </div>
+
+              </div>
+
+
+              {/* FEEDBACK */}
+
+              <Form.Group
+                controlId="feedback"
+                className="mb-4"
+              >
+
+                <Form.Label
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 800,
+                    color: '#172033',
+                    marginBottom: 8
+                  }}
+                >
+                  <FaCommentDots
+                    style={{
+                      color: '#C1622D',
+                      marginRight: 8,
+                      fontSize: 11
+                    }}
+                  />
+
+                  Your feedback
+                </Form.Label>
+
+
+                <Form.Control
+                  as="textarea"
+                  rows={6}
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="Tell us about your experience with this property..."
+                  required
+                  style={{
+                    borderRadius: 12,
+                    border: '1px solid #dce3ec',
+                    padding: '14px 15px',
+                    fontSize: 11,
+                    lineHeight: 1.65,
+                    boxShadow: 'none',
+                    resize: 'vertical',
+                    minHeight: 140
+                  }}
+                />
+
+              </Form.Group>
+
+
+              {/* NAME + DATE */}
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gap: 18,
+                  marginBottom: 28
+                }}
+              >
+
+                {/* NAME */}
+
+                <Form.Group controlId="name">
+
+                  <Form.Label
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: '#172033',
+                      marginBottom: 8
+                    }}
+                  >
+
+                    <FaUser
+                      style={{
+                        color: '#C1622D',
+                        marginRight: 8,
+                        fontSize: 10
+                      }}
+                    />
+
+                    Your name
+
+                  </Form.Label>
+
+
+                  <Form.Control
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your name"
+                    required
+                    style={{
+                      height: 46,
+                      borderRadius: 11,
+                      border: '1px solid #dce3ec',
+                      padding: '0 14px',
+                      fontSize: 11,
+                      boxShadow: 'none'
+                    }}
+                  />
+
+                </Form.Group>
+
+
+                {/* DATE */}
+
+                <Form.Group controlId="date">
+
+                  <Form.Label
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: '#172033',
+                      marginBottom: 8
+                    }}
+                  >
+
+                    <FaCalendarAlt
+                      style={{
+                        color: '#C1622D',
+                        marginRight: 8,
+                        fontSize: 10
+                      }}
+                    />
+
+                    Review date
+
+                  </Form.Label>
+
+
+                  <Form.Control
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    style={{
+                      height: 46,
+                      borderRadius: 11,
+                      border: '1px solid #dce3ec',
+                      padding: '0 14px',
+                      fontSize: 11,
+                      color: date ? '#172033' : '#94a3b8',
+                      boxShadow: 'none'
+                    }}
+                  />
+
+                </Form.Group>
+
+              </div>
+
+
+              {/* SUBMIT */}
+
+              <div
+                style={{
+                  borderTop: '1px solid #edf0f4',
+                  paddingTop: 25
+                }}
+              >
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{
+                    width: '100%',
+                    height: 48,
+                    border: 'none',
+                    borderRadius: 11,
+                    background: '#C1622D',
+                    color: '#ffffff',
+                    fontSize: 11,
+                    fontWeight: 800,
+                    boxShadow: '0 8px 20px rgba(193, 98, 45, 0.18)',
+                    opacity: isSubmitting ? 0.7 : 1
+                  }}
+                >
+
+                  {isSubmitting ? (
+                    'Submitting review...'
+                  ) : (
+                    <>
+                      <FaCheckCircle
+                        style={{
+                          marginRight: 8,
+                          fontSize: 11
+                        }}
+                      />
+
+                      Submit Review
+                    </>
+                  )}
+
+                </Button>
+
+
+                <div
+                  style={{
+                    textAlign: 'center',
+                    marginTop: 12,
+                    color: '#94a3b8',
+                    fontSize: 9
+                  }}
+                >
+                  Your review helps other renters make better decisions.
+                </div>
+
+              </div>
+
+            </Form>
+
+          </div>
+
+        </div>
+
+
+        {/* FOOTER TRUST MESSAGE */}
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 7,
+            marginTop: 18,
+            color: '#94a3b8',
+            fontSize: 9
+          }}
+        >
+
+          <FaCheckCircle
+            style={{
+              color: '#4e8363',
+              fontSize: 10
+            }}
+          />
+
+          Reviews help build a trusted rental community.
+
+        </div>
+
+      </div>
     </div>
-  </div>
   );
 }
 

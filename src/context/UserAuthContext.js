@@ -17,6 +17,7 @@ export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState(null); // Default is null for better checks
   const [role, setRole] = useState("user"); // Default role can be empty string or 'user'
   const [authError, setAuthError] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   // Log in function
   async function logIn(email, password) {
@@ -85,6 +86,7 @@ export function UserAuthContextProvider({ children }) {
         setUser(null);
         setRole("guest"); // Reset role when logged out
       }
+      setAuthLoading(false);
     });
 
     return () => {
@@ -95,7 +97,7 @@ export function UserAuthContextProvider({ children }) {
 
   return (
     <userAuthContext.Provider
-      value={{ user, role, logIn, signUp, logOut, googleSignIn,refreshUserRole,authError}}
+      value={{ user, role, logIn, signUp, logOut, googleSignIn,refreshUserRole,authError,authLoading}}
     >
       {children}
     </userAuthContext.Provider>

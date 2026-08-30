@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "reactauthproject-fa437"
-  }
+  },
+  "targets": {
+    "reactauthproject-fa437": {
+      "hosting": {
+        "default": [
+          "that-actual-site-id"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
