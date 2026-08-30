@@ -1,0 +1,227 @@
+- generic [active] [ref=f10e1]:
+  - generic [ref=f10e3]:
+    - button "Toggle mobile menu" [ref=f10e4] [cursor=pointer]
+    - link "Back to home page" [ref=f10e8] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f10e9]'
+    - generic [ref=f10e12]:
+      - combobox "Submit" [ref=f10e14]:
+        - search [ref=f10e15]:
+          - searchbox "Submit" [ref=f10e17]
+      - generic "Change search type" [ref=f10e18]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f10e19] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f10e21] [cursor=pointer]
+    - generic [ref=f10e24]:
+      - link "Sign up" [ref=f10e25] [cursor=pointer]:
+        - /url: /signups/new
+      - link "Log in" [ref=f10e26] [cursor=pointer]:
+        - /url: /session/new
+  - generic [ref=f10e28]:
+    - generic [ref=f10e29]:
+      - paragraph
+      - paragraph [ref=f10e31]: Get 20% off your first payment for design and development services on Dribbble. Use code WELCOME20 🎉
+      - paragraph
+      - link "Get Started" [ref=f10e32] [cursor=pointer]:
+        - /url: https://dribbble.com/instantmatch
+    - button "close" [ref=f10e33] [cursor=pointer]
+  - main [ref=f10e38]:
+    - generic [ref=f10e40]:
+      - generic [ref=f10e42]:
+        - heading "Real Estate Website Design for Property Listings" [level=1] [ref=f10e45]
+        - generic [ref=f10e47]:
+          - generic [ref=f10e49]:
+            - link [ref=f10e50] [cursor=pointer]:
+              - /url: /uixshuvo
+              - generic [ref=f10e51]:
+                - img "Shuvo" [ref=f10e52]
+                - generic: Online
+            - generic [ref=f10e53]:
+              - link "Shuvo" [ref=f10e56] [cursor=pointer]:
+                - /url: /uixshuvo
+              - generic [ref=f10e57]:
+                - button "Available for work" [ref=f10e58] [cursor=pointer]
+                - link "Follow" [ref=f10e60] [cursor=pointer]:
+                  - /url: /uixshuvo/followers
+          - generic [ref=f10e61]:
+            - generic [ref=f10e62]:
+              - button "Like shot" [ref=f10e64] [cursor=pointer]
+              - listitem [ref=f10e67]:
+                - link "Save shot" [ref=f10e68] [cursor=pointer]:
+                  - /url: /signups/new
+            - link "Get in touch" [ref=f10e71] [cursor=pointer]:
+              - /url: /signups/new
+        - generic [ref=f10e76]:
+          - list [ref=f10e77]:
+            - listitem [ref=f10e78]:
+              - link "#FDFDFD" [ref=f10e79] [cursor=pointer]:
+                - /url: /shots?color=FDFDFD
+            - listitem [ref=f10e80]:
+              - link "#0A0906" [ref=f10e81] [cursor=pointer]:
+                - /url: /shots?color=0A0906
+            - listitem [ref=f10e82]:
+              - link "#4E4845" [ref=f10e83] [cursor=pointer]:
+                - /url: /shots?color=4E4845
+            - listitem [ref=f10e84]:
+              - link "#9BB6D6" [ref=f10e85] [cursor=pointer]:
+                - /url: /shots?color=9BB6D6
+            - listitem [ref=f10e86]:
+              - link "#4C6F96" [ref=f10e87] [cursor=pointer]:
+                - /url: /shots?color=4C6F96
+            - listitem [ref=f10e88]:
+              - link "#B15D25" [ref=f10e89] [cursor=pointer]:
+                - /url: /shots?color=B15D25
+            - listitem [ref=f10e90]:
+              - link "#678FBC" [ref=f10e91] [cursor=pointer]:
+                - /url: /shots?color=678FBC
+            - listitem [ref=f10e92]:
+              - link "#ADA54D" [ref=f10e93] [cursor=pointer]:
+                - /url: /shots?color=ADA54D
+          - link "Download color palette" [ref=f10e94] [cursor=pointer]:
+            - /url: /shots/26264382-Real-Estate-Website-Design-for-Property-Listings/colors.aco
+        - generic [ref=f10e98]:
+          - link [ref=f10e102] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/44067651/file/original-f6289cacf2e8bc967d33d19d0d302778.png?resize=752x&vertical=center
+          - link [ref=f10e107] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/44067652/file/original-fa3c20cd04070238c35607eee203f757.png?resize=752x&vertical=center
+          - link [ref=f10e112] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/44067653/file/original-220861e2aa575e3b2ddaf9f1b405f281.png?resize=752x&vertical=center
+          - generic [ref=f10e114]:
+            - heading [level=2] [ref=f10e115]:
+              - strong [ref=f10e116]: Available for new projects
+            - paragraph [ref=f10e117]
+            - paragraph [ref=f10e118]:
+              - text: Click the
+              - strong [ref=f10e119]: “Get in Touch”
+              - text: button below or schedule a quick call!
+            - paragraph [ref=f10e120]
+            - paragraph [ref=f10e121]:
+              - strong [ref=f10e122]: ✦
+            - paragraph [ref=f10e123]
+            - paragraph [ref=f10e124]:
+              - strong [ref=f10e125]: Thank you
+        - generic [ref=f10e126]:
+          - link [ref=f10e129] [cursor=pointer]:
+            - /url: /uixshuvo
+            - generic [ref=f10e130]:
+              - img "Shuvo" [ref=f10e131]
+              - generic: Online
+          - link "Shuvo" [ref=f10e133] [cursor=pointer]:
+            - /url: /uixshuvo
+          - generic [ref=f10e134]: Problem-Solving Design That Drives Brand Success 🚀
+          - link "Get in touch" [ref=f10e136] [cursor=pointer]:
+            - /url: /signups/new
+        - generic [ref=f10e138]:
+          - generic [ref=f10e139]:
+            - heading "More by Shuvo" [level=4] [ref=f10e140]
+            - link "View profile" [ref=f10e141] [cursor=pointer]:
+              - /url: /uixshuvo
+          - generic [ref=f10e142]:
+            - listitem [ref=f10e144]
+            - listitem [ref=f10e146]
+            - listitem [ref=f10e148]
+            - listitem [ref=f10e150]
+        - generic [ref=f10e151]:
+          - generic [ref=f10e152]:
+            - heading "Services by Shuvo" [level=4] [ref=f10e153]
+            - paragraph [ref=f10e154]:
+              - link "View all services" [ref=f10e155] [cursor=pointer]:
+                - /url: /uixshuvo/services
+          - generic [ref=f10e156]:
+            - 'button "View service: Agency Website Design" [ref=f10e157] [cursor=pointer]':
+              - generic [ref=f10e160]:
+                - generic [ref=f10e161]: Agency Website Design
+                - generic [ref=f10e162]: $2,200
+            - 'button "View service: Real Estate Landing Page Design" [ref=f10e163] [cursor=pointer]':
+              - generic [ref=f10e166]:
+                - generic [ref=f10e167]: Real Estate Landing Page Design
+                - generic [ref=f10e168]: $500
+            - 'button "View service: Real Estate Website Design" [ref=f10e169] [cursor=pointer]':
+              - generic [ref=f10e172]:
+                - generic [ref=f10e173]: Real Estate Website Design
+                - generic [ref=f10e174]: $2,200
+            - 'button "View service: Ecommerce Landing Page Design" [ref=f10e175] [cursor=pointer]':
+              - generic [ref=f10e178]:
+                - generic [ref=f10e179]: Ecommerce Landing Page Design
+                - generic [ref=f10e180]: $500
+      - generic [ref=f10e186]:
+        - button "View comments 42" [ref=f10e187] [cursor=pointer]:
+          - generic: View comments
+          - generic [ref=f10e190]: "42"
+        - button "Share actions" [ref=f10e191] [cursor=pointer]
+        - button "Detail actions" [ref=f10e194] [cursor=pointer]
+  - contentinfo [ref=f10e198]:
+    - generic [ref=f10e199]:
+      - generic [ref=f10e200]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f10e201] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f10e202]'
+          - generic: Back to home page
+        - list [ref=f10e204]:
+          - listitem [ref=f10e205]:
+            - link "For designers" [ref=f10e206] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f10e207]:
+            - link "Hire talent" [ref=f10e208] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f10e209]:
+            - link "Inspiration" [ref=f10e210] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f10e211]:
+            - link "Advertising" [ref=f10e212] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f10e213]:
+            - link "Blog" [ref=f10e214] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f10e215]:
+            - link "About" [ref=f10e216] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f10e217]:
+            - link "Support" [ref=f10e218] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f10e219]:
+          - link "X" [ref=f10e220] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f10e223] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f10e226] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f10e229] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f10e232]:
+        - list [ref=f10e233]:
+          - listitem [ref=f10e234]: © 2026 Dribbble
+          - listitem [ref=f10e235]:
+            - link "Terms" [ref=f10e236] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f10e237]:
+            - link "Privacy" [ref=f10e238] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f10e239]:
+            - link "Cookies" [ref=f10e240] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f10e241]:
+          - listitem [ref=f10e242]:
+            - link "Jobs" [ref=f10e243] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f10e244]:
+            - link "Tags" [ref=f10e245] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f10e246]:
+            - link "Places" [ref=f10e247] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f10e248]:
+            - link "Resources" [ref=f10e249] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f10e250]:
+    

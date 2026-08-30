@@ -1,0 +1,107 @@
+- generic [ref=f52e3]:
+  - navigation [ref=f52e5]:
+    - generic [ref=f52e6]:
+      - link "OtagoRentals Find your next home" [ref=f52e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f52e11]:
+          - generic [ref=f52e12]: OtagoRentals
+          - generic [ref=f52e13]: Find your next home
+      - generic [ref=f52e14]:
+        - generic [ref=f52e15]:
+          - link "Home" [ref=f52e16] [cursor=pointer]:
+            - /url: /
+          - link "Browse Rooms" [ref=f52e19] [cursor=pointer]:
+            - /url: /listings
+        - generic [ref=f52e22]:
+          - button "Login" [ref=f52e23] [cursor=pointer]
+          - button "Sign Up" [ref=f52e26] [cursor=pointer]
+  - generic [ref=f52e28]:
+    - generic [ref=f52e29]:
+      - generic [ref=f52e30]:
+        - generic [ref=f52e31]:
+          - link "Listings" [ref=f52e32] [cursor=pointer]:
+            - /url: /hostdashboard
+          - text: / Add new listing
+        - heading "Configure your listing" [level=1] [ref=f52e33]
+      - button "Cancel" [ref=f52e35] [cursor=pointer]
+    - generic [ref=f52e39]:
+      - generic [ref=f52e40]:
+        - generic [ref=f52e41]:
+          - heading "General information" [level=2] [ref=f52e42]
+          - generic [ref=f52e43]:
+            - generic [ref=f52e44]: Title
+            - textbox "Enter title" [ref=f52e45]
+          - generic [ref=f52e46]:
+            - generic [ref=f52e47]: Description
+            - textbox "Enter description" [ref=f52e48]
+          - generic [ref=f52e49]:
+            - generic [ref=f52e50]:
+              - generic [ref=f52e51]: Location
+              - textbox "Enter location" [ref=f52e52]
+            - generic [ref=f52e53]:
+              - generic [ref=f52e54]: Room type
+              - combobox [ref=f52e55]:
+                - option "Select room type" [selected]
+                - option "Single Room"
+                - option "Double Room"
+                - option "Suite"
+                - option "Apartment"
+                - option "Studio"
+          - generic [ref=f52e56]:
+            - generic [ref=f52e57]: Price per week ($)
+            - spinbutton "Enter price" [ref=f52e58]
+        - generic [ref=f52e59]:
+          - heading "Rooms & capacity" [level=2] [ref=f52e60]
+          - generic [ref=f52e61]:
+            - generic [ref=f52e62]:
+              - generic [ref=f52e63]: Bedrooms
+              - spinbutton "0" [ref=f52e64]
+            - generic [ref=f52e65]:
+              - generic [ref=f52e66]: Bathrooms
+              - spinbutton "0" [ref=f52e67]
+            - generic [ref=f52e68]:
+              - generic [ref=f52e69]: Guests
+              - spinbutton "0" [ref=f52e70]
+          - generic [ref=f52e71]:
+            - generic [ref=f52e72]: Amenities
+            - generic [ref=f52e73]:
+              - generic [ref=f52e74] [cursor=pointer]:
+                - checkbox "WiFi" [ref=f52e75]
+                - text: WiFi
+              - generic [ref=f52e76] [cursor=pointer]:
+                - checkbox "Parking" [ref=f52e77]
+                - text: Parking
+              - generic [ref=f52e78] [cursor=pointer]:
+                - checkbox "Kitchen" [ref=f52e79]
+                - text: Kitchen
+              - generic [ref=f52e80] [cursor=pointer]:
+                - checkbox "Air Conditioning" [ref=f52e81]
+                - text: Air Conditioning
+              - generic [ref=f52e82] [cursor=pointer]:
+                - checkbox "Washer" [ref=f52e83]
+                - text: Washer
+              - generic [ref=f52e84] [cursor=pointer]:
+                - checkbox "Heating" [ref=f52e85]
+                - text: Heating
+        - generic [ref=f52e86]:
+          - heading "Photos" [level=2] [ref=f52e87]
+          - generic [ref=f52e88]:
+            - generic [ref=f52e89]: Upload images (max 3)
+            - button "Choose File" [ref=f52e90] [cursor=pointer]
+        - button "Publish listing" [ref=f52e91] [cursor=pointer]
+      - generic [ref=f52e92]:
+        - generic [ref=f52e93]: Live preview
+        - generic [ref=f52e94]:
+          - generic [ref=f52e95]: Available
+          - img "Listing preview" [ref=f52e96]
+        - generic [ref=f52e97]:
+          - heading "Your listing title" [level=3] [ref=f52e98]
+          - generic [ref=f52e99]: Location
+          - generic [ref=f52e103]:
+            - generic [ref=f52e104]: 0 beds
+            - generic [ref=f52e107]: 0 bath
+            - generic [ref=f52e110]: "4.8"
+          - generic [ref=f52e113]:
+            - strong [ref=f52e114]: $0
+            - generic [ref=f52e115]: / week
+        - generic [ref=f52e116]: This is a preview of how your listing will appear to renters.

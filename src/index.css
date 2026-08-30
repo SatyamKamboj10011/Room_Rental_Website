@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bento-radius: 14px;
+  --bento-bg: #F7F3EC;
+  --bento-surface: #F4DBC8;
+  --bento-card: #ffffff;
+  --bento-border: #e6ddcf;
+  --bento-shadow: 0 1px 2px rgba(30, 58, 46, 0.06);
+  --bento-shadow-hover: 0 8px 24px rgba(30, 58, 46, 0.14);
+  --bento-text: #242220;
+  --bento-muted: #6b6459;
+  --bento-accent: #1E3A2E;
+  --bento-accent-2: #C1622D; /* secondary accent for variety - badges, highlights */
+  --bento-gradient: linear-gradient(135deg, #2f6849 0%, #1E3A2E 100%);
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bento-bg);
+  color: var(--bento-text);
+}
+
+h1, h2, h3, h4,
+.property-title, .header-content h1, .hero h1, .why-content h2,
+.section-header h2, .section-center h2, .listing-auth-card h1,
+.cta-inner h2, .modern-listings-page h1, .property-page h1 {
+  font-family: 'Fraunces', Georgia, serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/*
+  React-Bootstrap components default to variant="primary" when no variant is
+  given, which paints Bootstrap's own blue (#0d6efd). Nothing in this app
+  overrides Bootstrap's theme variables, so that blue leaks through on any
+  <Button>/<Badge>/<Spinner> that doesn't set an explicit variant. Repoint
+  Bootstrap's primary palette at the pine/clay brand instead of patching
+  every call site.
+*/
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #C1622D !important;
+  border-color: #C1622D !important;
+  color: #fff !important;
+}
+.btn-primary:hover {
+  background-color: #a04f24 !important;
+  border-color: #a04f24 !important;
+}
+.btn-outline-primary {
+  color: #C1622D !important;
+  border-color: #C1622D !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+  background-color: #C1622D !important;
+  border-color: #C1622D !important;
+  color: #fff !important;
+}
+.text-primary { color: #C1622D !important; }
+.bg-primary { background-color: #C1622D !important; }
+.border-primary { border-color: #C1622D !important; }
+a, .link-primary { color: #1E3A2E; }
+a:hover, .link-primary:hover { color: #C1622D; }
+.spinner-border.text-primary,
+.spinner-border[variant="primary"] {
+  color: #C1622D !important;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: #dd925a !important;
+  box-shadow: 0 0 0 0.2rem rgba(193, 98, 45, 0.15) !important;
+}
+.page-item.active .page-link {
+  background-color: #C1622D !important;
+  border-color: #C1622D !important;
+}
+.page-link { color: #1E3A2E; }
+
+.motion-gradient,
+.brand-gradient {
+  background: var(--bento-gradient) !important;
+  color: #fff;
+}
+
+.bento-card {
+  background: var(--bento-card);
+  border: 1px solid var(--bento-border);
+  border-radius: var(--bento-radius);
+  box-shadow: var(--bento-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bento-shadow-hover);
+  border-color: #d1d5db;
+}
+
+.bento-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.bento-title {
+  font-size: clamp(1.77rem, 3vw, 2.66rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--bento-text);
+}
+
+.bento-muted {
+  color: var(--bento-muted);
+}
+
+.ss-btn {
+  border-radius: 8px !important;
+  font-weight: 500;
+}
+
+/* Accent chip helper for adding color variety without a full repaint */
+.accent-chip {
+  background: rgba(193, 98, 45, 0.1);
+  color: var(--bento-accent-2);
+  border-radius: 980px;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+}

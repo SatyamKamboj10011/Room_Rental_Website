@@ -1,0 +1,187 @@
+- generic [active] [ref=f46e1]:
+  - generic [ref=f46e3]:
+    - button "Toggle mobile menu" [ref=f46e4] [cursor=pointer]
+    - link "Back to home page" [ref=f46e8] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f46e9]'
+    - generic [ref=f46e12]:
+      - combobox [ref=f46e14]:
+        - button "What are you looking for?" [ref=f46e15] [cursor=pointer]
+      - generic "Change search type" [ref=f46e17]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f46e18] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f46e20] [cursor=pointer]
+    - link "Log in" [ref=f46e25] [cursor=pointer]:
+      - /url: /session/new
+  - main [ref=f46e28]:
+    - generic [ref=f46e32]:
+      - heading "Properte - Property Mangement Software ( Add Property Page )" [level=1] [ref=f46e35]
+      - generic [ref=f46e37]:
+        - generic [ref=f46e39]:
+          - link [ref=f46e40] [cursor=pointer]:
+            - /url: /pulokpauldesign
+            - generic [ref=f46e41]:
+              - img "Pulok Paul ✪ | UX/UI & Web Designer" [ref=f46e42]
+              - generic: Online
+          - generic [ref=f46e43]:
+            - link "Pulok Paul ✪ | UX/UI & Web Designer" [ref=f46e46] [cursor=pointer]:
+              - /url: /pulokpauldesign
+            - generic [ref=f46e47]:
+              - button "Available for work" [ref=f46e48] [cursor=pointer]
+              - link "Follow" [ref=f46e50] [cursor=pointer]:
+                - /url: /pulokpauldesign/followers
+        - generic [ref=f46e51]:
+          - generic [ref=f46e52]:
+            - button "Like shot" [ref=f46e54] [cursor=pointer]
+            - listitem [ref=f46e57]:
+              - link "Save shot" [ref=f46e58] [cursor=pointer]:
+                - /url: /signups/new
+          - link "Get in touch" [ref=f46e61] [cursor=pointer]:
+            - /url: /signups/new
+      - generic [ref=f46e63]:
+        - link [ref=f46e67] [cursor=pointer]:
+          - /url: https://cdn.dribbble.com/userupload/43456132/file/original-f5fdebb38b584321e8b6536ce984278e.png?resize=752x&vertical=center
+        - generic [ref=f46e69]:
+          - paragraph [ref=f46e70]: Hi Folks,
+          - paragraph [ref=f46e71]:
+            - text: I’ve designed a web application called
+            - strong [ref=f46e72]: Properte
+            - text: ", built specifically for property management companies. The platform allows managers to efficiently track and"
+            - strong [ref=f46e73]: manage maintenance requests from tenants—covering everything from electrical issues to plumbing repairs.
+            - text: One of the standout features of
+            - strong [ref=f46e74]: Properte is its built-in AI assistant, which helps categorize requests, suggest solutions, and prioritize urgent issues automatically, saving valuable time.
+          - paragraph [ref=f46e75]
+          - paragraph [ref=f46e76]:
+            - text: Right now, I’m sharing the '
+            - strong [ref=f46e77]: Add Property
+            - text: "' screen, where users can quickly add and organize new apartment listings to the system. Let’s take a look!"
+        - link [ref=f46e82] [cursor=pointer]:
+          - /url: https://cdn.dribbble.com/userupload/43456133/file/original-bc6e56f90426caac910e879fc486eec5.png?resize=752x&vertical=center
+      - generic [ref=f46e83]:
+        - generic [ref=f46e84]:
+          - button [ref=f46e86] [cursor=pointer]
+          - button "Save this shot to a collection" [ref=f46e89] [cursor=pointer]
+        - generic [ref=f46e92]:
+          - button "Share actions" [ref=f46e93] [cursor=pointer]
+          - button "View comments 2" [ref=f46e96] [cursor=pointer]:
+            - generic: View comments
+            - generic [ref=f46e99]: "2"
+          - button "Detail actions" [ref=f46e100] [cursor=pointer]
+      - generic [ref=f46e104]:
+        - link [ref=f46e107] [cursor=pointer]:
+          - /url: /pulokpauldesign
+          - generic [ref=f46e108]:
+            - img "Pulok Paul ✪ | UX/UI & Web Designer" [ref=f46e109]
+            - generic: Online
+        - link "Pulok Paul ✪ | UX/UI & Web Designer" [ref=f46e111] [cursor=pointer]:
+          - /url: /pulokpauldesign
+        - link "Get in touch" [ref=f46e113] [cursor=pointer]:
+          - /url: /signups/new
+      - link [ref=f46e115] [cursor=pointer]:
+        - /url: /product-design-agency
+        - paragraph [ref=f46e116]: Hire a digital product design company
+        - paragraph [ref=f46e117]: Looking for more than just a visual update? These product design agencies specialize in building comprehensive design systems for large-scale projects. →
+      - generic [ref=f46e118]:
+        - generic [ref=f46e119]:
+          - heading "More by Pulok Paul ✪ | UX/UI & Web Designer" [level=4] [ref=f46e120]
+          - link "View profile" [ref=f46e121] [cursor=pointer]:
+            - /url: /pulokpauldesign
+        - generic [ref=f46e122]:
+          - listitem [ref=f46e124]
+          - listitem [ref=f46e126]
+          - listitem [ref=f46e128]
+          - listitem [ref=f46e130]
+      - generic [ref=f46e131]:
+        - generic [ref=f46e132]:
+          - heading "Services by Pulok Paul ✪ | UX/UI & Web Designer" [level=4] [ref=f46e133]
+          - paragraph [ref=f46e134]:
+            - link "View all services" [ref=f46e135] [cursor=pointer]:
+              - /url: /pulokpauldesign/services
+        - generic [ref=f46e136]:
+          - 'button "View service: High Quality Saas Dashboard UI UX" [ref=f46e137] [cursor=pointer]':
+            - generic [ref=f46e140]:
+              - generic [ref=f46e141]: High Quality Saas Dashboard UI UX
+              - generic [ref=f46e142]: $250
+          - 'button "View service: Website Design ( 5+ Pages )" [ref=f46e143] [cursor=pointer]':
+            - generic [ref=f46e146]:
+              - generic [ref=f46e147]: Website Design ( 5+ Pages )
+              - generic [ref=f46e148]: $700
+          - 'button "View service: Minimal Modern Landing Page Design" [ref=f46e149] [cursor=pointer]':
+            - generic [ref=f46e152]:
+              - generic [ref=f46e153]: Minimal Modern Landing Page Design
+              - generic [ref=f46e154]: $150
+  - contentinfo [ref=f46e157]:
+    - generic [ref=f46e158]:
+      - generic [ref=f46e159]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f46e160] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f46e161]'
+          - generic: Back to home page
+        - list [ref=f46e163]:
+          - listitem [ref=f46e164]:
+            - link "For designers" [ref=f46e165] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f46e166]:
+            - link "Hire talent" [ref=f46e167] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f46e168]:
+            - link "Inspiration" [ref=f46e169] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f46e170]:
+            - link "Advertising" [ref=f46e171] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f46e172]:
+            - link "Blog" [ref=f46e173] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f46e174]:
+            - link "About" [ref=f46e175] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f46e176]:
+            - link "Support" [ref=f46e177] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f46e178]:
+          - link "X" [ref=f46e179] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f46e182] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f46e185] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f46e188] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f46e191]:
+        - list [ref=f46e192]:
+          - listitem [ref=f46e193]: © 2026 Dribbble
+          - listitem [ref=f46e194]:
+            - link "Terms" [ref=f46e195] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f46e196]:
+            - link "Privacy" [ref=f46e197] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f46e198]:
+            - link "Cookies" [ref=f46e199] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f46e200]:
+          - listitem [ref=f46e201]:
+            - link "Jobs" [ref=f46e202] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f46e203]:
+            - link "Tags" [ref=f46e204] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f46e205]:
+            - link "Places" [ref=f46e206] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f46e207]:
+            - link "Resources" [ref=f46e208] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f46e209]:
+    

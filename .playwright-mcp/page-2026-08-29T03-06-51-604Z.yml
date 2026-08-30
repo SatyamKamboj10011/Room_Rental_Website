@@ -1,0 +1,51 @@
+- generic [ref=f28e3]:
+  - navigation [ref=f28e5]:
+    - generic [ref=f28e6]:
+      - link "OtagoRentals Find your next home" [ref=f28e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f28e11]:
+          - generic [ref=f28e12]: OtagoRentals
+          - generic [ref=f28e13]: Find your next home
+      - generic [ref=f28e14]:
+        - generic [ref=f28e15]:
+          - link "Home" [ref=f28e16] [cursor=pointer]:
+            - /url: /
+          - link "Browse Rooms" [ref=f28e19] [cursor=pointer]:
+            - /url: /listings
+        - generic [ref=f28e22]:
+          - button "Login" [ref=f28e23] [cursor=pointer]
+          - button "Sign Up" [ref=f28e26] [cursor=pointer]
+  - generic [ref=f28e27]:
+    - generic [ref=f28e28]:
+      - link [ref=f28e29] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f28e33]:
+        - text: Find more than a room.
+        - strong [ref=f28e34]: Find your space.
+    - generic [ref=f28e36]:
+      - heading "Welcome back" [level=1] [ref=f28e37]
+      - paragraph [ref=f28e38]: Sign in to explore your next home.
+      - generic [ref=f28e39]:
+        - generic [ref=f28e40]:
+          - generic [ref=f28e41]: Email
+          - textbox "Email" [ref=f28e45]:
+            - /placeholder: Your email address
+        - generic [ref=f28e46]:
+          - generic [ref=f28e47]: Password
+          - generic [ref=f28e48]:
+            - textbox "Password" [ref=f28e51]:
+              - /placeholder: Your password
+            - generic [ref=f28e52] [cursor=pointer]
+        - generic [ref=f28e55]:
+          - generic [ref=f28e56] [cursor=pointer]:
+            - checkbox "Remember me" [checked] [ref=f28e57]
+            - text: Remember me
+          - link "Forgot password?" [ref=f28e58] [cursor=pointer]:
+            - /url: /forgot-password
+        - button "Log in" [ref=f28e59] [cursor=pointer]
+      - generic [ref=f28e62]: or continue with
+      - button [ref=f28e63] [cursor=pointer]
+      - generic [ref=f28e74]:
+        - text: Don't have an account?
+        - link "Sign up" [ref=f28e75] [cursor=pointer]:
+          - /url: /Register

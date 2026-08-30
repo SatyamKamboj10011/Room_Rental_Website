@@ -1,0 +1,27 @@
+- generic [ref=f30e4]:
+  - generic [ref=f30e5]:
+    - link [ref=f30e6] [cursor=pointer]:
+      - /url: /
+    - generic [ref=f30e10]:
+      - text: Find more than a room.
+      - strong [ref=f30e11]: Find your space.
+  - generic [ref=f30e13]:
+    - heading "Create your account" [level=1] [ref=f30e14]
+    - paragraph [ref=f30e15]: Join OtagoRentals and find your next home.
+    - generic [ref=f30e16]:
+      - generic [ref=f30e17]:
+        - textbox "First name" [ref=f30e22]
+        - textbox "Last name" [ref=f30e27]
+      - textbox "Email address" [ref=f30e32]
+      - generic [ref=f30e34]:
+        - textbox "Password" [ref=f30e37]
+        - generic [ref=f30e38] [cursor=pointer]
+      - generic [ref=f30e41]:
+        - textbox "Phone number" [ref=f30e46]
+        - spinbutton "Age" [ref=f30e51]
+      - textbox "Address" [ref=f30e56]
+      - button "Get started" [ref=f30e57] [cursor=pointer]
+    - generic [ref=f30e60]:
+      - text: Already have an account?
+      - link "Sign in" [ref=f30e61] [cursor=pointer]:
+        - /url: /login

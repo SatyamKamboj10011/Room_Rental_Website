@@ -1,0 +1,175 @@
+- generic [active] [ref=f61e1]:
+  - generic [ref=f61e3]:
+    - link "Back to home page" [ref=f61e4] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f61e5]'
+    - generic [ref=f61e8]:
+      - combobox "Submit" [ref=f61e10]:
+        - search [ref=f61e11]:
+          - searchbox "Submit" [ref=f61e13]
+      - generic "Change search type" [ref=f61e14]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f61e15] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f61e17] [cursor=pointer]
+    - navigation [ref=f61e20]:
+      - list [ref=f61e22]:
+        - listitem [ref=f61e23]:
+          - link "Explore" [ref=f61e24] [cursor=pointer]:
+            - /url: /shots/popular
+        - listitem [ref=f61e25]:
+          - link "Hire Talent" [ref=f61e26] [cursor=pointer]:
+            - /url: /hire
+        - listitem [ref=f61e27]:
+          - link "Get Hired" [ref=f61e28] [cursor=pointer]:
+            - /url: /browse-project-briefs
+        - listitem [ref=f61e29]:
+          - link "Community" [ref=f61e30] [cursor=pointer]:
+            - /url: /stories
+    - generic [ref=f61e31]:
+      - link "Sign up" [ref=f61e32] [cursor=pointer]:
+        - /url: /signups/new
+      - link "Log in" [ref=f61e33] [cursor=pointer]:
+        - /url: /session/new
+  - generic [ref=f61e35]:
+    - generic [ref=f61e36]:
+      - paragraph
+      - paragraph [ref=f61e38]: Get 20% off your first payment for design and development services on Dribbble. Use code WELCOME20 🎉
+      - paragraph
+      - link "Get Started" [ref=f61e39] [cursor=pointer]:
+        - /url: https://dribbble.com/instantmatch
+    - button "close" [ref=f61e40] [cursor=pointer]
+  - main [ref=f61e45]:
+    - generic [ref=f61e47]:
+      - generic [ref=f61e49]:
+        - heading "Hotel Booking Checkout Screen - Cart and Payment" [level=1] [ref=f61e52]
+        - generic [ref=f61e54]:
+          - generic [ref=f61e56]:
+            - link [ref=f61e57] [cursor=pointer]:
+              - /url: /ajayshekhawat
+              - generic [ref=f61e58]:
+                - img "Ajay Shekhawat" [ref=f61e59]
+                - generic: Online
+            - generic [ref=f61e60]:
+              - link "Ajay Shekhawat" [ref=f61e63] [cursor=pointer]:
+                - /url: /ajayshekhawat
+              - generic [ref=f61e64]:
+                - button "Available for work" [ref=f61e65] [cursor=pointer]
+                - link "Follow" [ref=f61e67] [cursor=pointer]:
+                  - /url: /ajayshekhawat/followers
+          - generic [ref=f61e68]:
+            - generic [ref=f61e69]:
+              - button "Like shot" [ref=f61e71] [cursor=pointer]
+              - listitem [ref=f61e74]:
+                - link "Save shot" [ref=f61e75] [cursor=pointer]:
+                  - /url: /signups/new
+            - link "Get in touch" [ref=f61e78] [cursor=pointer]:
+              - /url: /signups/new
+        - generic [ref=f61e80]:
+          - link [ref=f61e84] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/14560509/file/original-ec68e6d967ae709e53b9f74e79ac01eb.png?resize=752x&vertical=center
+          - paragraph [ref=f61e87]: "Check into simplicity with our sleek Hotel Booking Checkout Screen! 🏨✨ Say goodbye to booking hassles and hello to a seamless experience from start to finish. Our intuitive design ensures effortless navigation, allowing you to confirm your reservation with just a few taps. Complete with secure payment options and customizable preferences, your stay is tailored to perfection. Experience the future of hospitality booking with us today! #HotelBooking #SeamlessExperience #TravelSimplified #StayWithEase"
+        - generic [ref=f61e88]:
+          - link [ref=f61e91] [cursor=pointer]:
+            - /url: /ajayshekhawat
+            - generic [ref=f61e92]:
+              - img "Ajay Shekhawat" [ref=f61e93]
+              - generic: Online
+          - link "Ajay Shekhawat" [ref=f61e95] [cursor=pointer]:
+            - /url: /ajayshekhawat
+          - link "Get in touch" [ref=f61e97] [cursor=pointer]:
+            - /url: /signups/new
+        - link [ref=f61e99] [cursor=pointer]:
+          - /url: /product-design-agency
+          - paragraph [ref=f61e100]: Browse digital product design companies
+          - paragraph [ref=f61e101]: Connect with an expert product design firm to engineer growth-focused products at scale. →
+        - generic [ref=f61e102]:
+          - generic [ref=f61e103]:
+            - heading "More by Ajay Shekhawat" [level=4] [ref=f61e104]
+            - link "View profile" [ref=f61e105] [cursor=pointer]:
+              - /url: /ajayshekhawat
+          - generic [ref=f61e106]:
+            - listitem [ref=f61e108]
+            - listitem [ref=f61e110]
+            - listitem [ref=f61e112]
+            - listitem [ref=f61e114]
+      - generic [ref=f61e120]:
+        - button "View comments 2" [ref=f61e121] [cursor=pointer]:
+          - generic: View comments
+          - generic [ref=f61e124]: "2"
+        - button "Share actions" [ref=f61e125] [cursor=pointer]
+        - button "Detail actions" [ref=f61e128] [cursor=pointer]
+  - contentinfo [ref=f61e132]:
+    - generic [ref=f61e133]:
+      - generic [ref=f61e134]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f61e135] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f61e136]'
+          - generic: Back to home page
+        - list [ref=f61e138]:
+          - listitem [ref=f61e139]:
+            - link "For designers" [ref=f61e140] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f61e141]:
+            - link "Hire talent" [ref=f61e142] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f61e143]:
+            - link "Inspiration" [ref=f61e144] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f61e145]:
+            - link "Advertising" [ref=f61e146] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f61e147]:
+            - link "Blog" [ref=f61e148] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f61e149]:
+            - link "About" [ref=f61e150] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f61e151]:
+            - link "Support" [ref=f61e152] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f61e153]:
+          - link "X" [ref=f61e154] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f61e157] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f61e160] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f61e163] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f61e166]:
+        - list [ref=f61e167]:
+          - listitem [ref=f61e168]: © 2026 Dribbble
+          - listitem [ref=f61e169]:
+            - link "Terms" [ref=f61e170] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f61e171]:
+            - link "Privacy" [ref=f61e172] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f61e173]:
+            - link "Cookies" [ref=f61e174] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f61e175]:
+          - listitem [ref=f61e176]:
+            - link "Jobs" [ref=f61e177] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f61e178]:
+            - link "Tags" [ref=f61e179] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f61e180]:
+            - link "Places" [ref=f61e181] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f61e182]:
+            - link "Resources" [ref=f61e183] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f61e184]:
+    

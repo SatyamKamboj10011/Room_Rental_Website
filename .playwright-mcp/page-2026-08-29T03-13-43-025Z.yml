@@ -1,0 +1,221 @@
+- generic [active] [ref=f35e1]:
+  - generic [ref=f35e3]:
+    - link "Back to home page" [ref=f35e4] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f35e5]'
+    - generic [ref=f35e8]:
+      - combobox "Submit" [ref=f35e10]:
+        - search [ref=f35e11]:
+          - searchbox "Submit" [ref=f35e13]
+      - generic "Change search type" [ref=f35e14]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f35e15] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f35e17] [cursor=pointer]
+    - navigation [ref=f35e20]:
+      - list [ref=f35e22]:
+        - listitem [ref=f35e23]:
+          - link "Explore" [ref=f35e24] [cursor=pointer]:
+            - /url: /shots/popular
+        - listitem [ref=f35e25]:
+          - link "Hire Talent" [ref=f35e26] [cursor=pointer]:
+            - /url: /hire
+        - listitem [ref=f35e27]:
+          - link "Get Hired" [ref=f35e28] [cursor=pointer]:
+            - /url: /browse-project-briefs
+        - listitem [ref=f35e29]:
+          - link "Community" [ref=f35e30] [cursor=pointer]:
+            - /url: /stories
+    - generic [ref=f35e31]:
+      - link "Sign up" [ref=f35e32] [cursor=pointer]:
+        - /url: /signups/new
+      - link "Log in" [ref=f35e33] [cursor=pointer]:
+        - /url: /session/new
+  - generic [ref=f35e35]:
+    - generic [ref=f35e36]:
+      - paragraph
+      - paragraph [ref=f35e38]: Get 20% off your first payment for design and development services on Dribbble. Use code WELCOME20 🎉
+      - paragraph
+      - link "Get Started" [ref=f35e39] [cursor=pointer]:
+        - /url: https://dribbble.com/instantmatch
+    - button "close" [ref=f35e40] [cursor=pointer]
+  - main [ref=f35e45]:
+    - generic [ref=f35e47]:
+      - generic [ref=f35e49]:
+        - heading "Havenix- Real Estate Login page" [level=1] [ref=f35e52]
+        - generic [ref=f35e54]:
+          - generic [ref=f35e56]:
+            - link [ref=f35e57] [cursor=pointer]:
+              - /url: /mehbubur_rahman
+              - generic [ref=f35e58]:
+                - img "Mehbubur Rahman" [ref=f35e59]
+                - generic: Online
+            - generic [ref=f35e60]:
+              - link "Mehbubur Rahman" [ref=f35e63] [cursor=pointer]:
+                - /url: /mehbubur_rahman
+              - generic [ref=f35e64]:
+                - button "Available for work" [ref=f35e65] [cursor=pointer]
+                - link "Follow" [ref=f35e67] [cursor=pointer]:
+                  - /url: /mehbubur_rahman/followers
+          - generic [ref=f35e68]:
+            - generic [ref=f35e69]:
+              - button "Like shot" [ref=f35e71] [cursor=pointer]
+              - listitem [ref=f35e74]:
+                - link "Save shot" [ref=f35e75] [cursor=pointer]:
+                  - /url: /signups/new
+            - link "Get in touch" [ref=f35e78] [cursor=pointer]:
+              - /url: /signups/new
+        - generic [ref=f35e83]:
+          - list [ref=f35e84]:
+            - listitem [ref=f35e85]:
+              - link "#F5F5F6" [ref=f35e86] [cursor=pointer]:
+                - /url: /shots?color=F5F5F6
+            - listitem [ref=f35e87]:
+              - link "#14171D" [ref=f35e88] [cursor=pointer]:
+                - /url: /shots?color=14171D
+            - listitem [ref=f35e89]:
+              - link "#253446" [ref=f35e90] [cursor=pointer]:
+                - /url: /shots?color=253446
+            - listitem [ref=f35e91]:
+              - link "#8D8E8F" [ref=f35e92] [cursor=pointer]:
+                - /url: /shots?color=8D8E8F
+            - listitem [ref=f35e93]:
+              - link "#503F2F" [ref=f35e94] [cursor=pointer]:
+                - /url: /shots?color=503F2F
+            - listitem [ref=f35e95]:
+              - link "#8C6E54" [ref=f35e96] [cursor=pointer]:
+                - /url: /shots?color=8C6E54
+            - listitem [ref=f35e97]:
+              - link "#5D5B5B" [ref=f35e98] [cursor=pointer]:
+                - /url: /shots?color=5D5B5B
+          - link "Download color palette" [ref=f35e99] [cursor=pointer]:
+            - /url: /shots/26207170-Havenix-Real-Estate-Login-page/colors.aco
+        - generic [ref=f35e103]:
+          - link [ref=f35e107] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/43882146/file/original-c65c5d699387e961832d2bd2d62e3494.png?resize=752x&vertical=center
+          - generic [ref=f35e109]:
+            - heading [level=2] [ref=f35e110]:
+              - strong [ref=f35e111]: Have an Exciting Project?
+            - paragraph [ref=f35e112]
+            - paragraph [ref=f35e113]:
+              - strong [ref=f35e114]: Just Contact Us
+        - generic [ref=f35e115]:
+          - link [ref=f35e118] [cursor=pointer]:
+            - /url: /mehbubur_rahman
+            - generic [ref=f35e119]:
+              - img "Mehbubur Rahman" [ref=f35e120]
+              - generic: Online
+          - link "Mehbubur Rahman" [ref=f35e122] [cursor=pointer]:
+            - /url: /mehbubur_rahman
+          - generic [ref=f35e123]: Helping Startups Build Products & Businesses convert 5x-10x
+          - link "Get in touch" [ref=f35e125] [cursor=pointer]:
+            - /url: /signups/new
+        - generic [ref=f35e127]:
+          - generic [ref=f35e128]:
+            - heading "More by Mehbubur Rahman" [level=4] [ref=f35e129]
+            - link "View profile" [ref=f35e130] [cursor=pointer]:
+              - /url: /mehbubur_rahman
+          - generic [ref=f35e131]:
+            - listitem [ref=f35e133]
+            - listitem [ref=f35e135]
+            - listitem [ref=f35e137]
+            - listitem [ref=f35e139]
+        - generic [ref=f35e140]:
+          - generic [ref=f35e141]:
+            - heading "Services by Mehbubur Rahman" [level=4] [ref=f35e142]
+            - paragraph [ref=f35e143]:
+              - link "View all services" [ref=f35e144] [cursor=pointer]:
+                - /url: /mehbubur_rahman/services
+          - generic [ref=f35e145]:
+            - 'button "View service: Modern Website Landing Page Design" [ref=f35e146] [cursor=pointer]':
+              - generic [ref=f35e149]:
+                - generic [ref=f35e150]: Modern Website Landing Page Design
+                - generic [ref=f35e151]: $699
+            - 'button "View service: Modern Website Design" [ref=f35e152] [cursor=pointer]':
+              - generic [ref=f35e155]:
+                - generic [ref=f35e156]: Modern Website Design
+                - generic [ref=f35e157]: $999
+            - 'button "View service: Modern Mobile App Design" [ref=f35e158] [cursor=pointer]':
+              - generic [ref=f35e161]:
+                - generic [ref=f35e162]: Modern Mobile App Design
+                - generic [ref=f35e163]: $799
+      - generic [ref=f35e169]:
+        - button "View comments 3" [ref=f35e170] [cursor=pointer]:
+          - generic: View comments
+          - generic [ref=f35e173]: "3"
+        - button "Share actions" [ref=f35e174] [cursor=pointer]
+        - button "Detail actions" [ref=f35e177] [cursor=pointer]
+  - contentinfo [ref=f35e181]:
+    - generic [ref=f35e182]:
+      - generic [ref=f35e183]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f35e184] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f35e185]'
+          - generic: Back to home page
+        - list [ref=f35e187]:
+          - listitem [ref=f35e188]:
+            - link "For designers" [ref=f35e189] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f35e190]:
+            - link "Hire talent" [ref=f35e191] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f35e192]:
+            - link "Inspiration" [ref=f35e193] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f35e194]:
+            - link "Advertising" [ref=f35e195] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f35e196]:
+            - link "Blog" [ref=f35e197] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f35e198]:
+            - link "About" [ref=f35e199] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f35e200]:
+            - link "Support" [ref=f35e201] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f35e202]:
+          - link "X" [ref=f35e203] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f35e206] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f35e209] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f35e212] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f35e215]:
+        - list [ref=f35e216]:
+          - listitem [ref=f35e217]: © 2026 Dribbble
+          - listitem [ref=f35e218]:
+            - link "Terms" [ref=f35e219] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f35e220]:
+            - link "Privacy" [ref=f35e221] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f35e222]:
+            - link "Cookies" [ref=f35e223] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f35e224]:
+          - listitem [ref=f35e225]:
+            - link "Jobs" [ref=f35e226] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f35e227]:
+            - link "Tags" [ref=f35e228] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f35e229]:
+            - link "Places" [ref=f35e230] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f35e231]:
+            - link "Resources" [ref=f35e232] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f35e233]:
+    

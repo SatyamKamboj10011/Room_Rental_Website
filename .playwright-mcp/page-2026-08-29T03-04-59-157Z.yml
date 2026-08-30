@@ -1,0 +1,297 @@
+- generic [active] [ref=f24e1]:
+  - generic [ref=f24e3]:
+    - link "Back to home page" [ref=f24e4] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f24e5]'
+    - generic [ref=f24e8]:
+      - combobox "Submit" [ref=f24e10]:
+        - search [ref=f24e11]:
+          - searchbox "Submit" [ref=f24e13]
+      - generic "Change search type" [ref=f24e14]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f24e15] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f24e17] [cursor=pointer]
+    - navigation [ref=f24e20]:
+      - list [ref=f24e22]:
+        - listitem [ref=f24e23]:
+          - link "Explore" [ref=f24e24] [cursor=pointer]:
+            - /url: /shots/popular
+        - listitem [ref=f24e25]:
+          - link "Hire Talent" [ref=f24e26] [cursor=pointer]:
+            - /url: /hire
+        - listitem [ref=f24e27]:
+          - link "Get Hired" [ref=f24e28] [cursor=pointer]:
+            - /url: /browse-project-briefs
+        - listitem [ref=f24e29]:
+          - link "Community" [ref=f24e30] [cursor=pointer]:
+            - /url: /stories
+    - generic [ref=f24e31]:
+      - link "Sign up" [ref=f24e32] [cursor=pointer]:
+        - /url: /signups/new
+      - link "Log in" [ref=f24e33] [cursor=pointer]:
+        - /url: /session/new
+  - generic [ref=f24e35]:
+    - generic [ref=f24e36]:
+      - paragraph
+      - paragraph [ref=f24e38]: Get 20% off your first payment for design and development services on Dribbble. Use code WELCOME20 🎉
+      - paragraph
+      - link "Get Started" [ref=f24e39] [cursor=pointer]:
+        - /url: https://dribbble.com/instantmatch
+    - button "close" [ref=f24e40] [cursor=pointer]
+  - main [ref=f24e45]:
+    - generic [ref=f24e47]:
+      - generic [ref=f24e49]:
+        - heading "Minimal login UI for Real Estate platform - Login page" [level=1] [ref=f24e52]
+        - generic [ref=f24e54]:
+          - generic [ref=f24e56]:
+            - link [ref=f24e57] [cursor=pointer]:
+              - /url: /keyur_uiux
+              - generic [ref=f24e58]:
+                - img "Keyur Payghode ✌️" [ref=f24e59]
+                - generic: Online
+            - generic [ref=f24e60]:
+              - link "Keyur Payghode ✌️" [ref=f24e63] [cursor=pointer]:
+                - /url: /keyur_uiux
+              - generic [ref=f24e64]:
+                - button "Available for work" [ref=f24e65] [cursor=pointer]
+                - link "Follow" [ref=f24e67] [cursor=pointer]:
+                  - /url: /keyur_uiux/followers
+          - generic [ref=f24e68]:
+            - generic [ref=f24e69]:
+              - button "Like shot" [ref=f24e71] [cursor=pointer]
+              - listitem [ref=f24e74]:
+                - link "Save shot" [ref=f24e75] [cursor=pointer]:
+                  - /url: /signups/new
+            - link "Get in touch" [ref=f24e78] [cursor=pointer]:
+              - /url: /signups/new
+        - generic [ref=f24e83]:
+          - list [ref=f24e84]:
+            - listitem [ref=f24e85]:
+              - link "#0E0A08" [ref=f24e86] [cursor=pointer]:
+                - /url: /shots?color=0E0A08
+            - listitem [ref=f24e87]:
+              - link "#FEFEFE" [ref=f24e88] [cursor=pointer]:
+                - /url: /shots?color=FEFEFE
+            - listitem [ref=f24e89]:
+              - link "#5A2E1C" [ref=f24e90] [cursor=pointer]:
+                - /url: /shots?color=5A2E1C
+            - listitem [ref=f24e91]:
+              - link "#A65528" [ref=f24e92] [cursor=pointer]:
+                - /url: /shots?color=A65528
+            - listitem [ref=f24e93]:
+              - link "#E26425" [ref=f24e94] [cursor=pointer]:
+                - /url: /shots?color=E26425
+            - listitem [ref=f24e95]:
+              - link "#F09A52" [ref=f24e96] [cursor=pointer]:
+                - /url: /shots?color=F09A52
+            - listitem [ref=f24e97]:
+              - link "#5D80AE" [ref=f24e98] [cursor=pointer]:
+                - /url: /shots?color=5D80AE
+            - listitem [ref=f24e99]:
+              - link "#CAC3A4" [ref=f24e100] [cursor=pointer]:
+                - /url: /shots?color=CAC3A4
+          - link "Download color palette" [ref=f24e101] [cursor=pointer]:
+            - /url: /shots/26100029-Minimal-login-UI-for-Real-Estate-platform-Login-page/colors.aco
+        - generic [ref=f24e105]:
+          - link [ref=f24e109] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/43551179/file/original-8c9b0828bb5a6c54258407a99aea9391.jpg?resize=752x&vertical=center
+          - generic:
+            - generic:
+              - paragraph
+          - generic [ref=f24e111]:
+            - paragraph [ref=f24e112]:
+              - text: Pleased to unveil a clean and intuitive login interface tailored for the real estate domain. It’s about creating
+              - strong [ref=f24e113]: trust from the first click
+              - text: .
+            - paragraph [ref=f24e114]
+            - paragraph [ref=f24e115]:
+              - strong [ref=f24e116]: What’s Inside the Experience?
+            - list [ref=f24e117]:
+              - listitem [ref=f24e118]:
+                - paragraph [ref=f24e119]: Minimal yet bold layout for clarity and focus
+              - listitem [ref=f24e120]:
+                - paragraph [ref=f24e121]: Real estate–themed hero visuals to instantly set context
+              - listitem [ref=f24e122]:
+                - paragraph [ref=f24e123]: Smooth login via email or social platforms
+              - listitem [ref=f24e124]:
+                - paragraph [ref=f24e125]: Mobile-first design ensures accessibility across all devices
+            - paragraph [ref=f24e126]
+            - paragraph [ref=f24e127]:
+              - text: Crafted with both
+              - strong [ref=f24e128]: usability and brand trust
+              - text: in mind.
+            - paragraph [ref=f24e129]
+            - paragraph [ref=f24e130]: If you're building something in the real estate or PropTech space and need user-first interfaces, I’d love to collaborate!
+          - heading "Have a project in mind? Let’s turn it into a standout solution." [level=2] [ref=f24e133]
+          - link [ref=f24e138] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/43551244/file/original-cff5e453db95ab5241fc0d426fb2a312.jpg?resize=752x&vertical=center
+        - generic [ref=f24e139]:
+          - link [ref=f24e142] [cursor=pointer]:
+            - /url: /keyur_uiux
+            - generic [ref=f24e143]:
+              - img "Keyur Payghode ✌️" [ref=f24e144]
+              - generic: Online
+          - link "Keyur Payghode ✌️" [ref=f24e146] [cursor=pointer]:
+            - /url: /keyur_uiux
+          - link "Get in touch" [ref=f24e148] [cursor=pointer]:
+            - /url: /signups/new
+        - link [ref=f24e150] [cursor=pointer]:
+          - /url: /ux-ui-design-agency
+          - paragraph [ref=f24e151]: View UI/UX design agencies
+          - paragraph [ref=f24e152]: Convert these visuals into a fluid, seamless experience by partnering with a Dribbble-recognized user experience design company to build user-centric products. →
+        - generic [ref=f24e153]:
+          - generic [ref=f24e154]:
+            - heading "More by Keyur Payghode ✌️" [level=4] [ref=f24e155]
+            - link "View profile" [ref=f24e156] [cursor=pointer]:
+              - /url: /keyur_uiux
+          - generic [ref=f24e157]:
+            - listitem [ref=f24e159]
+            - listitem [ref=f24e161]
+            - listitem [ref=f24e163]
+            - listitem [ref=f24e165]
+      - generic [ref=f24e171]:
+        - button "View comments 20" [ref=f24e172] [cursor=pointer]:
+          - generic: View comments
+          - generic [ref=f24e175]: "20"
+        - button "Share actions" [ref=f24e176] [cursor=pointer]
+        - button "Detail actions" [ref=f24e179] [cursor=pointer]
+  - contentinfo [ref=f24e183]:
+    - generic [ref=f24e186]:
+      - link "Web Design Web Design" [ref=f24e187] [cursor=pointer]:
+        - /url: /shots/popular/web-design
+        - img "Web Design" [ref=f24e190]
+        - generic [ref=f24e191]: Web Design
+      - link "Animation Animation" [ref=f24e192] [cursor=pointer]:
+        - /url: /shots/popular/animation
+        - img "Animation" [ref=f24e195]
+        - generic [ref=f24e196]: Animation
+      - link "Typography Typography" [ref=f24e197] [cursor=pointer]:
+        - /url: /shots/popular/typography
+        - img "Typography" [ref=f24e200]
+        - generic [ref=f24e201]: Typography
+      - link "Product Design Product Design" [ref=f24e202] [cursor=pointer]:
+        - /url: /shots/popular/product-design
+        - img "Product Design" [ref=f24e205]
+        - generic [ref=f24e206]: Product Design
+      - link "Illustration Illustration" [ref=f24e207] [cursor=pointer]:
+        - /url: /shots/popular/illustration
+        - img "Illustration" [ref=f24e210]
+        - generic [ref=f24e211]: Illustration
+      - link "Print Print" [ref=f24e212] [cursor=pointer]:
+        - /url: /shots/popular/print
+        - img "Print" [ref=f24e215]
+        - generic [ref=f24e216]: Print
+      - link "Mobile Mobile" [ref=f24e217] [cursor=pointer]:
+        - /url: /shots/popular/mobile
+        - img "Mobile" [ref=f24e220]
+        - generic [ref=f24e221]: Mobile
+      - link "Branding Branding" [ref=f24e222] [cursor=pointer]:
+        - /url: /shots/popular/branding
+        - img "Branding" [ref=f24e225]
+        - generic [ref=f24e226]: Branding
+      - link "Web Design Web Design" [ref=f24e227] [cursor=pointer]:
+        - /url: /shots/popular/web-design
+        - img "Web Design" [ref=f24e230]
+        - generic [ref=f24e231]: Web Design
+      - link "Animation Animation" [ref=f24e232] [cursor=pointer]:
+        - /url: /shots/popular/animation
+        - img "Animation" [ref=f24e235]
+        - generic [ref=f24e236]: Animation
+      - link "Typography Typography" [ref=f24e237] [cursor=pointer]:
+        - /url: /shots/popular/typography
+        - img "Typography" [ref=f24e240]
+        - generic [ref=f24e241]: Typography
+      - link "Product Design Product Design" [ref=f24e242] [cursor=pointer]:
+        - /url: /shots/popular/product-design
+        - img "Product Design" [ref=f24e245]
+        - generic [ref=f24e246]: Product Design
+      - link "Illustration Illustration" [ref=f24e247] [cursor=pointer]:
+        - /url: /shots/popular/illustration
+        - img "Illustration" [ref=f24e250]
+        - generic [ref=f24e251]: Illustration
+      - link "Print Print" [ref=f24e252] [cursor=pointer]:
+        - /url: /shots/popular/print
+        - img "Print" [ref=f24e255]
+        - generic [ref=f24e256]: Print
+      - link "Mobile Mobile" [ref=f24e257] [cursor=pointer]:
+        - /url: /shots/popular/mobile
+        - img "Mobile" [ref=f24e260]
+        - generic [ref=f24e261]: Mobile
+      - link "Branding Branding" [ref=f24e262] [cursor=pointer]:
+        - /url: /shots/popular/branding
+        - img "Branding" [ref=f24e265]
+        - generic [ref=f24e266]: Branding
+    - generic [ref=f24e267]:
+      - generic [ref=f24e268]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f24e269] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f24e270]'
+          - generic: Back to home page
+        - list [ref=f24e272]:
+          - listitem [ref=f24e273]:
+            - link "For designers" [ref=f24e274] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f24e275]:
+            - link "Hire talent" [ref=f24e276] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f24e277]:
+            - link "Inspiration" [ref=f24e278] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f24e279]:
+            - link "Advertising" [ref=f24e280] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f24e281]:
+            - link "Blog" [ref=f24e282] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f24e283]:
+            - link "About" [ref=f24e284] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f24e285]:
+            - link "Support" [ref=f24e286] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f24e287]:
+          - link "X" [ref=f24e288] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f24e291] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f24e294] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f24e297] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f24e300]:
+        - list [ref=f24e301]:
+          - listitem [ref=f24e302]: © 2026 Dribbble
+          - listitem [ref=f24e303]:
+            - link "Terms" [ref=f24e304] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f24e305]:
+            - link "Privacy" [ref=f24e306] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f24e307]:
+            - link "Cookies" [ref=f24e308] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f24e309]:
+          - listitem [ref=f24e310]:
+            - link "Jobs" [ref=f24e311] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f24e312]:
+            - link "Tags" [ref=f24e313] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f24e314]:
+            - link "Places" [ref=f24e315] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f24e316]:
+            - link "Resources" [ref=f24e317] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f24e318]:
+    

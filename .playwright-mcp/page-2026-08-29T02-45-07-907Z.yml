@@ -1,0 +1,25 @@
+- generic [ref=f1e3]:
+  - navigation [ref=f1e5]:
+    - generic [ref=f1e6]:
+      - link "OtagoRentals Find your next home" [ref=f1e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f1e11]:
+          - generic [ref=f1e12]: OtagoRentals
+          - generic [ref=f1e13]: Find your next home
+      - generic [ref=f1e14]:
+        - generic [ref=f1e15]:
+          - link "Home" [ref=f1e16] [cursor=pointer]:
+            - /url: /
+          - link "Browse Rooms" [ref=f1e19] [cursor=pointer]:
+            - /url: /listings
+        - generic [ref=f1e22]:
+          - button "Login" [ref=f1e23] [cursor=pointer]
+          - button "Sign Up" [ref=f1e26] [cursor=pointer]
+  - generic [ref=f1e29]:
+    - generic [ref=f1e30]: O
+    - generic [ref=f1e31]: OTAGORENTALS
+    - heading "Your next place is waiting." [level=1] [ref=f1e32]: Your next placeis waiting.
+    - paragraph [ref=f1e33]: Sign in to browse available properties, save your favourites and explore your next home.
+    - generic [ref=f1e34]:
+      - button "Sign in" [ref=f1e35] [cursor=pointer]
+      - button "Create an account" [ref=f1e38] [cursor=pointer]

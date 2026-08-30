@@ -1,0 +1,281 @@
+- generic [active] [ref=f56e1]:
+  - generic [ref=f56e3]:
+    - link "Back to home page" [ref=f56e4] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f56e5]'
+    - generic [ref=f56e8]:
+      - combobox "Submit" [ref=f56e10]:
+        - search [ref=f56e11]:
+          - searchbox "Submit" [ref=f56e13]
+      - generic "Change search type" [ref=f56e14]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f56e15] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f56e17] [cursor=pointer]
+    - navigation [ref=f56e20]:
+      - list [ref=f56e22]:
+        - listitem [ref=f56e23]:
+          - link "Explore" [ref=f56e24] [cursor=pointer]:
+            - /url: /shots/popular
+        - listitem [ref=f56e25]:
+          - link "Hire Talent" [ref=f56e26] [cursor=pointer]:
+            - /url: /hire
+        - listitem [ref=f56e27]:
+          - link "Get Hired" [ref=f56e28] [cursor=pointer]:
+            - /url: /browse-project-briefs
+        - listitem [ref=f56e29]:
+          - link "Community" [ref=f56e30] [cursor=pointer]:
+            - /url: /stories
+    - generic [ref=f56e31]:
+      - link "Sign up" [ref=f56e32] [cursor=pointer]:
+        - /url: /signups/new
+      - link "Log in" [ref=f56e33] [cursor=pointer]:
+        - /url: /session/new
+  - generic [ref=f56e35]:
+    - generic [ref=f56e36]:
+      - paragraph
+      - paragraph [ref=f56e38]: Get 20% off your first payment for design and development services on Dribbble. Use code WELCOME20 🎉
+      - paragraph
+      - link "Get Started" [ref=f56e39] [cursor=pointer]:
+        - /url: https://dribbble.com/instantmatch
+    - button "close" [ref=f56e40] [cursor=pointer]
+  - main [ref=f56e45]:
+    - generic [ref=f56e47]:
+      - generic [ref=f56e49]:
+        - heading "Estate - About Us Page Design For Real-estate Website" [level=1] [ref=f56e52]
+        - generic [ref=f56e54]:
+          - generic [ref=f56e56]:
+            - link [ref=f56e57] [cursor=pointer]:
+              - /url: /sourovhaldar2
+              - generic [ref=f56e58]:
+                - img "Sourov Haldar" [ref=f56e59]
+                - generic: Online
+            - generic [ref=f56e60]:
+              - generic [ref=f56e62]:
+                - link "Sourov Haldar" [ref=f56e63] [cursor=pointer]:
+                  - /url: /sourovhaldar2
+                - text: for
+                - link "Maqaw Design Agency" [ref=f56e64] [cursor=pointer]:
+                  - /url: /Maqaw
+              - generic [ref=f56e65]:
+                - button "Available for work" [ref=f56e66] [cursor=pointer]
+                - link "Follow" [ref=f56e68] [cursor=pointer]:
+                  - /url: /sourovhaldar2/followers
+          - generic [ref=f56e69]:
+            - generic [ref=f56e70]:
+              - button "Like shot" [ref=f56e72] [cursor=pointer]
+              - listitem [ref=f56e75]:
+                - link "Save shot" [ref=f56e76] [cursor=pointer]:
+                  - /url: /signups/new
+            - link "Get in touch" [ref=f56e79] [cursor=pointer]:
+              - /url: /signups/new
+        - generic [ref=f56e81]:
+          - link [ref=f56e85] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/17742226/file/original-161c6656bb0d86e7e68f672afaa1e6cb.png?resize=752x&vertical=center
+          - generic [ref=f56e87]:
+            - paragraph [ref=f56e88]:
+              - strong [ref=f56e89]: Estate - About Us Page Design For Real-estate Website
+            - paragraph [ref=f56e90]
+            - paragraph [ref=f56e91]: Crafted an elegant and informative "About Us" page for a real estate platform that empowers users to buy, sell, or auction properties seamlessly. This page highlights the platform's mission, values, and the services offered.
+          - link [ref=f56e95] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/17742229/file/original-829e759e580682c42ff6dca47a15f373.png?resize=752x&vertical=center
+          - link [ref=f56e100] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/17742227/file/original-6b8e2b229c632f0f8920ff00f77428f3.png?resize=752x&vertical=center
+          - generic [ref=f56e102]:
+            - paragraph [ref=f56e103]:
+              - strong [ref=f56e104]: "Key features:"
+            - list [ref=f56e105]:
+              - listitem [ref=f56e106]:
+                - paragraph [ref=f56e107]: Clear and concise overview of the company’s vision.
+              - listitem [ref=f56e108]:
+                - paragraph [ref=f56e109]: Spotlight on agent registration and their role in connecting buyers and sellers.
+              - listitem [ref=f56e110]:
+                - paragraph [ref=f56e111]: Modern, responsive design with intuitive navigation for a professional feel.
+          - link [ref=f56e116] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/17742228/file/original-85ad622b39d1075fadfab081eed17c11.png?resize=752x&vertical=center
+          - link [ref=f56e121] [cursor=pointer]:
+            - /url: https://cdn.dribbble.com/userupload/17742231/file/original-1cf426cfc923a235aaf8c549ee8356e7.png?resize=752x&vertical=center
+          - generic [ref=f56e123]:
+            - paragraph
+            - paragraph [ref=f56e124]: Connect us on social media
+            - paragraph [ref=f56e125]
+            - paragraph [ref=f56e126]: Visit us
+          - generic [ref=f56e133]:
+            - button "Play" [ref=f56e134] [cursor=pointer]
+            - button "Unmute" [ref=f56e137] [cursor=pointer]
+            - generic [ref=f56e140] [cursor=pointer]
+        - generic [ref=f56e143]:
+          - link [ref=f56e146] [cursor=pointer]:
+            - /url: /Maqaw
+            - generic [ref=f56e147]:
+              - img "Maqaw Design Agency" [ref=f56e148]
+              - generic: Online
+          - link "Maqaw Design Agency" [ref=f56e150] [cursor=pointer]:
+            - /url: /Maqaw
+          - link "Get in touch" [ref=f56e152] [cursor=pointer]:
+            - /url: /signups/new
+        - generic [ref=f56e154]:
+          - generic [ref=f56e155]:
+            - heading "More by Maqaw Design Agency" [level=4] [ref=f56e156]
+            - link "View profile" [ref=f56e157] [cursor=pointer]:
+              - /url: /Maqaw
+          - generic [ref=f56e158]:
+            - listitem [ref=f56e160]
+            - listitem [ref=f56e162]
+            - listitem [ref=f56e164]
+            - listitem [ref=f56e166]
+        - generic [ref=f56e167]:
+          - generic [ref=f56e168]:
+            - heading "Services by Sourov Haldar" [level=4] [ref=f56e169]
+            - paragraph [ref=f56e170]:
+              - link "View all services" [ref=f56e171] [cursor=pointer]:
+                - /url: /sourovhaldar2/services
+          - 'button "View service: Landing Pages That Convert" [ref=f56e173] [cursor=pointer]':
+            - generic [ref=f56e176]:
+              - generic [ref=f56e177]: Landing Pages That Convert
+              - generic [ref=f56e178]: From $50
+      - generic [ref=f56e184]:
+        - button "View comments 6" [ref=f56e185] [cursor=pointer]:
+          - generic: View comments
+          - generic [ref=f56e188]: "6"
+        - button "Share actions" [ref=f56e189] [cursor=pointer]
+        - button "Detail actions" [ref=f56e192] [cursor=pointer]
+  - contentinfo [ref=f56e196]:
+    - generic [ref=f56e199]:
+      - link "Web Design Web Design" [ref=f56e200] [cursor=pointer]:
+        - /url: /shots/popular/web-design
+        - img "Web Design" [ref=f56e203]
+        - generic [ref=f56e204]: Web Design
+      - link "Animation Animation" [ref=f56e205] [cursor=pointer]:
+        - /url: /shots/popular/animation
+        - img "Animation" [ref=f56e208]
+        - generic [ref=f56e209]: Animation
+      - link "Branding Branding" [ref=f56e210] [cursor=pointer]:
+        - /url: /shots/popular/branding
+        - img "Branding" [ref=f56e213]
+        - generic [ref=f56e214]: Branding
+      - link "Mobile Mobile" [ref=f56e215] [cursor=pointer]:
+        - /url: /shots/popular/mobile
+        - img "Mobile" [ref=f56e218]
+        - generic [ref=f56e219]: Mobile
+      - link "Typography Typography" [ref=f56e220] [cursor=pointer]:
+        - /url: /shots/popular/typography
+        - img "Typography" [ref=f56e223]
+        - generic [ref=f56e224]: Typography
+      - link "Product Design Product Design" [ref=f56e225] [cursor=pointer]:
+        - /url: /shots/popular/product-design
+        - img "Product Design" [ref=f56e228]
+        - generic [ref=f56e229]: Product Design
+      - link "Illustration Illustration" [ref=f56e230] [cursor=pointer]:
+        - /url: /shots/popular/illustration
+        - img "Illustration" [ref=f56e233]
+        - generic [ref=f56e234]: Illustration
+      - link "Print Print" [ref=f56e235] [cursor=pointer]:
+        - /url: /shots/popular/print
+        - img "Print" [ref=f56e238]
+        - generic [ref=f56e239]: Print
+      - link "Web Design Web Design" [ref=f56e240] [cursor=pointer]:
+        - /url: /shots/popular/web-design
+        - img "Web Design" [ref=f56e243]
+        - generic [ref=f56e244]: Web Design
+      - link "Animation Animation" [ref=f56e245] [cursor=pointer]:
+        - /url: /shots/popular/animation
+        - img "Animation" [ref=f56e248]
+        - generic [ref=f56e249]: Animation
+      - link "Branding Branding" [ref=f56e250] [cursor=pointer]:
+        - /url: /shots/popular/branding
+        - img "Branding" [ref=f56e253]
+        - generic [ref=f56e254]: Branding
+      - link "Mobile Mobile" [ref=f56e255] [cursor=pointer]:
+        - /url: /shots/popular/mobile
+        - img "Mobile" [ref=f56e258]
+        - generic [ref=f56e259]: Mobile
+      - link "Typography Typography" [ref=f56e260] [cursor=pointer]:
+        - /url: /shots/popular/typography
+        - img "Typography" [ref=f56e263]
+        - generic [ref=f56e264]: Typography
+      - link "Product Design Product Design" [ref=f56e265] [cursor=pointer]:
+        - /url: /shots/popular/product-design
+        - img "Product Design" [ref=f56e268]
+        - generic [ref=f56e269]: Product Design
+      - link "Illustration Illustration" [ref=f56e270] [cursor=pointer]:
+        - /url: /shots/popular/illustration
+        - img "Illustration" [ref=f56e273]
+        - generic [ref=f56e274]: Illustration
+      - link "Print Print" [ref=f56e275] [cursor=pointer]:
+        - /url: /shots/popular/print
+        - img "Print" [ref=f56e278]
+        - generic [ref=f56e279]: Print
+    - generic [ref=f56e280]:
+      - generic [ref=f56e281]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f56e282] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f56e283]'
+          - generic: Back to home page
+        - list [ref=f56e285]:
+          - listitem [ref=f56e286]:
+            - link "For designers" [ref=f56e287] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f56e288]:
+            - link "Hire talent" [ref=f56e289] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f56e290]:
+            - link "Inspiration" [ref=f56e291] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f56e292]:
+            - link "Advertising" [ref=f56e293] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f56e294]:
+            - link "Blog" [ref=f56e295] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f56e296]:
+            - link "About" [ref=f56e297] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f56e298]:
+            - link "Support" [ref=f56e299] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f56e300]:
+          - link "X" [ref=f56e301] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f56e304] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f56e307] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f56e310] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f56e313]:
+        - list [ref=f56e314]:
+          - listitem [ref=f56e315]: © 2026 Dribbble
+          - listitem [ref=f56e316]:
+            - link "Terms" [ref=f56e317] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f56e318]:
+            - link "Privacy" [ref=f56e319] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f56e320]:
+            - link "Cookies" [ref=f56e321] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f56e322]:
+          - listitem [ref=f56e323]:
+            - link "Jobs" [ref=f56e324] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f56e325]:
+            - link "Tags" [ref=f56e326] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f56e327]:
+            - link "Places" [ref=f56e328] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f56e329]:
+            - link "Resources" [ref=f56e330] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f56e331]:
+    

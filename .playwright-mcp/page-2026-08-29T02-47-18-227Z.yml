@@ -1,0 +1,274 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e3]:
+    - button "Toggle mobile menu" [ref=f5e4] [cursor=pointer]
+    - link "Back to home page" [ref=f5e8] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f5e9]'
+    - generic [ref=f5e12]:
+      - combobox "Submit" [ref=f5e14]:
+        - search [ref=f5e15]:
+          - searchbox "Submit" [ref=f5e17]
+      - generic "Change search type" [ref=f5e18]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f5e19] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f5e21] [cursor=pointer]
+    - generic [ref=f5e24]:
+      - link "Sign up" [ref=f5e25] [cursor=pointer]:
+        - /url: /signups/new
+      - link "Log in" [ref=f5e26] [cursor=pointer]:
+        - /url: /session/new
+  - generic [ref=f5e28]:
+    - generic [ref=f5e29]:
+      - paragraph
+      - paragraph [ref=f5e31]: Get 20% off your first payment for design and development services on Dribbble. Use code WELCOME20 🎉
+      - paragraph
+      - link "Get Started" [ref=f5e32] [cursor=pointer]:
+        - /url: https://dribbble.com/instantmatch
+    - button "close" [ref=f5e33] [cursor=pointer]
+  - main [ref=f5e38]:
+    - generic [ref=f5e40]:
+      - generic [ref=f5e42]:
+        - heading "Web Application for Renting" [level=1] [ref=f5e45]
+        - generic [ref=f5e47]:
+          - generic [ref=f5e49]:
+            - link [ref=f5e50] [cursor=pointer]:
+              - /url: /cleveroad
+              - generic [ref=f5e51]:
+                - img "Cleveroad" [ref=f5e52]
+                - generic: Online
+            - generic [ref=f5e53]:
+              - link "Cleveroad" [ref=f5e56] [cursor=pointer]:
+                - /url: /cleveroad
+              - generic [ref=f5e57]:
+                - button "Available for work" [ref=f5e58] [cursor=pointer]
+                - link "Follow" [ref=f5e60] [cursor=pointer]:
+                  - /url: /cleveroad/followers
+          - generic [ref=f5e61]:
+            - generic [ref=f5e62]:
+              - button "Like shot" [ref=f5e64] [cursor=pointer]
+              - listitem [ref=f5e67]:
+                - link "Save shot" [ref=f5e68] [cursor=pointer]:
+                  - /url: /signups/new
+            - link "Get in touch" [ref=f5e71] [cursor=pointer]:
+              - /url: /signups/new
+        - generic [ref=f5e76]:
+          - list [ref=f5e77]:
+            - listitem [ref=f5e78]:
+              - link "#F1F2F3" [ref=f5e79] [cursor=pointer]:
+                - /url: /shots?color=F1F2F3
+            - listitem [ref=f5e80]:
+              - link "#B4D0CE" [ref=f5e81] [cursor=pointer]:
+                - /url: /shots?color=B4D0CE
+            - listitem [ref=f5e82]:
+              - link "#BFB9BC" [ref=f5e83] [cursor=pointer]:
+                - /url: /shots?color=BFB9BC
+            - listitem [ref=f5e84]:
+              - link "#748DA0" [ref=f5e85] [cursor=pointer]:
+                - /url: /shots?color=748DA0
+            - listitem [ref=f5e86]:
+              - link "#141C16" [ref=f5e87] [cursor=pointer]:
+                - /url: /shots?color=141C16
+            - listitem [ref=f5e88]:
+              - link "#575A54" [ref=f5e89] [cursor=pointer]:
+                - /url: /shots?color=575A54
+            - listitem [ref=f5e90]:
+              - link "#9D7467" [ref=f5e91] [cursor=pointer]:
+                - /url: /shots?color=9D7467
+          - link "Download color palette" [ref=f5e92] [cursor=pointer]:
+            - /url: /shots/17739527-Web-Application-for-Renting/colors.aco
+        - generic [ref=f5e96]:
+          - generic [ref=f5e98]:
+            - generic [ref=f5e99]:
+              - generic [ref=f5e102]:
+                - link [ref=f5e105] [cursor=pointer]:
+                  - /url: https://cdn.dribbble.com/userupload/37401709/file/original-f904e817a304c0d65127ebfef7faf8fb.png?resize=752x&vertical=center
+                - link [ref=f5e108] [cursor=pointer]:
+                  - /url: https://cdn.dribbble.com/userupload/37401710/file/original-e8bbefa3e3048c1aa9d3b585a287433c.png?resize=752x&vertical=center
+              - generic "Next slide" [ref=f5e110] [cursor=pointer]
+            - list [ref=f5e114]:
+              - listitem [ref=f5e115]:
+                - button [ref=f5e116] [cursor=pointer]
+              - listitem [ref=f5e119]:
+                - button [ref=f5e120] [cursor=pointer]
+          - generic [ref=f5e124]:
+            - paragraph [ref=f5e125]: Hi Dribbblers!We continue to present the business project in Real Estate domain. Today, we'll show you some shots of custom web app that helps search apartments and houses smooth and easy.
+            - paragraph [ref=f5e126]: The screen is visually divided into 3 zones, which differ in functionality. Filter zone allows users to quickly find the accommodation according to the parameters entered. Then the app will show the search details based on the filters applied, including monthly rent price.
+            - paragraph [ref=f5e127]: The users can also add objects to their favorites and sort results by price and date added. All the nearest real estate corresponding parameters will be displayed on the map. By clicking on the object, the address and price details appear.
+            - paragraph [ref=f5e128]: The detail screen enables rental seekers to view the photos of chosen accommodation with downloaded images displayed. There is a map with specific area infrastructure, so users can view the location of the nearest stores, fitness clubs, parks and pedestrian areas, schools, and daycares. The detailed info about the accommodation and its facilities is also shown.
+            - paragraph [ref=f5e129]: Users can add objects to bookmarks, share the link, view 3D video tours, or checkout directly. An advertising banner informes users of getting a discount for the first rental.
+            - paragraph [ref=f5e130]: Share your thoughts on this post in the comments!
+            - paragraph [ref=f5e131]:
+              - text: Don't forget to follow our
+              - link "Cleveroad Team" [ref=f5e132] [cursor=pointer]:
+                - /url: https://dribbble.com/cleveroad
+              - text: "!"
+        - generic [ref=f5e133]:
+          - link [ref=f5e136] [cursor=pointer]:
+            - /url: /cleveroad
+            - generic [ref=f5e137]:
+              - img "Cleveroad" [ref=f5e138]
+              - generic: Online
+          - link "Cleveroad" [ref=f5e140] [cursor=pointer]:
+            - /url: /cleveroad
+          - link "Get in touch" [ref=f5e142] [cursor=pointer]:
+            - /url: /signups/new
+        - link [ref=f5e144] [cursor=pointer]:
+          - /url: /ux-ui-design-agency
+          - paragraph [ref=f5e145]: Browse user experience design companies
+          - paragraph [ref=f5e146]: Team up with an established UI/UX design agency that oversees the entire process, from in-depth user research to final high-fidelity prototyping. →
+        - generic [ref=f5e147]:
+          - generic [ref=f5e148]:
+            - heading "More by Cleveroad" [level=4] [ref=f5e149]
+            - link "View profile" [ref=f5e150] [cursor=pointer]:
+              - /url: /cleveroad
+          - generic [ref=f5e151]:
+            - listitem [ref=f5e153]
+            - listitem [ref=f5e155]
+            - listitem [ref=f5e157]
+            - listitem [ref=f5e159]
+      - generic [ref=f5e165]:
+        - button "View comments 7" [ref=f5e166] [cursor=pointer]:
+          - generic: View comments
+          - generic [ref=f5e169]: "7"
+        - button "Share actions" [ref=f5e170] [cursor=pointer]
+        - button "Detail actions" [ref=f5e173] [cursor=pointer]
+  - contentinfo [ref=f5e177]:
+    - generic [ref=f5e180]:
+      - link "Product Design Product Design" [ref=f5e181] [cursor=pointer]:
+        - /url: /shots/popular/product-design
+        - img "Product Design" [ref=f5e184]
+        - generic [ref=f5e185]: Product Design
+      - link "Branding Branding" [ref=f5e186] [cursor=pointer]:
+        - /url: /shots/popular/branding
+        - img "Branding" [ref=f5e189]
+        - generic [ref=f5e190]: Branding
+      - link "Animation Animation" [ref=f5e191] [cursor=pointer]:
+        - /url: /shots/popular/animation
+        - img "Animation" [ref=f5e194]
+        - generic [ref=f5e195]: Animation
+      - link "Typography Typography" [ref=f5e196] [cursor=pointer]:
+        - /url: /shots/popular/typography
+        - img "Typography" [ref=f5e199]
+        - generic [ref=f5e200]: Typography
+      - link "Print Print" [ref=f5e201] [cursor=pointer]:
+        - /url: /shots/popular/print
+        - img "Print" [ref=f5e204]
+        - generic [ref=f5e205]: Print
+      - link "Illustration Illustration" [ref=f5e206] [cursor=pointer]:
+        - /url: /shots/popular/illustration
+        - img "Illustration" [ref=f5e209]
+        - generic [ref=f5e210]: Illustration
+      - link "Mobile Mobile" [ref=f5e211] [cursor=pointer]:
+        - /url: /shots/popular/mobile
+        - img "Mobile" [ref=f5e214]
+        - generic [ref=f5e215]: Mobile
+      - link "Web Design Web Design" [ref=f5e216] [cursor=pointer]:
+        - /url: /shots/popular/web-design
+        - img "Web Design" [ref=f5e219]
+        - generic [ref=f5e220]: Web Design
+      - link "Product Design Product Design" [ref=f5e221] [cursor=pointer]:
+        - /url: /shots/popular/product-design
+        - img "Product Design" [ref=f5e224]
+        - generic [ref=f5e225]: Product Design
+      - link "Branding Branding" [ref=f5e226] [cursor=pointer]:
+        - /url: /shots/popular/branding
+        - img "Branding" [ref=f5e229]
+        - generic [ref=f5e230]: Branding
+      - link "Animation Animation" [ref=f5e231] [cursor=pointer]:
+        - /url: /shots/popular/animation
+        - img "Animation" [ref=f5e234]
+        - generic [ref=f5e235]: Animation
+      - link "Typography Typography" [ref=f5e236] [cursor=pointer]:
+        - /url: /shots/popular/typography
+        - img "Typography" [ref=f5e239]
+        - generic [ref=f5e240]: Typography
+      - link "Print Print" [ref=f5e241] [cursor=pointer]:
+        - /url: /shots/popular/print
+        - img "Print" [ref=f5e244]
+        - generic [ref=f5e245]: Print
+      - link "Illustration Illustration" [ref=f5e246] [cursor=pointer]:
+        - /url: /shots/popular/illustration
+        - img "Illustration" [ref=f5e249]
+        - generic [ref=f5e250]: Illustration
+      - link "Mobile Mobile" [ref=f5e251] [cursor=pointer]:
+        - /url: /shots/popular/mobile
+        - img "Mobile" [ref=f5e254]
+        - generic [ref=f5e255]: Mobile
+      - link "Web Design Web Design" [ref=f5e256] [cursor=pointer]:
+        - /url: /shots/popular/web-design
+        - img "Web Design" [ref=f5e259]
+        - generic [ref=f5e260]: Web Design
+    - generic [ref=f5e261]:
+      - generic [ref=f5e262]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f5e263] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f5e264]'
+          - generic: Back to home page
+        - list [ref=f5e266]:
+          - listitem [ref=f5e267]:
+            - link "For designers" [ref=f5e268] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f5e269]:
+            - link "Hire talent" [ref=f5e270] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f5e271]:
+            - link "Inspiration" [ref=f5e272] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f5e273]:
+            - link "Advertising" [ref=f5e274] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f5e275]:
+            - link "Blog" [ref=f5e276] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f5e277]:
+            - link "About" [ref=f5e278] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f5e279]:
+            - link "Support" [ref=f5e280] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f5e281]:
+          - link "X" [ref=f5e282] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f5e285] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f5e288] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f5e291] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f5e294]:
+        - list [ref=f5e295]:
+          - listitem [ref=f5e296]: © 2026 Dribbble
+          - listitem [ref=f5e297]:
+            - link "Terms" [ref=f5e298] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f5e299]:
+            - link "Privacy" [ref=f5e300] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f5e301]:
+            - link "Cookies" [ref=f5e302] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f5e303]:
+          - listitem [ref=f5e304]:
+            - link "Jobs" [ref=f5e305] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f5e306]:
+            - link "Tags" [ref=f5e307] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f5e308]:
+            - link "Places" [ref=f5e309] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f5e310]:
+            - link "Resources" [ref=f5e311] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f5e312]:
+    

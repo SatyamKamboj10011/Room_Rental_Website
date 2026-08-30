@@ -1,0 +1,180 @@
+- generic [active] [ref=f41e1]:
+  - generic [ref=f41e3]:
+    - button "Toggle mobile menu" [ref=f41e4] [cursor=pointer]
+    - link "Back to home page" [ref=f41e8] [cursor=pointer]:
+      - /url: /
+      - 'img "Dribbble: the community for graphic design" [ref=f41e9]'
+    - generic [ref=f41e12]:
+      - combobox [ref=f41e14]:
+        - button "What are you looking for?" [ref=f41e15] [cursor=pointer]
+      - generic "Change search type" [ref=f41e17]:
+        - generic:
+          - generic:
+            - button "Shots" [ref=f41e18] [cursor=pointer]
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Shots
+                  - generic: Designers
+                  - generic: Services
+      - button "Search" [ref=f41e20] [cursor=pointer]
+    - link "Log in" [ref=f41e25] [cursor=pointer]:
+      - /url: /session/new
+  - main [ref=f41e28]:
+    - generic [ref=f41e32]:
+      - heading "Real Estate Admin - Dashboard" [level=1] [ref=f41e35]
+      - generic [ref=f41e37]:
+        - generic [ref=f41e39]:
+          - link [ref=f41e40] [cursor=pointer]:
+            - /url: /jannat_uiux
+            - generic [ref=f41e41]:
+              - img "Jannatul Ferdous" [ref=f41e42]
+              - generic: Online
+          - generic [ref=f41e43]:
+            - generic [ref=f41e45]:
+              - link "Jannatul Ferdous" [ref=f41e46] [cursor=pointer]:
+                - /url: /jannat_uiux
+              - text: for
+              - link "BitnBold" [ref=f41e47] [cursor=pointer]:
+                - /url: /bitnbold
+            - generic [ref=f41e48]:
+              - button "Available for work" [ref=f41e49] [cursor=pointer]
+              - link "Follow" [ref=f41e51] [cursor=pointer]:
+                - /url: /jannat_uiux/followers
+        - generic [ref=f41e52]:
+          - generic [ref=f41e53]:
+            - button "Like shot" [ref=f41e55] [cursor=pointer]
+            - listitem [ref=f41e58]:
+              - link "Save shot" [ref=f41e59] [cursor=pointer]:
+                - /url: /signups/new
+          - link "Get in touch" [ref=f41e62] [cursor=pointer]:
+            - /url: /signups/new
+      - generic [ref=f41e64]:
+        - link [ref=f41e68] [cursor=pointer]:
+          - /url: https://cdn.dribbble.com/userupload/43386591/file/original-110442e98f3611c8563ff7af4fa1ce2b.png?resize=752x&vertical=center
+          - img "realestate, property management, saas, data, complex data, ui, ux, product, jannat design, modern" [ref=f41e69]
+        - generic [ref=f41e71]:
+          - paragraph [ref=f41e72]:
+            - strong [ref=f41e73]: 🏡 Real Estate Admin Dashboard UI — Property Management System
+          - paragraph [ref=f41e74]
+          - paragraph [ref=f41e75]: "Here’s a dashboard interface I designed for a real estate property management platform, BluNest. The admin panel gives property managers a comprehensive overview of:"
+          - list [ref=f41e76]:
+            - listitem [ref=f41e77]:
+              - paragraph [ref=f41e78]: "- Total income and performance metrics 📊"
+          - list [ref=f41e79]:
+            - listitem [ref=f41e80]:
+              - paragraph [ref=f41e81]: "- Listed and sold properties 🏘"
+            - listitem [ref=f41e82]:
+              - paragraph [ref=f41e83]: "- Sales analytics for rent vs sold stats 📈"
+            - listitem [ref=f41e84]:
+              - paragraph [ref=f41e85]: "- Upcoming schedules for site visits and payments 📅"
+            - listitem [ref=f41e86]:
+              - paragraph [ref=f41e87]: "- Maintenance request tracking 🚧"
+        - link [ref=f41e92] [cursor=pointer]:
+          - /url: https://cdn.dribbble.com/userupload/43386595/file/original-b4c4bbc045221a3f0be60d4ff0f8386b.png?resize=752x&vertical=center
+          - img "clean design, charts, complex saas, webapp, dashboard" [ref=f41e93]
+        - paragraph [ref=f41e96]: My goal was to maintain visual clarity while organizing complex real estate data into a clean, easy-to-navigate experience. Focused on usability, information hierarchy, and seamless property management.
+        - link [ref=f41e101] [cursor=pointer]:
+          - /url: https://cdn.dribbble.com/userupload/43386593/file/original-7a54e7f53be7bf8bd09e6143d4399f90.png?resize=752x&vertical=center
+          - img "card, ui card, data heavy ui, table" [ref=f41e102]
+        - heading [level=2] [ref=f41e105]:
+          - strong [ref=f41e106]: Have any project ideas 💡? Let's talk
+      - generic [ref=f41e107]:
+        - generic [ref=f41e108]:
+          - button [ref=f41e110] [cursor=pointer]
+          - button "Save this shot to a collection" [ref=f41e113] [cursor=pointer]
+        - generic [ref=f41e116]:
+          - button "Share actions" [ref=f41e117] [cursor=pointer]
+          - button "View comments 10" [ref=f41e120] [cursor=pointer]:
+            - generic: View comments
+            - generic [ref=f41e123]: "10"
+          - button "Detail actions" [ref=f41e124] [cursor=pointer]
+      - generic [ref=f41e128]:
+        - link [ref=f41e131] [cursor=pointer]:
+          - /url: /bitnbold
+          - generic [ref=f41e132]:
+            - img "BitnBold" [ref=f41e133]
+            - generic: Online
+        - link "BitnBold" [ref=f41e135] [cursor=pointer]:
+          - /url: /bitnbold
+        - generic [ref=f41e136]: Pixels with a point of view – and users feel every bit.
+        - link "Get in touch" [ref=f41e138] [cursor=pointer]:
+          - /url: /signups/new
+      - generic [ref=f41e140]:
+        - generic [ref=f41e141]:
+          - heading "More by BitnBold" [level=4] [ref=f41e142]
+          - link "View profile" [ref=f41e143] [cursor=pointer]:
+            - /url: /bitnbold
+        - generic [ref=f41e144]:
+          - listitem [ref=f41e146]
+          - listitem [ref=f41e148]
+          - listitem [ref=f41e150]
+          - listitem [ref=f41e152]
+  - contentinfo [ref=f41e155]:
+    - generic [ref=f41e156]:
+      - generic [ref=f41e157]:
+        - 'link "Dribbble: the community for graphic design Back to home page" [ref=f41e158] [cursor=pointer]':
+          - /url: /
+          - 'img "Dribbble: the community for graphic design" [ref=f41e159]'
+          - generic: Back to home page
+        - list [ref=f41e161]:
+          - listitem [ref=f41e162]:
+            - link "For designers" [ref=f41e163] [cursor=pointer]:
+              - /url: /for-designers
+          - listitem [ref=f41e164]:
+            - link "Hire talent" [ref=f41e165] [cursor=pointer]:
+              - /url: /hiring
+          - listitem [ref=f41e166]:
+            - link "Inspiration" [ref=f41e167] [cursor=pointer]:
+              - /url: /shots/popular
+          - listitem [ref=f41e168]:
+            - link "Advertising" [ref=f41e169] [cursor=pointer]:
+              - /url: /advertise
+          - listitem [ref=f41e170]:
+            - link "Blog" [ref=f41e171] [cursor=pointer]:
+              - /url: /stories
+          - listitem [ref=f41e172]:
+            - link "About" [ref=f41e173] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f41e174]:
+            - link "Support" [ref=f41e175] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=f41e176]:
+          - link "X" [ref=f41e177] [cursor=pointer]:
+            - /url: http://x.com/dribbble
+          - link "Facebook" [ref=f41e180] [cursor=pointer]:
+            - /url: http://facebook.com/dribbble
+          - link "Instagram" [ref=f41e183] [cursor=pointer]:
+            - /url: http://instagram.com/dribbble
+          - link "Pinterest" [ref=f41e186] [cursor=pointer]:
+            - /url: http://www.pinterest.com/dribbble/
+      - generic [ref=f41e189]:
+        - list [ref=f41e190]:
+          - listitem [ref=f41e191]: © 2026 Dribbble
+          - listitem [ref=f41e192]:
+            - link "Terms" [ref=f41e193] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f41e194]:
+            - link "Privacy" [ref=f41e195] [cursor=pointer]:
+              - /url: /privacy
+          - listitem [ref=f41e196]:
+            - link "Cookies" [ref=f41e197] [cursor=pointer]:
+              - /url: /cookie-policy
+        - list [ref=f41e198]:
+          - listitem [ref=f41e199]:
+            - link "Jobs" [ref=f41e200] [cursor=pointer]:
+              - /url: /directories/jobs
+          - listitem [ref=f41e201]:
+            - link "Tags" [ref=f41e202] [cursor=pointer]:
+              - /url: /tags
+          - listitem [ref=f41e203]:
+            - link "Places" [ref=f41e204] [cursor=pointer]:
+              - /url: /places
+          - listitem [ref=f41e205]:
+            - link "Resources" [ref=f41e206] [cursor=pointer]:
+              - /url: /resources
+  - generic:
+    - link "close":
+      - /url: "#"
+  - iframe [ref=f41e207]:
+    

@@ -1,0 +1,4 @@
+[    2534ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://dribbble.com/favicon.ico:0
+[    4252ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://dribbble.com/assets/caret-right-f469f33b.svg:0
+[    6441ms] [ERROR] Not signed in with the identity provider. @ https://dribbble.com/shots/17739527-Web-Application-for-Renting:0
+[    7062ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token. @ https://accounts.google.com/gsi/client:87

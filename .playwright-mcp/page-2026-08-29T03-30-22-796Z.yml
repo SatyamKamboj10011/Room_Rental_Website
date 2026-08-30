@@ -1,0 +1,87 @@
+- generic [ref=f66e3]:
+  - navigation [ref=f66e5]:
+    - generic [ref=f66e6]:
+      - link "OtagoRentals Find your next home" [ref=f66e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f66e11]:
+          - generic [ref=f66e12]: OtagoRentals
+          - generic [ref=f66e13]: Find your next home
+      - generic [ref=f66e14]:
+        - generic [ref=f66e15]:
+          - link "Home" [ref=f66e16] [cursor=pointer]:
+            - /url: /
+          - link "Browse Rooms" [ref=f66e19] [cursor=pointer]:
+            - /url: /listings
+        - generic [ref=f66e22]:
+          - button "Login" [ref=f66e23] [cursor=pointer]
+          - button "Sign Up" [ref=f66e26] [cursor=pointer]
+  - generic [ref=f66e27]:
+    - generic [ref=f66e28]:
+      - generic [ref=f66e29]: About OtagoRentals
+      - heading [level=1] [ref=f66e30]:
+        - text: We believe finding a place to live should feel
+        - emphasis [ref=f66e31]: exciting
+        - text: ", not exhausting."
+      - paragraph [ref=f66e32]: We connect renters in Dunedin with verified hosts, making it simple to find a place that feels like home.
+      - link "Get in touch" [ref=f66e33] [cursor=pointer]:
+        - /url: "#contact"
+    - generic [ref=f66e35]:
+      - generic [ref=f66e36]:
+        - generic [ref=f66e37]: 2,400+
+        - generic [ref=f66e38]: Happy renters
+      - generic [ref=f66e39]:
+        - generic [ref=f66e40]: 850+
+        - generic [ref=f66e41]: Listings
+      - generic [ref=f66e42]:
+        - generic [ref=f66e43]: 300+
+        - generic [ref=f66e44]: Verified hosts
+      - generic [ref=f66e45]:
+        - generic [ref=f66e46]: "4.8"
+        - generic [ref=f66e47]: Average rating
+    - generic [ref=f66e48]:
+      - heading "Get to know us more" [level=2] [ref=f66e49]
+      - generic [ref=f66e50]:
+        - paragraph [ref=f66e51]: "OtagoRentals started with a simple idea: finding a room for rent shouldn't be stressful. We built a platform where students, professionals, and travelers can browse verified listings, connect directly with hosts, and book with confidence."
+        - paragraph [ref=f66e52]: Today, we help thousands of renters and hosts across Dunedin manage bookings, payments, and communication all in one place.
+        - blockquote [ref=f66e53]: What started as a small idea to help students find better flats has grown into a platform trusted by renters and hosts across the whole city.
+    - generic [ref=f66e54]:
+      - generic [ref=f66e55]: O
+      - generic [ref=f66e56]:
+        - paragraph [ref=f66e57]: "\"Our goal is to make renting feel less like a transaction and more like finding somewhere you actually want to live.\""
+        - text: Satyam Kamboj — Founder, OtagoRentals
+    - generic [ref=f66e58]:
+      - generic [ref=f66e59]:
+        - heading "What we offer" [level=2] [ref=f66e60]
+        - paragraph [ref=f66e61]: Everything you need to discover and manage your next rental, brought together in one place.
+      - generic [ref=f66e62]:
+        - generic [ref=f66e64]:
+          - heading "Simple discovery" [level=3] [ref=f66e68]
+          - paragraph [ref=f66e69]: Search and compare properties without jumping between platforms or agents.
+        - generic [ref=f66e71]:
+          - heading "Direct connections" [level=3] [ref=f66e75]
+          - paragraph [ref=f66e76]: Message hosts directly, arrange viewings and book without middlemen.
+        - generic [ref=f66e78]:
+          - heading "Support that shows up" [level=3] [ref=f66e82]
+          - paragraph [ref=f66e83]: Our team is on hand for anything from booking questions to move-in day.
+    - generic [ref=f66e85]:
+      - generic [ref=f66e87]:
+        - heading "Get in touch" [level=4] [ref=f66e88]
+        - generic [ref=f66e89]:
+          - generic [ref=f66e90]:
+            - generic [ref=f66e91]: Name
+            - textbox "Name" [ref=f66e92]:
+              - /placeholder: Enter your name
+          - generic [ref=f66e93]:
+            - generic [ref=f66e94]: Email
+            - textbox "Email" [ref=f66e95]:
+              - /placeholder: Enter your email
+          - generic [ref=f66e96]:
+            - generic [ref=f66e97]: Message
+            - textbox "Message" [ref=f66e98]:
+              - /placeholder: Enter your message
+          - button "Send message" [ref=f66e99] [cursor=pointer]
+      - generic [ref=f66e101]:
+        - heading "Contact information" [level=4] [ref=f66e102]
+        - paragraph [ref=f66e103]: 123 Main Street, Dunedin
+        - paragraph [ref=f66e106]: +64 3 123 4567
+        - paragraph [ref=f66e109]: support@otagorentals.co.nz

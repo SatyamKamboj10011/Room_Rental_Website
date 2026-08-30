@@ -1,0 +1,16 @@
+- navigation [ref=f51e5]:
+  - generic [ref=f51e6]:
+    - link "OtagoRentals Find your next home" [ref=f51e7] [cursor=pointer]:
+      - /url: /
+      - generic [ref=f51e11]:
+        - generic [ref=f51e12]: OtagoRentals
+        - generic [ref=f51e13]: Find your next home
+    - generic [ref=f51e14]:
+      - generic [ref=f51e15]:
+        - link "Home" [ref=f51e16] [cursor=pointer]:
+          - /url: /
+        - link "Browse Rooms" [ref=f51e19] [cursor=pointer]:
+          - /url: /listings
+      - generic [ref=f51e22]:
+        - button "Login" [ref=f51e23] [cursor=pointer]
+        - button "Sign Up" [ref=f51e26] [cursor=pointer]

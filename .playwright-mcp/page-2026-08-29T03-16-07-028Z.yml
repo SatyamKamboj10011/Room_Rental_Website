@@ -1,0 +1,26 @@
+- generic [ref=f40e4]:
+  - generic [ref=f40e6]:
+    - link [ref=f40e7] [cursor=pointer]:
+      - /url: /
+    - heading "Create your account" [level=1] [ref=f40e11]
+    - paragraph [ref=f40e12]: Join OtagoRentals and find your next home.
+    - generic [ref=f40e13]:
+      - generic [ref=f40e14]:
+        - textbox "First name" [ref=f40e17]
+        - textbox "Last name" [ref=f40e20]
+      - textbox "Email address" [ref=f40e23]
+      - generic [ref=f40e25]:
+        - textbox "Password" [ref=f40e26]
+        - generic [ref=f40e27] [cursor=pointer]
+      - generic [ref=f40e30]:
+        - textbox "Phone number" [ref=f40e33]
+        - spinbutton "Age" [ref=f40e36]
+      - textbox "Address" [ref=f40e39]
+      - button "Get started" [ref=f40e40] [cursor=pointer]
+    - generic [ref=f40e43]:
+      - text: Already have an account?
+      - link "Sign in" [ref=f40e44] [cursor=pointer]:
+        - /url: /login
+  - generic [ref=f40e46]:
+    - strong [ref=f40e47]: Find more than a home.
+    - text: Verified listings across every neighbourhood.
